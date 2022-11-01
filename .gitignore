@@ -1,0 +1,15 @@
+papers
+template
+paper.synctex.gz
+paper.pdf
+*.brf
+*.log
+*.aux
+*.blg
+*.bbl
+*.toc
+iciap/poster/*.synctex.gz
+iciap/poster/*.nav
+iciap/poster/*.out
+iciap/poster/*.pdf
+iciap/poster/*.snm
