@@ -1,1 +1,33 @@
 \section{Introduction}
+
+%Intro
+In order to make Autonomous Vehicles (AV) reliable in a real-world scenario, safety for every agent involved must be the focus of every self-driving system implementation.
+This objective will be achieved once the AV has a clear understanding of the driving scene around it, focusing on the main visual cues that are needed for its correct behaviour, differentiating between normal and anomalous situations, so that it can react in real-time to make the safest decision.
+It is necessary to track down all possible causes for the sake of accident avoidance, this must be done with both precision and promptness to assure the maximum reaction space.
+
+%Task
+Our work put the focus on video analysis by dash-mounted cameras, willing to improve the tools for driving scene interpretation in the context of Advanced Driver Assistance Systems (ADAS).
+From this perspective, a driving scenario is quite hard to model since there are many information to take into account that can be used to define the driving scene, there are plenty of possible accident classes that must be taken into account and to make matters worse, most of the times, it is quite hard to distinguish normal driving scenes from accident ones at frame level, which further enhances the problem's complexity.
+
+%Anomaly
+Though we know that accidents are a consequence of an anomalous driving scenario, it is non-trivial to define what a driving anomaly is.
+We can define an anomaly as an hazardous situation that can lead to an accident, but since the hazardousness prior to the accident may be determined subjectively by each individual, the boundaries for an anomaly are not really clear and this is reflected in some dataset annotations.
+Some attempts have been made to propose a deterministic method in the interest of defining an anomaly.
+Yao et al. \cite{yao2019unsupervised} defines an anomaly as the window in which the accident happens, but since we want to prevent it, this might not be ideal in a prevention perspective.
+Fang et al. \cite{fang2019dada} instead want to predict an accident willing to happen in the next 5 seconds labelling the anomaly start from the moment in which half part of the object involved in the accident appears in the view.
+Yao et al. \cite{yao2020when} proposed a Detection of traffic Anomaly (DoTA) dataset that takes into account When the anomalous event starts and ends, locates spatially Where all the involved agents are in each frame and What type of anomaly is.
+Their work formulates the anomaly start as the instant after which the accident is unavoidable.
+As said before choosing that instant is quite subjective depending on the situation and personal biases.
+
+%TODO Saliency
+%Determining an anomalous scene implies to evaluate the salient regions
+%Human's capability of evaluating danger on the fly is strictly related to 
+% still a matter of study by neuroscientists 
+
+Cornia et al.\cite{cornia2016saliency} proposed Multi-Level Network for Saliency Prediction (MLNET), an architecture for saliency estimation which simulates what human see at first glance, a step forward towards driving scene comprehension.
+%TODO Breve accenno su tranformer
+
+%Contribution
+The architecture we propose to solve the problem is composed by a Video Swin Transformer \cite{liu_video_2022} as the backbone network, adapted to work in a real-time scenario, as expected from an ADAS implementation. %TODO provare i tempi di inference prima di inserire real-time scenario
+As a further contribution for our work we implemented MLNET to estimate the saliency map for each frame in order to interact with the model and lead it to focus on the most pertinent regions of the traffic scene.
+Finally we propose a relabelling of DoTA dataset adopting a different criterion of evaluation disentangled from the subjectivity and grants a deterministic method for estimating anomaly boundaries, allowing the largest possible reaction space while maintaining normal and anomalous scenes well separated.
