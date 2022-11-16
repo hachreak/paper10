@@ -8,8 +8,5 @@ paper.pdf
 *.blg
 *.bbl
 *.toc
-iciap/poster/*.synctex.gz
-iciap/poster/*.nav
-iciap/poster/*.out
-iciap/poster/*.pdf
-iciap/poster/*.snm
+tmp
+*~lock*
