@@ -29,7 +29,7 @@ The commonly adopted saliency definition is based on how pixels/regions stand ou
 Cornia et al.\cite{cornia2016saliency} proposed Multi-Level Network for Saliency Prediction (MLNET), an architecture for saliency estimation which simulates what human see at first glance, a step forward towards driving scene comprehension.
 
 %TODO Breve accenno su tranformer
-Transformer have become the most popular approach in computer vision tasks, dominating over CNN architectures, after the introduction of Vision Transformer (Dosovitskiy et al. \cite{dosovitskiy2020vit})  with which image patches are seen as tokens (word) in NLP applications, while keeping the architecture as similar as possible to the original.
+Transformer have become the most popular approach in computer vision tasks, dominating over CNN architectures, after the introduction of Vision Transformer (Dosovitskiy et al. \cite{DBLP:conf/iclr/DosovitskiyB0WZ21})  with which image patches are seen as tokens (word) in NLP applications, while keeping the architecture as similar as possible to the original.
 A meaningful upgrade to this architecture, proposed by Liu et al. \cite{liu2021Swin}, was Swin Transformer.
 Comparing to the previous architecture, the latter keeps a linear computational complexity to image size and builds hierarchical feature maps by using a shifting window mechanism on the window partition between consecutive self-attention layers, allowing for a significant enhance in modelling power while keeping efficiency in latency regards.
 As a further proof, Video Swin Transfomer \cite{liu_video_2022} surpassed previous convolutional models for video recognition tasks by taking advantage of spatio-temporal locality of videos, that is, pixel that are closer to each other in spatio-temporal distance are more likely to be correlated.\\
@@ -39,4 +39,4 @@ Following the satisfying result of the previous works we propose to solve the pr
 As a further contribution for our work we introduced a saliency map estimation model for each frame by using an MLNET, willing to let the model focus only on the most pertinent regions of the traffic scenes.
 Finally we propose a relabelling of DoTA dataset adopting a different criterion of evaluation disentangled from the subjectivity and granting a deterministic method for estimating anomaly boundaries, allowing the largest possible reaction space while maintaining normal and anomalous scenes well separated.
 
-In the next sections we will first
+In the next sections we will first introduce all the previous work at the state-of-the-art that led us into building the novel architecture we are presenting, it will follow an overview of mathematical representation of our work and 
