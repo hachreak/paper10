@@ -1,0 +1,20 @@
+\section{Experiments}
+
+\noindent\textbf{Dataset}.
+We perform our tests on the Dota dataset \cite{9712446}.
+The dataset contains 4677 videos taken from YouTube channels, with a resolution of $1024 \times 720$, annotated with information about the start and end of the anomaly, the category (10 in total) and the bboxes which indicate which objects or persons are involved.
+The videos were recorded in different countries and with different light and weather conditions.
+The dataset is split in approximately $70\%$ training and $30\%$ validation.
+Because our benchmarks are related to the Task 1 \cite{9712446}, (online) frame-level Video Anomaly Detection, we ignore videos with unknown category or without objects, resulting in 1,305 test videos.
+Furthermore, VO and OO columns are not shown because they do not contain anomalous traffic participants.
+
+\noindent\textbf{Evaluation Metrics}.
+To evaluate the performance of the models, we use the well-known Area Under Curve (AUC) metric.
+This metric evaluate how well the model temporary-locate the anomaly in the videos.
+
+\noindent\textbf{Implementation details.}
+The results of the models with which we compare, are taken from the respective papers.
+We perform the training on a single machine with 1 \lnote{XXX} GPU with \lnote{xxGB} of memory.
+We use the Stochastic Gradient Descent (SGD) optimization algorithm with a learning rate of 0.0001, a \lnote{weight decay of 0.0001}, and a momentum of 0.9.
+
+\subsection{Ablation study}

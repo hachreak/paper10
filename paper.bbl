@@ -1,0 +1,92 @@
+\begin{thebibliography}{10}\itemsep=-1pt
+
+\bibitem{cornia2016saliency}
+Marcella Cornia, Lorenzo Baraldi, Giuseppe Serra, and Rita Cucchiara.
+\newblock A deep multi-level network for saliency prediction, 2016.
+
+\bibitem{DBLP:conf/iclr/DosovitskiyB0WZ21}
+Alexey Dosovitskiy, Lucas Beyer, Alexander Kolesnikov, Dirk Weissenborn,
+  Xiaohua Zhai, Thomas Unterthiner, Mostafa Dehghani, Matthias Minderer, Georg
+  Heigold, Sylvain Gelly, Jakob Uszkoreit, and Neil Houlsby.
+\newblock An image is worth 16x16 words: Transformers for image recognition at
+  scale.
+\newblock In {\em 9th International Conference on Learning Representations,
+  {ICLR} 2021, Virtual Event, Austria, May 3-7, 2021}. OpenReview.net, 2021.
+
+\bibitem{fang2019dada}
+Jianwu Fang, Dingxin Yan, Jiahuan Qiao, and Jianru Xue.
+\newblock Dada: A large-scale benchmark and model for driver attention
+  prediction in accidental scenarios, 2019.
+
+\bibitem{hasan2016learning}
+Mahmudul Hasan, Jonghyun Choi, Jan Neumann, Amit~K Roy-Chowdhury, and Larry~S
+  Davis.
+\newblock Learning temporal regularity in video sequences.
+\newblock In {\em Proceedings of the IEEE conference on computer vision and
+  pattern recognition}, pages 733--742, 2016.
+
+\bibitem{liu2018future}
+Wen Liu, Weixin Luo, Dongze Lian, and Shenghua Gao.
+\newblock Future frame prediction for anomaly detection--a new baseline.
+\newblock In {\em Proceedings of the IEEE conference on computer vision and
+  pattern recognition}, pages 6536--6545, 2018.
+
+\bibitem{liu2021Swin}
+Ze Liu, Yutong Lin, Yue Cao, Han Hu, Yixuan Wei, Zheng Zhang, Stephen Lin, and
+  Baining Guo.
+\newblock Swin transformer: Hierarchical vision transformer using shifted
+  windows.
+\newblock In {\em Proceedings of the IEEE/CVF International Conference on
+  Computer Vision (ICCV)}, 2021.
+
+\bibitem{liu_video_2022}
+Ze Liu, Jia Ning, Yue Cao, Yixuan Wei, Zheng Zhang, Stephen Lin, and Han Hu.
+\newblock Video {Swin} {Transformer}.
+\newblock In {\em 2022 {IEEE}/{CVF} {Conference} on {Computer} {Vision} and
+  {Pattern} {Recognition} ({CVPR})}, pages 3192--3201, New Orleans, LA, USA,
+  June 2022. IEEE.
+
+\bibitem{luo2017remembering}
+Weixin Luo, Wen Liu, and Shenghua Gao.
+\newblock Remembering history with convolutional lstm for anomaly detection.
+\newblock In {\em 2017 IEEE International Conference on Multimedia and Expo
+  (ICME)}, pages 439--444. IEEE, 2017.
+
+\bibitem{vaswani2017attention}
+Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones,
+  Aidan~N Gomez, {\L}ukasz Kaiser, and Illia Polosukhin.
+\newblock Attention is all you need.
+\newblock {\em Advances in neural information processing systems}, 30, 2017.
+
+\bibitem{wang2018abnormal}
+Lin Wang, Fuqiang Zhou, Zuoxin Li, Wangxia Zuo, and Haishu Tan.
+\newblock Abnormal event detection in videos using hybrid spatio-temporal
+  autoencoder.
+\newblock In {\em 2018 25th IEEE International Conference on Image Processing
+  (ICIP)}, pages 2276--2280. IEEE, 2018.
+
+\bibitem{xu2019temporal}
+Mingze Xu, Mingfei Gao, Yi-Ting Chen, Larry~S Davis, and David~J Crandall.
+\newblock Temporal recurrent networks for online action detection.
+\newblock In {\em Proceedings of the IEEE/CVF International Conference on
+  Computer Vision}, pages 5532--5541, 2019.
+
+\bibitem{yao2020when}
+Yu Yao, Xizi Wang, Mingze Xu, Zelin Pu, Ella Atkins, and David Crandall.
+\newblock When, where, and what? a new dataset for anomaly detection in driving
+  videos, 2020.
+
+\bibitem{9712446}
+Yu Yao, Xizi Wang, Mingze Xu, Zelin Pu, Yuchen Wang, Ella Atkins, and David
+  Crandall.
+\newblock Dota: Unsupervised detection of traffic anomaly in driving videos.
+\newblock {\em IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  pages 1--1, 2022.
+
+\bibitem{yao2019unsupervised}
+Yu Yao, Mingze Xu, Yuchen Wang, David~J Crandall, and Ella~M Atkins.
+\newblock Unsupervised traffic accident detection in first-person videos.
+\newblock In {\em 2019 IEEE/RSJ International Conference on Intelligent Robots
+  and Systems (IROS)}, pages 273--280. IEEE, 2019.
+
+\end{thebibliography}
