@@ -6,7 +6,7 @@
     \centering
     %  trim={<left> <lower> <right> <upper>}
     %\fcolorbox{red}{yellow}{
-        \includegraphics[trim=40 420 0 100, clip, width=1.\linewidth]{images/arch.pdf}
+        \includegraphics[trim=120 420 0 100, clip, width=1.\linewidth]{images/arch.pdf}
     %}
     % FIXME aggiungi link per immagine dei frame (copyriht)
     \caption{Video frame anomaly detection architecture.}
@@ -35,6 +35,7 @@ Because what happens in older frames can still be useful, there was a need for a
 This time the requirement is opposite to the previous one, we can only update the memory sequentially, when a new frame is available.
 For this reason, our choice fell on an RNN module instead of a Transformer (LSTM in this specific case).
 The hidden state $h_t$ and cell state $c_t$ encode information about the past.
+In this way the model is very efficient, because it doesn't need to access the past frames again, but simply read the current state of the cell.
 We have chosen to include the LSTM cell inside the classifier because the input information $x_t$ represents a summary of the information present inside the frames processed by the short-term memory model, without superfluous information.
 This means that it is the ideal place to update long-term memory with new information.
 
