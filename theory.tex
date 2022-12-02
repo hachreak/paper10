@@ -14,15 +14,35 @@
 \end{figure*}
 
 In this section, the overall architecture shown in Figure \ref{fig:arch} will be exposed.
-First, the Video Swin Trasformer \cite{liu_video_2022} model for the video action recognition task will be briefly described.
-Then, the introduction of LSTM and the adaptation towards a real-time frame classification system will be described.
+It is composed by four main blocks: a short-term memory model to encode the information related to what is happened just now, a long-term memory model to keep track of the past, a saliency model to increase the relevant information about the scene and the final classification module, trained to classify the current frame.
 % TODO descrivere la nuova annotazione ??? Check motivazioni! :)
 
-The Video Swin Transformer (VST) descends from Swin Transformer \cite{liu2021Swin}, which is a general-purpose image backbone with high performance on tasks that involve detection and localization.
-The video extension takes in input a video with size $T \times H \times W \times 3$, where $T$, $H$ e $W$ correspond to number of frames, height and width, respectively.
-The model split the video in non-overlapping 3D patches, partitioning the video in $\frac{T}{2} \times \frac{H}{4} \times \frac{W}{4}$ 3D tokens, projecting the features to an arbitrary dimension $C$.
+\subsection{Short-term memory}
 
+Since the task provides an online execution of the classification, the only information available are the current frame and the past frames.
+The goal of this model is to efficiently encode the current frame and the most recent ones (last three, in this case) in the most appropriate way.
+Since the frames are all available by the time they are parsed, a Transformer model is more appropriate than an RNN model due to its ability to process them in parallel.
+In particular, the Video Swin Transformer (VST) \cite{liu_video_2022} was chosen as the base model due to its superior performance compared to a vanilla ViT \cite{DBLP:conf/iclr/DosovitskiyB0WZ21} model.
+The VST model is the extension to video of the Swin Transformer \cite{liu2021Swin}, which is a general-purpose image backbone with high performance on tasks that involve detection and localization.
 Originally born to carry out the task of video action classification, it has been adapted to detect anomalies on single frame in a near-real time fashion, considering a temporal window of the latest three frames at time $t_{i-2}$, $t_{i-1}$ and $t_{i}$.
+
+The video extension takes in input a video with size $T \times H \times W \times 3$, where $T$, $H$ e $W$ correspond to number of frames, height width and channels RGB, respectively.
+The model split the frames in non-overlapping 3D patches, partitioning the video in $\frac{T}{2} \times \frac{H}{4} \times \frac{W}{4}$ 3D tokens, projecting the features to an arbitrary dimension $C$.
+
+\subsection{Long-term memory}
+
+Because what happens in older frames can still be useful, there was a need for a way to keep track of the distant past.
+This time the requirement is opposite to the previous one, we can only update the memory sequentially, when a new frame is available.
+For this reason, our choice fell on an RNN module instead of a Transformer (LSTM in this specific case).
+The hidden state $h_t$ and cell state $c_t$ encode information about the past.
+We have chosen to include the LSTM cell inside the classifier because the input information $x_t$ represents a summary of the information present inside the frames processed by the short-term memory model, without superfluous information.
+This means that it is the ideal place to update long-term memory with new information.
+
+\subsection{Saliency model}
+
+
+\subsection{Classification module}
+
 The output is computed in the following way:
 
 \begin{equation}
