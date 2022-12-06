@@ -6,9 +6,9 @@
     \centering
     %  trim={<left> <lower> <right> <upper>}
     %\fcolorbox{red}{yellow}{
-        \includegraphics[trim=120 420 0 100, clip, width=1.\linewidth]{images/arch.pdf}
+        \includegraphics[trim=120 500 0 130, clip, width=1.\linewidth]{images/arch.pdf}
     %}
-    % FIXME aggiungi link per immagine dei frame (copyriht)
+    % FIXME aggiungi link per immagine dei frame (copyright)
     \caption{Video frame anomaly detection architecture.}
     \label{fig:arch}
 \end{figure*}
@@ -41,6 +41,22 @@ This means that it is the ideal place to update long-term memory with new inform
 
 \subsection{Saliency model}
 
+\begin{figure*}[t]
+    \centering
+    %  trim={<left> <lower> <right> <upper>}
+    %\fcolorbox{red}{yellow}{
+        \includegraphics[trim=0 610 150 50, clip, width=1.\linewidth]{images/saliency.pdf}
+    %}
+    \caption{Saliency computatioon.}
+    \label{fig:arch-saliency}
+\end{figure*}
+
+Taking inspiration from DRIVE \cite{bao2021drive}, we added more information about the scene present in the current frame with the help of a saliency model, used in evaluation mode.
+We adopted a VGG-16-based MLNet \cite{cornia2016deep} as saliency module, pre-trained on the fixation data of the DADA-2000 \cite{fang2019dada} training set and the parameters are frozen during the training.
+
+As seen in the Figure \ref{fig:arch-saliency}, we use the output of MLNet (last layer) and the fourth last layer.
+The features are passed through a max pooling and average pooling, respectively.
+Then, normalized and concatenated to form a single saliency vector $s[t]$ of 2275 values.
 
 \subsection{Classification module}
 
