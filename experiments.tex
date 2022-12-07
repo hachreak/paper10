@@ -1,10 +1,12 @@
 \section{Experiments}
+\label{sec:experiments}
 
 \noindent\textbf{Dataset}.
 We perform our tests on the Dota dataset \cite{9712446}.
-The dataset contains 4677 videos taken from YouTube channels, with a resolution of $1024 \times 720$, annotated with information about the start and end of the anomaly, the category (10 in total) and the bboxes which indicate which objects or persons are involved.
+It contains 4677 videos taken from YouTube channels, with a resolution of $1024 \times 720$, annotated with information about the start and end of the anomaly, the category (10 in total) and the bounding boxes of the objects or persons involved.
 The videos were recorded in different countries and with different light and weather conditions.
 The dataset is split in approximately $70\%$ training and $30\%$ validation.
+\lnote{li vogliamo ignorare o no?}
 Because our benchmarks are related to the Task 1 \cite{9712446}, (online) frame-level Video Anomaly Detection, we ignore videos with unknown category or without objects, resulting in 1,305 test videos.
 Furthermore, VO and OO columns are not shown because they do not contain anomalous traffic participants.
 
@@ -13,8 +15,29 @@ To evaluate the performance of the models, we use the well-known Area Under Curv
 This metric evaluate how well the model temporary-locate the anomaly in the videos.
 
 \noindent\textbf{Implementation details.}
-The results of the models with which we compare, are taken from the respective papers.
+The results of the models with which we compare with, are taken from the respective papers.
 We perform the training on a single machine with 1 \lnote{XXX} GPU with \lnote{xxGB} of memory.
 We use the Stochastic Gradient Descent (SGD) optimization algorithm with a learning rate of 0.0001, a \lnote{weight decay of 0.0001}, and a momentum of 0.9.
 
+\noindent\textbf{Training details.}
+Because the videos contain a non-uniform number of frames, to be able to fast training with batch-size major then one, we fixed the number of frames for each video taken into account.
+In addition, we chosen online the starting frame for each video for each iteration, in a way to offer to the network as diverse as possible training and reduce the effect of overfitting.
+\lnote{descrivi il modello pretrained su smthv2 e saliency pretrained}
+
 \subsection{Ablation study}
+
+% posizione dell'lstm senza / prima / dopo / prim + dopo
+% 1/2/.. # celle lstm
+% con/senza/versione ridotta della saliency
+% class weight loss
+% numero di frames in input
+% input shape
+% random_batch 4/8/12/16/20/24
+% versione finale vs resto del mondo su dota, and: 
+%   - Phantom: https://paperswithcode.com/paper/approaches-toward-physical-and-general-video
+%   - ShanghaiTech: https://paperswithcode.com/sota/anomaly-detection-on-shanghaitech
+%   - CUHK Avenue: https://paperswithcode.com/sota/anomaly-detection-on-chuk-avenue
+%   - UCSD Ped2: https://paperswithcode.com/sota/abnormal-event-detection-in-video-on-ucsd
+
+%\noindent\textbf{Saliency module.}
+%\lnote{con/senza saliency}

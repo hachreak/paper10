@@ -2,13 +2,19 @@
 
 %Intro
 In order to make Autonomous Vehicles (AV) reliable in a real-world scenario, safety for every agent involved must be the focus of every self-driving system implementation.
-This objective will be achieved once the AV has a clear understanding of the driving scene around it, focusing on the main visual cues that are needed for its correct behaviour, differentiating between normal and anomalous situations, so that it can react in real-time to make the safest decision.
+This objective will be achieved once the AV has a clear understanding of the driving scene around it, focusing on the main visual cues that are needed for its correct behaviour, differentiating between normal and anomalous situations, so that it can react in real-time to take the safest decision.
 It is necessary to track down all possible causes for the sake of accident avoidance, this must be done with both precision and promptness to assure the maximum reaction space.
 
 %Task
-Our work put the focus on video analysis captured by dash-mounted cameras, willing to improve the tools for driving scene interpretation in the context of Advanced Driver Assistance Systems (ADAS).
+In 2019, the European Commission and the European Council jointly approved a regulation that will require new safety measures in motor vehicles.
+Starting July 2022, a device similar to "black boxes" in aircrafts will be mandatory for new cars, including the installation of so-called "Event Data Recorders" (EDR).
+Driven by the idea that real-time video could be available in all cars in near future, we focused our work on video analysis captured by dash-mounted cameras, with the aiming of improving the tools for driving scene interpretation in the context of Advanced Driver Assistance Systems (ADAS).
 From this perspective, a driving scenario is quite hard to model since there are many information to take into account that can be exploited to define the driving scene.
-There are plenty of possible accident classes that must be taken into account and to make matters worse, most of the times, it is quite hard to distinguish normal driving scenes from accident ones at frame level, which further enhances the problem's complexity.
+There are plenty of possible accident classes that must be taken into account compared to normal traffic situations.
+In addition, each of these possibilities usually has a very short duration, in the order of a few seconds.
+For these reasons, we can compare the traffic video anomaly detection task to a long-tailed distribution problem.
+To further compound the difficulty, the crash prediction system aims to work in real-time and online fashion.
+This means that it must be fast and with predictable response times, but also work only on current frames and, at most, knowing the past, but having no idea what happens in the future.
 
 %Anomaly
 Though we know that accidents are a consequence of an anomalous driving scenario, it is non-trivial to define precise boundaries of what a driving anomaly is.
@@ -32,12 +38,20 @@ Cornia et al.\cite{cornia2016saliency} proposed Multi-Level Network for Saliency
 Transformer have become the most popular approach in computer vision tasks, dominating over CNN architectures, after the introduction of Vision Transformer (Dosovitskiy et al. \cite{DBLP:conf/iclr/DosovitskiyB0WZ21})  with which image patches are seen as tokens (word) in NLP applications, while keeping the architecture as similar as possible to the original.
 A meaningful upgrade to this architecture, proposed by Liu et al. \cite{liu2021Swin}, was Swin Transformer.
 Comparing to the previous architecture, the latter keeps a linear computational complexity to image size and builds hierarchical feature maps by using a shifting window mechanism on the window partition between consecutive self-attention layers, allowing for a significant enhance in modelling power while keeping efficiency in latency regards.
-As a further proof, Video Swin Transfomer \cite{liu_video_2022} surpassed previous convolutional models for video recognition tasks by taking advantage of spatio-temporal locality of videos, that is, pixel that are closer to each other in spatio-temporal distance are more likely to be correlated.\\
+As a further proof, Video Swin Transfomer \cite{liu_video_2022} surpassed previous convolutional models for video recognition tasks by taking advantage of spatio-temporal locality of videos, that is, pixel that are closer to each other in spatio-temporal distance are more likely to be correlated.
 
 %Contribution
-Following the satisfying result of the previous works we propose to solve the problem of traffic anomaly detection in videos by using a Video Swin Transformer as our backbone network, adapting it to work in a real-time scenario, as expected from an ADAS implementation.
-As a further contribution for our work we introduced a saliency map estimation model for each frame by using an MLNET, willing to let the model focus only on the most pertinent regions of the traffic scenes.
-Finally we propose a relabelling of DoTA dataset adopting a different criterion of evaluation disentangled from the subjectivity and granting a deterministic method for estimating anomaly boundaries, allowing the largest possible reaction space while maintaining normal and anomalous scenes well separated.
+The main contributions of this paper are the following:
+\begin{itemize}
+    \item the use of an additional intermediate representation of the current frame scene given by saliency model \cite{cornia2016deep} to enrich the information available to the final classifier;
+    \item the adapting of the Video Swin Transformer model \cite{liu_video_2022} to efficiently encode short-term memory, represented by current and few previous frames;
+    \item the use of a LSTM module, injected inside the classifier head, to model the long-term memory of the past;
+    \item an exhaustive ablation study on all the components of the architecture;
+    \item a novel architecture to work in a real-time and online scenario for online video anomaly detection is proposed.
+\end{itemize}
 
-In the next sections we will first introduce all the previous work at the state-of-the-art that led us into building the  architecture we are presenting, it will follow an overview of mathematical representation of our work and an in-depth explanation of all the components employed. 
-Finally we will present our considerations and an ablation study where we will prove the superiority of our method compared to the state-of-the-art we are writing the article.
+The paper is organized as follows.
+Section \ref{sec:related}, we will first introduce all the previous related work.
+Section \ref{sec:theory}, it will follow an overview of the proposed architecture and an in-depth explanation of all the components employed.
+Section \ref{sec:experiments}, a complete ablation studies and comparison with state-of-the-art are presented.
+Section \ref{sec:conclusions}, final conclusions are drawn.
