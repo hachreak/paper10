@@ -23,7 +23,7 @@
         \caption{Our online video frame anomaly detection architecture.}
 		\label{fig:arch}
 	\end{subfigure}
-	\caption{On left the saliency module architecture more in details. On right the overall architecture.}
+	\caption{On left the saliency module architecture more in details. On right the overall architecture. $f[t]$, $x$ are the frame at time $t$ and the output of the Reducer, respectively.}
 	\label{fig:our-arch}
 \end{figure*}
 
@@ -32,11 +32,11 @@ The final architecture and training modality are very simple and straightforward
 It is composed by four main blocks: a short-term memory module to encode the information related to what is happened just now, a long-term memory module to keep track of the past, a saliency module to increase the relevant information about the current frame scene and the final classification module trained to classify the current frame.
 % TODO descrivere la nuova annotazione ??? Check motivazioni! :)
 
-\subsection{Short-term memory}
-
-Since the task provides an online frame classification, the only information available are the current and the past frames.
-Our module has to deal with the current frame and the most recent ones (last three, in this case) in the most appropriate way.
-Since the frames are all available by the time they are evaluated, we chosen a Transformer model instead of an RNN model due to its ability to process all of them in parallel.
+\noindent\textbf{Short-term memory}
+Since the task requires an online anomaly frame classification, it means the only information available are the current and the past frames.
+To model short-term memory, a Transformer model was chosen instead of an RNN due to its ability to process frames in parallel.
+At each step, the number of processed frames are three: the current one and the previous two frames.
+This allows the network to take the time into consideration right away, as incorrect behavior is often recognizable by taking into consideration the immediate past.
 In particular, the Video Swin Transformer (VST) \cite{liu_video_2022} was chosen as the base model due to its superior performance compared to a vanilla ViT \cite{DBLP:conf/iclr/DosovitskiyB0WZ21} model.
 The VST model is the extension to video of the Swin Transformer \cite{liu2021Swin}, which is a general-purpose image backbone with high performance on tasks that involve detection and localization.
 Originally born to carry out the task of video action classification, it has been adapted to detect anomalies on single frame in a near-real time fashion, considering a temporal window of the latest three frames at time $t_{i-2}$, $t_{i-1}$ and $t_{i}$.
@@ -44,11 +44,9 @@ Originally born to carry out the task of video action classification, it has bee
 The VST takes in input a video with size $T \times H \times W \times 3$, where $T$, $H$ e $W$ correspond to number of frames, height, width and channels RGB, respectively.
 The model internally split the frames in non-overlapping 3D patches, partitioning the video in $\frac{T}{2} \times \frac{H}{4} \times \frac{W}{4}$ 3D tokens, projecting the features to an arbitrary dimension $C$.
 The rest of the architecture is similar to Swin Transformer, with four stages of Video Swin Transformer block, interspersed with $2\times$ spatial downsampling in the patch merging layer.
+As shown in Figure \ref{fig:arch}, the input of the VST is formed by $f[t-2]$, $f[t-1]$ and $f[t]$, which are buffered past frames at times $t-2$ and $t-1$, and the current frame at time $t$, respectively.
 
-As shown in Figure \ref{fig:arch}, the input of the VST is formed by $f[t_{i-2}]$, $f[t_{i-1}]$, which are buffered past frames at times $t-2$ and $t-1$, and the current frame at time $t$, respectively.
-
-\subsection{Long-term memory}
-
+\noindent\textbf{Long-term memory.}
 In order to not lose information from the distant past, we needed a way to keep track of it.
 Because the model is working in a online fashion, this time the requirement is opposite compared to the short-term memory.
 We can only update the long-term memory sequentially, when a new frame is available.
@@ -59,18 +57,19 @@ it condenses all its knowledge into these two states.
 The output of the first Linear layer of the classifier head provides the summary about the three frames processed by the short-term memory model.
 Here, we added the LSTM cells which update the memory states with the new information.
 
-\subsection{Saliency model}
-
+\noindent\textbf{Saliency model.}
 Taking inspiration from DRIVE \cite{bao2021drive}, we added more information about the scene present in the current frame with the help of a saliency model, used in evaluation mode.
-We adopted a VGG-16-based MLNet \cite{cornia2016deep} as saliency module, pre-trained on the fixation data of the DADA-2000 \cite{fang2019dada} training set, with the parameters frozen during the new training.
+The fixation information tells us which regions within the 2D image attract a person's attention.
+Having a network trained to predict where a person's attention would be focused will most likely give us some hints in advance about hot spots where anomalous action is likely to occur.
 
+We adopted a VGG-16-based MLNet \cite{cornia2016deep} as saliency module, pre-trained on the fixation data of the DADA-2000 \cite{fang2019dada} training set, and we frozen the parameters during the new training.
 As seen in the Figure \ref{fig:arch-saliency}, we normalized and concatenated the output of MLNet last layer and the fourth last layer, to form a single saliency vector $s[t]$ of 2275 values.
 Before the concatenation, the features are passed through a max pooling and average pooling, respectively.
+In this way we lose some of the locality information, but we get a compact version, efficiently processed by the following fully-connected layers.
 
-\subsection{Classification module (Head)}
-
-After reducing the output of the VST with a Adaptive Average Pool 3D (Reducer), the classification module process it generating the anomaly classification score for the current frame.
-As shown in Figure \ref{fig:arch}, the head is composed by some Linear layers, the LSTM cells and the branch connected with the saliency module.
+\noindent\textbf{Classification module (Head).}
+After reducing the output of the VST with a Adaptive Average Pool 3D (Reducer), the classification module process it, generating the anomaly classification score for the current frame.
+As shown in Figure \ref{fig:arch}, the head is composed by some Linear layers, the LSTM cells which compose the short-term memory and the branch connected with the saliency module.
 The final output is the anomaly classification score of the current frame at time $t$.
 This is trained with a weighted cross-entropy loss, giving more weight to the anomaly class, because it is spotted less frequently.
 

@@ -18,40 +18,50 @@ This means that it must be fast and with predictable response times, but also wo
 
 %Anomaly
 Though we know that accidents are a consequence of an anomalous driving scenario, it is non-trivial to define precise boundaries of what a driving anomaly is.
+\lnote{spiegare perchè è difficile}
 We can define an anomaly as an hazardous situation that can lead to an accident, but since the hazardousness prior to the accident may be determined subjectively by each individual, the time interval edges for an anomaly are not really clear and this is reflected in some dataset annotations.
 Some attempts have been made to propose a deterministic method in the interest of defining an anomaly.
-Yao et al. \cite{yao2019unsupervised} defines an anomaly as the window in which the accident happens, but since we want to prevent it, this might not be ideal in a prevention perspective.
+Yao et al. \cite{yao2019unsupervised} defines an anomaly as the window in which the accident happens, but since we want to prevent it, this might not be ideal in a prevention perspective. \lnote{pero' noi non facciamo prevention, quindi?}
 Fang et al. \cite{fang2019dada} instead want to predict an accident willing to happen in the next 5 seconds labelling the anomaly start from the moment in which half part of the object involved in the accident appears in the view.
-Yao et al. \cite{yao2020when} proposed a Detection of Traffic Anomaly (DoTA) dataset that takes into account When the anomalous event starts and ends, locates spatially Where all the involved agents are in each frame and What type of anomaly it is.
+Yao et al. \cite{yao2020when} proposed a Detection of Traffic Anomaly (DoTA) dataset that takes into account when the anomalous event starts and ends, locates spatially where all the involved agents are in each frame and what type of anomaly it is.
 Their work formulates the anomaly start as the instant after which the accident is unavoidable.
 As said before choosing that instant is quite subjective depending on the situation and personal biases, in fact Lung et al. \cite{lund2009riskperception} argues that risk perception is related to social constructs that reflect the cultural context in which people live in.
+\lnote{<- se alla fine non inseriamo le nuove annotazioni, questa parte non so se lasciarla. possiamo riscriverla in funzione del paragrafo successivo?}  
+
+% intenzioni da cui siamo partiti
+Sometimes traffic anomalies are recognizable from the single frame, such as the presence of objects in places where they shouldn't be, e.g. boulders due to a landslide or animals in the middle of the roadway.
+Often, however, the anomalies are attributable to actions that last for a few seconds and, in the worst case, a few tenths of a second.
+Such as for example the crossing of a scooter at the wrong time, or the loss of control of the vehicle due to the presence of snow.
+To build a system that is capable of recognizing both situations, we have outlined four fundamental building blocks that it must have: a saliency system that gives proper attention to the important visible objects present in the current frame, a system that implements short-term memory, obtaining from them the important information and temporal correlations, a system for long-term memory that takes into account what happens in the remote past and, finally, a decision-making system that takes into consideration all this information.
 
 %TODO Saliency
 %Determining an anomalous scene implies to evaluate the salient regions
 Human's capability of evaluating danger on the fly is still a matter of study by neuroscientists.
 When comparing machine to humans in the task of describing the content of an image we know that the latters perform better \cite{jiang2015salicon}.
-Since we are aiming to develop a system capable of estimating danger in traffic video scenes it is worth emulating how humans focus on important regions or objects in images through saliency estimation.
+Since we are aiming to develop a system capable of estimating danger in traffic video scenes, it is worth emulating how humans focus on important regions or objects in images through saliency estimation.
 The commonly adopted saliency definition is based on how pixels/regions stand out and is dependent of what kind of visual stimuli human respond to the most \cite{yan2013hierachical}.
 Cornia et al.\cite{cornia2016saliency} proposed Multi-Level Network for Saliency Prediction (MLNET), an architecture for saliency estimation which simulates what human see at first glance, a step forward towards driving scene comprehension.
 
 %TODO Breve accenno su tranformer
-Transformer have become the most popular approach in computer vision tasks, dominating over CNN architectures, after the introduction of Vision Transformer (Dosovitskiy et al. \cite{DBLP:conf/iclr/DosovitskiyB0WZ21})  with which image patches are seen as tokens (word) in NLP applications, while keeping the architecture as similar as possible to the original.
-A meaningful upgrade to this architecture, proposed by Liu et al. \cite{liu2021Swin}, was Swin Transformer.
-Comparing to the previous architecture, the latter keeps a linear computational complexity to image size and builds hierarchical feature maps by using a shifting window mechanism on the window partition between consecutive self-attention layers, allowing for a significant enhance in modelling power while keeping efficiency in latency regards.
-As a further proof, Video Swin Transfomer \cite{liu_video_2022} surpassed previous convolutional models for video recognition tasks by taking advantage of spatio-temporal locality of videos, that is, pixel that are closer to each other in spatio-temporal distance are more likely to be correlated.
+Transformer have become the most popular approach in computer vision tasks, challenging the predominance of CNN architectures after the introduction of Vision Transformer (Dosovitskiy et al. \cite{DBLP:conf/iclr/DosovitskiyB0WZ21}).
+Later, Liu et al. proposed Swin Transformer \cite{liu2021Swin}, keeping linear computational complexity to image size and builds hierarchical feature maps, allowing for a significant enhance in modelling power while keeping efficiency in latency regards.
+Later on, the same authors designed Video Swin Transfomer \cite{liu_video_2022} as extention of Swin Transformer model but for video recognition tasks, by taking advantage of spatio-temporal locality of videos.
+This model has proved to be very useful for building an efficient short-term memory, as it is capable of processing the last available frames in a single step.
+
+\lnote{manca una frase di collegamento}
 
 %Contribution
 The main contributions of this paper are the following:
 \begin{itemize}
-    \item the use of an additional intermediate representation of the current frame scene given by saliency model \cite{cornia2016deep} to enrich the information available to the final classifier;
-    \item the adapting of the Video Swin Transformer model \cite{liu_video_2022} to efficiently encode short-term memory, represented by current and few previous frames;
-    \item the use of a LSTM module, injected inside the classifier head, to model the long-term memory of the past;
+    \item the enrichment of the information available to the final classifier with a compact latent features generated by a saliency model \cite{cornia2016deep};
+    \item the adapting of the Video Swin Transformer model \cite{liu_video_2022} as a short-term memory encoder;
+    \item the injection of a LSTM module inside the classifier head, to model the long-term memory of the past;
     \item an exhaustive ablation study on all the components of the architecture;
-    \item a novel architecture to work in a real-time and online scenario for online video anomaly detection is proposed.
+    \item a novel architecture called \lnote{XXX} to work in a real-time and online fashion for the online video anomaly detection task, which incorporates all previously defined modules.
 \end{itemize}
 
 The paper is organized as follows.
-Section \ref{sec:related}, we will first introduce all the previous related work.
-Section \ref{sec:theory}, it will follow an overview of the proposed architecture and an in-depth explanation of all the components employed.
+Section \ref{sec:related}, related work are introduced.
+Section \ref{sec:theory}, the overall proposed architecture and an detailed in-depth analysis of all the components employed are shown.
 Section \ref{sec:experiments}, a complete ablation studies and comparison with state-of-the-art are presented.
 Section \ref{sec:conclusions}, final conclusions are drawn.
