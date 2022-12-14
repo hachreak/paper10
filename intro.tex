@@ -18,7 +18,7 @@ This means that it must be fast and with predictable response times, but also wo
 
 %Anomaly
 Though we know that accidents are a consequence of an anomalous driving scenario, it is non-trivial to define precise boundaries of what a driving anomaly is.
-\lnote{spiegare perchè è difficile}
+\lnote{spiegare perchè è difficile -> sarebbe spiegato nel paragrafo successivo in cui spiego che l'intervallo di anomalia è spesso definito in via soggettiva -> direi di risolverla cosi: o mettiamo qui il motivo, o la frase successiva la possiamo iniziare con una cosa tipo "Prima di definire perchè, ...", cosi si capisce che lo andiamo a spiegare dopo. Che ne pensi?}
 We can define an anomaly as an hazardous situation that can lead to an accident, but since the hazardousness prior to the accident may be determined subjectively by each individual, the time interval edges for an anomaly are not really clear and this is reflected in some dataset annotations.
 Some attempts have been made to propose a deterministic method in the interest of defining an anomaly.
 Yao et al. \cite{yao2019unsupervised} defines an anomaly as the window in which the accident happens, but since we want to prevent it, this might not be ideal in a prevention perspective. \lnote{pero' noi non facciamo prevention, quindi?}
@@ -34,7 +34,6 @@ Often, however, the anomalies are attributable to actions that last for a few se
 Such as for example the crossing of a scooter at the wrong time, or the loss of control of the vehicle due to the presence of snow.
 To build a system that is capable of recognizing both situations, we have outlined four fundamental building blocks that it must have: a saliency system that gives proper attention to the important visible objects present in the current frame, a system that implements short-term memory, obtaining from them the important information and temporal correlations, a system for long-term memory that takes into account what happens in the remote past and, finally, a decision-making system that takes into consideration all this information.
 
-%TODO Saliency
 %Determining an anomalous scene implies to evaluate the salient regions
 Human's capability of evaluating danger on the fly is still a matter of study by neuroscientists.
 When comparing machine to humans in the task of describing the content of an image we know that the latters perform better \cite{jiang2015salicon}.
@@ -45,7 +44,7 @@ Cornia et al.\cite{cornia2016saliency} proposed Multi-Level Network for Saliency
 %TODO Breve accenno su tranformer
 Transformer have become the most popular approach in computer vision tasks, challenging the predominance of CNN architectures after the introduction of Vision Transformer (Dosovitskiy et al. \cite{DBLP:conf/iclr/DosovitskiyB0WZ21}).
 Later, Liu et al. proposed Swin Transformer \cite{liu2021Swin}, keeping linear computational complexity to image size and builds hierarchical feature maps, allowing for a significant enhance in modelling power while keeping efficiency in latency regards.
-Later on, the same authors designed Video Swin Transfomer \cite{liu_video_2022} as extention of Swin Transformer model but for video recognition tasks, by taking advantage of spatio-temporal locality of videos.
+Later on, the same authors designed Video Swin Transfomer \cite{liu_video_2022} as extension of Swin Transformer model but for video recognition tasks, by taking advantage of spatio-temporal locality of videos.
 This model has proved to be very useful for building an efficient short-term memory, as it is capable of processing the last available frames in a single step.
 
 \lnote{manca una frase di collegamento}
