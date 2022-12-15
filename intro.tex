@@ -8,6 +8,9 @@ It is necessary to track down all possible causes for the sake of accident avoid
 %Task
 In 2019, the European Commission and the European Council jointly approved a regulation that will require new safety measures in motor vehicles.
 Starting July 2022, a device similar to "black boxes" in aircrafts will be mandatory for new cars, including the installation of so-called "Event Data Recorders" (EDR).
+Instantly recognizing anomalous traffic situations can be very useful for many applications:
+in the case of autonomous driving \cite{codevilla2019exploring}, the information of an accident in progress can only be useful for oneself to give the car the possibility to react accordingly, avoiding the collision if not yet directly involved, or minimizing the damage in the other case, e.g. protecting the pedestrians \cite{4298901}.
+But not only that, if a VANET (Vehicular Ad hoc Networks) protocol \cite{fatemidokht2021efficient} is implemented, an action of capillary dissemination of information can be implemented among the subjects involved in the traffic.
 Driven by the idea that real-time video could be available in all cars in near future, we focused our work on video analysis captured by dash-mounted cameras, with the aiming of improving the tools for driving scene interpretation in the context of Advanced Driver Assistance Systems (ADAS).
 From this perspective, a driving scenario is quite hard to model since there are many information to take into account that can be exploited to define the driving scene.
 There are plenty of possible accident classes that must be taken into account compared to normal traffic situations.
@@ -15,7 +18,6 @@ In addition, each of these possibilities usually has a very short duration, in t
 For these reasons, we can compare the traffic video anomaly detection task to a long-tailed distribution problem.
 To further compound the difficulty, the crash prediction system aims to work in real-time and online fashion.
 This means that it must be fast and with predictable response times, but also work only on current frames and, at most, knowing the past, but having no idea what happens in the future.
-
 %Anomaly
 Though we know that accidents are a consequence of an anomalous driving scenario, it is non-trivial to define precise boundaries of what a driving anomaly is.
 \lnote{spiegare perchè è difficile -> sarebbe spiegato nel paragrafo successivo in cui spiego che l'intervallo di anomalia è spesso definito in via soggettiva -> direi di risolverla cosi: o mettiamo qui il motivo, o la frase successiva la possiamo iniziare con una cosa tipo "Prima di definire perchè, ...", cosi si capisce che lo andiamo a spiegare dopo. Che ne pensi?}
@@ -26,7 +28,7 @@ Fang et al. \cite{fang2019dada} instead want to predict an accident willing to h
 Yao et al. \cite{yao2020when} proposed a Detection of Traffic Anomaly (DoTA) dataset that takes into account when the anomalous event starts and ends, locates spatially where all the involved agents are in each frame and what type of anomaly it is.
 Their work formulates the anomaly start as the instant after which the accident is unavoidable.
 As said before choosing that instant is quite subjective depending on the situation and personal biases, in fact Lung et al. \cite{lund2009riskperception} argues that risk perception is related to social constructs that reflect the cultural context in which people live in.
-\lnote{<- se alla fine non inseriamo le nuove annotazioni, questa parte non so se lasciarla. possiamo riscriverla in funzione del paragrafo successivo?}  
+\lnote{<- se alla fine non inseriamo le nuove annotazioni, questa parte non so se lasciarla. possiamo riscriverla in funzione del paragrafo successivo? -- V: per ora lasciamo poi in base a come vanno gli esperimenti sul dota originale vs riannotato, che dici?}  
 
 % intenzioni da cui siamo partiti
 Sometimes traffic anomalies are recognizable from the single frame, such as the presence of objects in places where they shouldn't be, e.g. boulders due to a landslide or animals in the middle of the roadway.
