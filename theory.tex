@@ -48,7 +48,7 @@ As shown in Figure \ref{fig:arch}, the input of the VST is formed by $f[t-2]$, $
 
 \noindent\textbf{Long-term memory.}
 In order to not lose information from the distant past, we needed a way to keep track of it.
-Because the model is working in a online fashion, this time the requirement is opposite compared to the short-term memory.
+Because the model is working in an online fashion, this time the requirement is opposite compared to the short-term memory.
 We can only update the long-term memory sequentially, when a new frame is available.
 For this reason, our choice fell on an RNN module (LSTM in this specific case) instead of a Transformer.
 Its hidden state $h_t$ and cell state $c_t$ encode information about the past.
@@ -59,9 +59,8 @@ Here, we added the LSTM cells which update the memory states with the new inform
 
 \noindent\textbf{Saliency model.}
 Taking inspiration from DRIVE \cite{bao2021drive}, we added more information about the scene present in the current frame with the help of a saliency model, used in evaluation mode.
-The fixation information tells us which regions within the 2D image attract a person's attention.
+The fixation information tells us which regions of the frame attract a person's attention, simulating what human see at first glance.
 Having a network trained to predict where a person's attention would be focused will most likely give us some hints in advance about hot spots where anomalous action is likely to occur.
-
 We adopted a VGG-16-based MLNet \cite{cornia2016deep} as saliency module, pre-trained on the fixation data of the DADA-2000 \cite{fang2019dada} training set, and we frozen the parameters during the new training.
 As seen in the Figure \ref{fig:arch-saliency}, we normalized and concatenated the output of MLNet last layer and the fourth last layer, to form a single saliency vector $s[t]$ of 2275 values.
 Before the concatenation, the features are passed through a max pooling and average pooling, respectively.
