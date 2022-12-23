@@ -69,7 +69,7 @@ In this way we lose some of the locality information, but we get a compact versi
 \noindent\textbf{Classification module (Head).}
 After reducing the output of the VST with a Adaptive Average Pool 3D (Reducer), the classification module process it, generating the anomaly classification score for the current frame.
 As shown in Figure \ref{fig:arch}, the head is composed by some Linear layers, the LSTM cells which compose the long-term memory and the branch connected with the saliency module.
-For each frame at time $t$, the final output is the anomaly classification score $s_t \in [0,1]$, where $s_t=0$ means absence of anomaly and $s_t=1$ means ththe frame is surely anomalous.
+For each frame at time $t$, the final output is the anomaly classification score $s_t \in [0,1]$, where $s_t=0$ means absence of anomaly and $s_t=1$ means the frame is surely anomalous.
 This is trained with a weighted cross-entropy loss, giving more weight to the anomaly class, because it is spotted less frequently. \lnote{v: inteso come sbilanciamento del dataset tra frame di classe anomaly/normal? -> l: yes}
 
 % copyright image frame: <a href="https://www.freepik.com/free-vector/realistic-vector-icon-film-tape-strip-with-white-square-isolated-white-cinema-concept_31096470.htm#query=video%20frame&position=31&from_view=keyword">Image by user15245033</a> on Freepik
