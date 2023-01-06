@@ -32,10 +32,11 @@ In addition, we chosen online the starting frame for each video for each iterati
 
 \noindent\textbf{Short-term memory module.}
 % numero di frames in input
-% input shape
+% rand frame order (v17) vs normal
+% training from scratch vs pretrained (imagenet vs smth2smthv2)
 
 \noindent\textbf{Long-term memory module.}
-% posizione dell'lstm senza / prima / dopo / prim + dopo
+% posizione dell'lstm senza / prima / dopo / prim + dopo / gru
 % 1/2/.. # celle lstm
 
 \noindent\textbf{Saliency module.}
@@ -44,10 +45,8 @@ In addition, we chosen online the starting frame for each video for each iterati
 \noindent\textbf{Video clip length.}
 % random_batch 4/8/12/16/20/24: describi la modalità di addestramento -> per usare un batch size > 1 si è scelto di selezionare un numero max di frame da elaborare a ogni iterazione. per aggiungere diversità al training, il punto di inizio per ogni video viene scelto in modo casuale a ogni iterazione, adattando di conseguenza il ground-truth
 
-\noindent\textbf{Model pretraining}
-% training from scratch vs pretrained (imagenet vs smth2smthv2)
-
 \noindent\textbf{XXXX model}
+% input shape
 % versione finale vs resto del mondo su dota, and: 
 %   - Phantom: https://paperswithcode.com/paper/approaches-toward-physical-and-general-video
 %   - ShanghaiTech: https://paperswithcode.com/sota/anomaly-detection-on-shanghaitech

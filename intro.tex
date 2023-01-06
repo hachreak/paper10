@@ -3,47 +3,36 @@
 %Intro
 In order to make Autonomous Vehicles (AV) reliable in a real-world scenario, safety for every agent involved must be the focus of every self-driving system implementation.
 This objective will be achieved once the AV has a clear understanding of the driving scene around it, focusing on the main visual cues that are needed for its correct behaviour, differentiating between normal and anomalous situations, so that it can react in real-time to take the safest decision.
-It is necessary to track down all possible causes for the sake of accident avoidance, this must be done with both precision and promptness to assure the maximum reaction space.
+It is necessary to track down all possible causes for the sake of accident avoidance and this must be done with both precision and promptness to assure the maximum reaction space.
 
 %Task
 In 2019, the European Commission and the European Council jointly approved a regulation that will require new safety measures in motor vehicles.
 Starting July 2022, a device similar to "black boxes" in aircrafts will be mandatory for new cars, including the installation of so-called "Event Data Recorders" (EDR).
 Instantly recognizing anomalous traffic situations can be very useful for many applications:
-in the case of autonomous driving \cite{codevilla2019exploring}, the information of an accident in progress can only be useful for oneself to give the car the possibility to react accordingly, avoiding the collision if not yet directly involved, or minimizing the damage in the other case, e.g. protecting the pedestrians \cite{4298901}.
+in the case of autonomous driving \cite{codevilla2019exploring}, the information of an accident in progress can be useful for itself to give the car the possibility to react accordingly, avoiding the collision if not yet directly involved, or minimizing the damage in the other case, e.g. protecting the pedestrians \cite{4298901}.
 But not only that, if a VANET (Vehicular Ad hoc Networks) protocol \cite{fatemidokht2021efficient} is implemented, an action of capillary dissemination of information can be implemented among the subjects involved in the traffic.
 Driven by the idea that real-time video could be available in all cars in near future, we focused our work on video analysis captured by dash-mounted cameras, with the aiming of improving the tools for driving scene interpretation in the context of Advanced Driver Assistance Systems (ADAS).
 From this perspective, a driving scenario is quite hard to model since there are many information to take into account that can be exploited to define the driving scene.
 There are plenty of possible accident classes that must be taken into account compared to normal traffic situations.
-In addition, each of these possibilities usually has a very short duration, in the order of a few seconds.
+Each of these possible scenarios usually has a very short duration, in the order of a few seconds down to a handful of milliseconds.
 For these reasons, we can compare the traffic video anomaly detection task to a long-tailed distribution problem.
 To further compound the difficulty, the crash prediction system aims to work in real-time and online fashion.
-This means that it must be fast and with predictable response times, but also work only on current frames and, at most, knowing the past, but having no idea what happens in the future.
+This means that it must be fast and with predictable response time, but also work only on current frames and, at most, knowing the past, but having no idea what happens in the future.
 %Anomaly
 Though we know that accidents are a consequence of an anomalous driving scenario, it is non-trivial to define precise boundaries of what a driving anomaly is.
 Choosing beginning and ending instants is quite subjective depending on the situation and personal biases, in fact Lung et al. \cite{lund2009riskperception} argues that risk perception is related to social constructs that reflect the cultural context in which people live in.
 We can define an anomaly as an hazardous situation that can lead to an accident, but since the hazardousness prior to the accident may be determined subjectively by each individual, the time interval edges for an anomaly are not really clear and this is reflected in some dataset annotations.
 Some attempts have been made to propose a deterministic method in the interest of defining an anomaly.
-Yao et al. \cite{yao2019unsupervised} defines an anomaly as the window in which the accident happens, but since we want to prevent it, this might not be ideal in a prevention perspective. \lnote{pero' noi non facciamo prevention, quindi?}
-Fang et al. \cite{fang2019dada} instead want to predict an accident willing to happen in the next 5 seconds labelling the anomaly start from the moment in which half part of the object involved in the accident appears in the view.
+%Yao et al. \cite{yao2019unsupervised} defines an anomaly as the window in which the accident happens, but since we want to prevent it, this might not be ideal in a prevention perspective. \lnote{pero' noi non facciamo prevention, quindi?}
+Fang et al. \cite{fang2019dada} instead want to predict an accident willing to happen in the next 5 seconds, labelling the anomaly start from the moment in which half part of the object involved in the accident appears in the view.
 Yao et al. \cite{yao2020when} proposed a Detection of Traffic Anomaly (DoTA) dataset that takes into account when the anomalous event starts and ends, locates spatially where all the involved agents are in each frame and what type of anomaly it is.
 Their work formulates the anomaly start as the instant after which the accident is unavoidable.
-\lnote{<- se alla fine non inseriamo le nuove annotazioni, questa parte non so se lasciarla. possiamo riscriverla in funzione del paragrafo successivo? -- V: per ora lasciamo poi in base a come vanno gli esperimenti sul dota originale vs riannotato, che dici?}  
-
+In our work, we will take this as a use case to deal with.
 % intenzioni da cui siamo partiti
-Sometimes traffic anomalies are recognizable from the single frame, such as the presence of objects in places where they shouldn't be, e.g. boulders due to a landslide or animals in the middle of the roadway.
+Sometimes, traffic anomalies are recognizable from the single frame, such as the presence of objects in places where they shouldn't be, e.g. boulders due to a landslide or animals in the middle of the roadway.
 Often, however, the anomalies are attributable to actions that last for a few seconds and, in the worst case, a few tenths of a second.
 Such as for example the crossing of a scooter at the wrong time, or the loss of control of the vehicle due to the presence of snow.
-To build a system that is capable of recognizing both situations, we have outlined four fundamental building blocks that it must have: a saliency system that gives proper attention to the important visible objects present in the current frame, a system that implements short-term memory, obtaining from them the important information and temporal correlations, a system for long-term memory that takes into account what happens in the remote past and, finally, a decision-making system that takes into consideration all this information.
-
-%Determining an anomalous scene implies to evaluate the salient regions
-Human's capability of evaluating danger on the fly is still a matter of study by neuro-scientists.
-When comparing machine to humans in the task of describing the content of an image we know that the latters perform better \cite{jiang2015salicon}.
-Since we are aiming to develop a system capable of estimating danger in traffic video scenes, it is worth emulating how humans focus on important regions or objects in images through saliency estimation.
-For this reason, we decided to support the model with a system that detects this information in parallel.
-%TODO Breve accenno su tranformer
-In addition, taking a cue from \cite{xu2021long}, recently observed frames have been taken into account as a source of information relating to the ongoing action and passed frames as a source of information on the context.
-For the former, we adopted a Vision Transformer \cite{DBLP:conf/iclr/DosovitskiyB0WZ21} solution, which has become very popular in computer vision tasks, challenging the predominance of CNN architectures.
-For the latter, we preferred a solution like LSTM cells, which could update memory incrementally.
+To build a system that is capable of recognizing both situations, we have outlined four fundamental building blocks that it must have: (I) a saliency system that gives proper attention to the visible objects present in the current frame, (II) a system that implements short-term memory, obtaining from them important information and temporal correlations, (III) a system for long-term memory that takes into account what happened in the remote past and, finally, (IV) a decision-making system that takes into consideration all this information.
 
 %Contribution
 The main contributions of this paper are the following:
