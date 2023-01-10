@@ -56,7 +56,7 @@ We decided to use SGD instead of Adam because in our experiments the latter led 
 
 \noindent\textbf{Training details.}
 Because the videos contain a non-uniform number of frames, to be able to fast training with batch-size major then one, we fixed the number of frames for each video taken into account.
-In addition, in each iteration we chose the starting frame for each video, adjusting the ground-truth accordingly, in a way to offer to the network as diverse as possible training and reduce the effect of overfitting.
+In each iteration we chose the starting frame for each video, adjusting the ground-truth accordingly, in a way to offer to the network as diverse as possible training and reduce the effect of overfitting.
 Unless otherwise specified, the model is initialized using a uniform distribution for Linear weights, with a (semi) orthogonal matrix for LSTM modules and zero for bias parameters.
 For the VST Network, the weights were initialized with a model pretrained on Something-Something v2.
 
@@ -72,9 +72,9 @@ For the VST Network, the weights were initialized with a model pretrained on Som
 In this experiment, we empirically show the effect of the input frames to the Short-term memory module, varying the number of frames processed by the VST at each step.
 The results are displayed in the Figure \ref{fig:num-frames-vst}.
 As we expected, taking into account only the current frame is the worst situation, because an anomaly can only be recognized by processing a wider time frame.
-Adding new frames has a much more limited effect.
 With 4 frames we have the best result.
-While, already with 5 frames the effect is counterproductive on performance.
+Increasing the number of frames processed at each step has a much more limited effect.
+While, already with 5 frames the effect become counterproductive.
 
 % v23: rand frame order (v17) vs normal
 % training from scratch vs pretrained (imagenet vs smth2smthv2)
@@ -86,7 +86,8 @@ While, already with 5 frames the effect is counterproductive on performance.
 % v26, v26_2, v26_3: 1/2/3 # celle gru
 % v27: pre + post lstm (1 cell) + saliency (?)
 In this experiment, we evaluate the long-term memory effect on the classification capability.
-In Table \ref{tab:long-term-memory-effect}, we compare the network without the long-term memory with the network which use a LSTM (or GRU) module with a number of cells varying from 1 to 3.
+In Table \ref{tab:long-term-memory-effect}, we compare the network with and without the long-term memory.
+For the long-term memory we test the LSTM and the GRU modules, with a number of cells varying from 1 to 3.
 
 \noindent\textbf{Saliency module.}
 % v25, v22: con/senza/versione ridotta della saliency
@@ -94,7 +95,7 @@ In this experiment, we evaluate the effect of the saliency branch.
 
 \noindent\textbf{Video clip length.}
 % random_batch 4/8/12/16/20/24: describi la modalità di addestramento -> per usare un batch size > 1 si è scelto di selezionare un numero max di frame da elaborare a ogni iterazione. per aggiungere diversità al training, il punto di inizio per ogni video viene scelto in modo casuale a ogni iterazione, adattando di conseguenza il ground-truth
-As mentioned before, at each iteration a random starting point of the video is selected and a fixed number of video frames is passed to the network.
+As mentioned at the beginning of the section, at each iteration, a random starting point of the video is selected and a fixed number of video frames is used to train the network.
 In this experiment, we evaluate the effect of the size of the video sub-sample on training.
 
 
