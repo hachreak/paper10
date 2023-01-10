@@ -21,7 +21,7 @@ We use the Stochastic Gradient Descent (SGD) optimization algorithm with a learn
 
 \noindent\textbf{Training details.}
 Because the videos contain a non-uniform number of frames, to be able to fast training with batch-size major then one, we fixed the number of frames for each video taken into account.
-In addition, we chosen online the starting frame for each video for each iteration, in a way to offer to the network as diverse as possible training and reduce the effect of overfitting.
+In addition, we chose online the starting frame for each video for each iteration, in a way to offer to the network as diverse as possible training and reduce the effect of overfitting.
 \lnote{descrivi il modello pretrained su smthv2 e saliency pretrained}
 
 \subsection{Ablation study}
@@ -31,16 +31,26 @@ In addition, we chosen online the starting frame for each video for each iterati
 % learning rate differences (sto finendo l’esperimento con multipli lr)
 
 \noindent\textbf{Short-term memory module.}
-% numero di frames in input
-% rand frame order (v17) vs normal
+
+\begin{figure}[t]
+\centering
+	\includegraphics[trim=0 0 0 0, clip, width=1.\linewidth]{images/exp_1.jpg}
+	\caption{Performance comparison changing the number of frames in input of the Short-term memory module.}
+	\label{fig:bbox-iou-arch}
+\end{figure}
+
+% v22: numero di frames in input
+% v23: rand frame order (v17) vs normal
 % training from scratch vs pretrained (imagenet vs smth2smthv2)
 
 \noindent\textbf{Long-term memory module.}
 % posizione dell'lstm senza / prima / dopo / prim + dopo / gru
-% 1/2/.. # celle lstm
+% v24, v22, v24_2: 1/2/3 # celle lstm
+% v26, v26_2, v26_3: 1/2/3 # celle gru
+% v27: pre + post lstm (1 cell) + saliency
 
 \noindent\textbf{Saliency module.}
-% con/senza/versione ridotta della saliency
+% v25, v22: con/senza/versione ridotta della saliency
 
 \noindent\textbf{Video clip length.}
 % random_batch 4/8/12/16/20/24: describi la modalità di addestramento -> per usare un batch size > 1 si è scelto di selezionare un numero max di frame da elaborare a ogni iterazione. per aggiungere diversità al training, il punto di inizio per ogni video viene scelto in modo casuale a ogni iterazione, adattando di conseguenza il ground-truth
