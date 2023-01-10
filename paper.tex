@@ -11,7 +11,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{multirow}
-\usepackage{caption}
+%\usepackage{caption}
 \usepackage{subcaption}
 \usepackage{array}
 
@@ -21,6 +21,15 @@
 % egpaper.aux before re-running latex.  (Or just hit 'q' on the first latex
 % run, let it finish, and you should be clear).
 \usepackage[pagebackref=true,breaklinks=true,colorlinks,bookmarks=false]{hyperref}
+
+\newcolumntype{!}{>{\global\let\currentrowstyle\relax}}
+
+\newcolumntype{^}{>{\currentrowstyle}}
+\newcommand{\rowstyle}[1]{\gdef\currentrowstyle{#1}%
+
+	#1\ignorespaces
+
+}
 
 \newcommand{\lnote}[1]{\textcolor{blue}{\textbf{LR: #1}}}
 \newcommand{\tnote}[1]{\textcolor{green}{\textbf{[TF: #1]}}}

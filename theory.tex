@@ -39,7 +39,7 @@ For the former, we adopted a Vision Transformer \cite{DBLP:conf/iclr/Dosovitskiy
 To model short-term memory, a Transformer model was chosen instead of an RNN due to its ability to process frames in parallel.
 Since the task requires an online anomaly frame classification, it means the only information available are the current and the past frames.
 At each step, the number of processed frames are three: the current one and the previous two frames.
-This allows the network to take the time into consideration right away \tnote{non chiarissimo}, as incorrect behavior is often recognizable by taking into consideration the immediate past.
+The network has to take the time into consideration, as incorrect behavior is often recognizable by taking into consideration the immediate past.
 In particular, the Video Swin Transformer (VST) \cite{liu_video_2022} was chosen as the base model due to its superior performance compared to a vanilla ViT \cite{DBLP:conf/iclr/DosovitskiyB0WZ21} model.
 The VST model is the extension to video of the Swin Transformer \cite{liu2021Swin}, which is a general-purpose image backbone with high performance on tasks that involve detection and localization.
 Originally born to carry out the task of video action classification, analyzing all the frames in one pass, it has been adapted in this work to detect anomalies on single frame at time $t_{i}$, in a near-real time fashion, considering a temporal window of the latest three frames at time $t_{i-2}$, $t_{i-1}$ and $t_{i}$.
