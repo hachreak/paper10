@@ -58,6 +58,7 @@ For this reason, our choice fell on an RNN module (LSTM in this specific case) i
 Because it doesn't need to access the past frames again, but only the latent features, the module is very efficient and lead to a limited additional computational cost.
 Indeed, it condenses all its knowledge into two states: an hidden state $h_t$ and cell state $c_t$.
 Since the output of the first Linear layer of the classifier head provides the summary about the three frames processed by the short-term memory model, the LSTM cells is added immediately after updating the memory states with the new information.
+\vnote{specificare che le celle LSTM sono stacked qui o in experiments}
 
 \noindent\textbf{Saliency model.}
 %Determining an anomalous scene implies to evaluate the salient regions
@@ -67,7 +68,7 @@ Since we are aiming to develop a system capable of estimating danger in traffic 
 For this reason, we decided to support the model with a system that detects this information in parallel.
 Taking inspiration from DRIVE \cite{bao2021drive}, we added more information about the scene present in the current frame with the help of a saliency model, used in evaluation mode.
 The fixation information tells us which regions of the frame attract a person's attention, simulating what human see at first glance.
-Having a network trained to predict where a person's attention would be focused will most likely give us some hints in advance about hot spots where anomalous action is likely to occur. \tnote{qui stiamo attenti all'obiezione che potrebbero fare sul fatto che i posti dove siamo soliti guardare potrebbero non essere quelli dove avviene l'anomalia.}
+Having a saliency network trained to predict where a person's attention would be focused will most likely give us some hints in advance about hot spots where anomalous action is likely to occur. \tnote{qui stiamo attenti all'obiezione che potrebbero fare sul fatto che i posti dove siamo soliti guardare potrebbero non essere quelli dove avviene l'anomalia.}
 We adopted a VGG-16-based MLNet \cite{cornia2016deep} as saliency module, pre-trained on the fixation data of the DADA-2000 \cite{fang2019dada} training set, and we frozen the parameters during the new training.
 As seen in the Figure \ref{fig:arch-saliency}, we normalized and concatenated the output of MLNet last layer and the fourth last layer, to form a single saliency vector $s[t]$ of 2275 values.
 Before the concatenation, the features are passed through a max pooling and average pooling, respectively.
@@ -77,6 +78,13 @@ In this way we lose some of the locality information, but we get a compact versi
 After reducing the output of the VST with a Adaptive Average Pool 3D (Reducer), the classification module process it, generating the anomaly classification score for the current frame.
 As shown in Figure \ref{fig:arch}, the head is composed by some Linear layers, the LSTM cells which compose the long-term memory and the branch connected with the saliency module.
 For each frame at time $t$, the final output is the anomaly classification score $s_t \in [0,1]$, where $s_t=0$ means absence of anomaly and $s_t=1$ means the frame is surely anomalous.
-This is trained with a weighted cross-entropy loss, giving more weight to the anomaly class, because it is spotted less frequently \tnote{scriviamo il rapporto fra le due classi: 70/30?}.
+This is trained with a weighted cross-entropy loss, giving more weight to the anomaly class, because it is spotted less frequently \tnote{scriviamo il rapporto fra le due classi: 70/30?} \vnote{TODO: contare il numero effettivo di frame anomali/normali}.
+
+%train  dataset:  3191  video annotations found
+%Normal frames found:  221429
+%Anomaly frames found: 108121
+%val  dataset:  1376  video annotations found
+%Normal frames found:  94347
+%Anomaly frames found: 46971
 
 % copyright image frame: <a href="https://www.freepik.com/free-vector/realistic-vector-icon-film-tape-strip-with-white-square-isolated-white-cinema-concept_31096470.htm#query=video%20frame&position=31&from_view=keyword">Image by user15245033</a> on Freepik

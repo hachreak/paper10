@@ -8,9 +8,16 @@
 	\label{fig:num-frames-vst}
 \end{figure}
 
+\begin{figure}[t]
+\centering
+	\includegraphics[trim=0 0 0 0, clip, width=1.\linewidth]{images/exp_2.jpg}
+	\caption{Performance comparison changing the number and type of (long-term) memory cells (from 1 to 4).}
+	\label{fig:num-memory-cells}
+\end{figure}
+
 \begin{table}[b]
 	\footnotesize
-	\setlength{\tabcolsep}{1.2pt}
+	%\setlength{\tabcolsep}{1.2pt}
 	\begin{center}
 		\begin{tabular}{!c|^l|^c|^c|}
 			\# & Type & \# cells & $AUC$ \\
@@ -22,17 +29,47 @@
                     % v26
 			          3 & GRU  & 1 & \\
 			        % v22
-		       	    4 & LSTM & 2 & 79.21\\
+		       	    4 & LSTM & 2 & 79.21 \\
 	    	        % v26_2
 		       	    5 & GRU  & 2 &  \\
 	       	          % v24_2
                     6 & LSTM & 3 & \\
 		              % v26_3
                     7 & GRU  & 3 & \\
+                    % v24_3
+                    8 & LSTM & 4 & \\
+                    % v27_2
+                    % 8 & LSTM &
 	\end{tabular}
 	\end{center}
 	\caption{Study of long-term memory effect. Type: memory cell type. If not defined means no memory cell (neither following Linear) is inside the model. Row \#4 is $NF 3$ of previous experiment in Figure \ref{fig:num-frames-vst}.}
 	\label{tab:long-term-memory-effect}
+\end{table}
+
+% TODO check se lasciare solo la figura o aggiungere anche la tabella!
+\begin{table}[b]
+	\footnotesize
+	%\setlength{\tabcolsep}{1.2pt}
+	\begin{center}
+		\begin{tabular}{!c|^r|^c|}
+			\# & \# Frames &  $AUC$ \\
+			\hline\hline
+			        % v28
+			          1 & 4 & \\
+			        % v22
+			          2 & 8 & 79.21 \\
+                    % v28_3
+			          3 & 12 & \\
+			        % v28_4
+		       	    4 & 16 & \\
+	    	        % v28_5
+		       	    5 & 20 &  \\
+	       	          % v28_6
+                    6 & 24 & \\
+\end{tabular}
+	\end{center}
+	\caption{Study the effect on training of the number of frames per video. Row \#2 is $NF 3$ of previous experiment in Figure \ref{fig:num-frames-vst}.}
+	\label{tab:random-batch}
 \end{table}
 
 \noindent\textbf{Dataset}.
@@ -40,7 +77,7 @@ We perform our tests on the Dota dataset \cite{9712446}.
 It contains 4677 videos taken from YouTube channels, with a resolution of $1024 \times 720$, annotated with information about the start and end of the anomaly, the category (10 in total) and the bounding boxes of the objects or persons involved.
 The videos were recorded in different countries and with different light and weather conditions.
 The dataset is split in approximately $70\%$ training and $30\%$ validation.
-\lnote{li vogliamo ignorare o no? -> V: è un rischio perché andiamo abbastanza bene in quei casi, non saprei}
+\lnote{li vogliamo ignorare o no?}
 Because our benchmarks are related to the Task 1 \cite{9712446}, (online) frame-level Video Anomaly Detection, we ignore videos with unknown category or without objects, resulting in 1,305 test videos.
 Furthermore, VO and OO columns are not shown because they do not contain anomalous traffic participants.
 
@@ -84,9 +121,9 @@ While, already with 5 frames the effect become counterproductive.
 % v2X: senza lstm
 % v24, v22, v24_2: 1/2/3 # celle lstm
 % v26, v26_2, v26_3: 1/2/3 # celle gru
-% v27: pre + post lstm (1 cell) + saliency (?)
+% v27, v27_2: pre + post lstm (1 cell) + saliency (?), pre + post lstm (1 cell)
 In this experiment, we evaluate the long-term memory effect on the classification capability.
-In Table \ref{tab:long-term-memory-effect}, we compare the network with and without the long-term memory.
+In Figure \ref{fig:num-memory-cells}, we compare the network with and without the long-term memory.
 For the long-term memory we test the LSTM and the GRU modules, with a number of cells varying from 1 to 3.
 
 \noindent\textbf{Saliency module.}
@@ -94,10 +131,9 @@ For the long-term memory we test the LSTM and the GRU modules, with a number of 
 In this experiment, we evaluate the effect of the saliency branch.
 
 \noindent\textbf{Video clip length.}
-% random_batch 4/8/12/16/20/24: describi la modalità di addestramento -> per usare un batch size > 1 si è scelto di selezionare un numero max di frame da elaborare a ogni iterazione. per aggiungere diversità al training, il punto di inizio per ogni video viene scelto in modo casuale a ogni iterazione, adattando di conseguenza il ground-truth
+% v22, v28: random_batch 4/8/12/16/20/24: describi la modalità di addestramento -> per usare un batch size > 1 si è scelto di selezionare un numero max di frame da elaborare a ogni iterazione. per aggiungere diversità al training, il punto di inizio per ogni video viene scelto in modo casuale a ogni iterazione, adattando di conseguenza il ground-truth
 As mentioned at the beginning of the section, at each iteration, a random starting point of the video is selected and a fixed number of video frames is used to train the network.
-In this experiment, we evaluate the effect of the size of the video sub-sample on training.
-
+In Table \ref{tab:random-batch}, we evaluate the effect of the size of the video sub-sample on training.
 
 \noindent\textbf{XXXX model}
 % input shape
