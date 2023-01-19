@@ -1,10 +1,10 @@
-% This version of CVPR template is provided by Ming-Ming Cheng.
-% Please leave an issue if you found a bug:
-% https://github.com/MCG-NKU/CVPR_Template.
+% Template for ICIP-2022 paper; to be used with:
+%          spconf.sty  - ICASSP/ICIP LaTeX style file, and
+%          IEEEbib.bst - IEEE bibliography style file.
+% --------------------------------------------------------------------------
+\documentclass{article}
 
-\documentclass[review]{cvpr}
-%\documentclass[final]{cvpr}
-
+\usepackage{spconf}
 \usepackage{times}
 \usepackage{epsfig}
 \usepackage{graphicx}
@@ -16,8 +16,6 @@
 \usepackage{array}
 \usepackage{xcolor}
 
-% Include other packages here, before hyperref.
-
 % If you comment hyperref and then uncomment it, you should delete
 % egpaper.aux before re-running latex.  (Or just hit 'q' on the first latex
 % run, let it finish, and you should be clear).
@@ -27,50 +25,56 @@
 
 \newcolumntype{^}{>{\currentrowstyle}}
 \newcommand{\rowstyle}[1]{\gdef\currentrowstyle{#1}%
-
-	#1\ignorespaces
-
+    
+    #1\ignorespaces
+    
 }
 
 \newcommand{\lnote}[1]{\textcolor{blue}{\textbf{LR: #1}}}
 \newcommand{\tnote}[1]{\textcolor{green}{\textbf{[TF: #1]}}}
 \newcommand{\vnote}[1]{\textcolor{orange}{\textbf{[VB: #1]}}}
 
-\def\cvprPaperID{****} % *** Enter the CVPR Paper ID here
-\def\confYear{CVPR 2021}
-%\setcounter{page}{4321} % For final version only
-
-% TODO dove pubblicare il codice:
-% - https://github.com/rwightman/pytorch-image-models#models
-
+% Title.
+% ------
+\title{AUTHOR GUIDELINES FOR ICIP 2022 PROCEEDINGS MANUSCRIPTS}
+%
+% Single address.
+% ---------------
+\name{Author(s) Name(s)\thanks{Thanks to XYZ agency for funding.}}
+\address{Author Affiliation(s)}
+%
+% For example:
+% ------------
+%\address{School\\
+%	Department\\
+%	Address}
+%
+% Two addresses (uncomment and modify for two-address case).
+% ----------------------------------------------------------
+%\twoauthors
+%  {A. Author-one, B. Author-two\sthanks{Thanks to XYZ agency for funding.}}
+%	{School A-B\\
+%	Department A-B\\
+%	Address A-B}
+%  {C. Author-three, D. Author-four\sthanks{The fourth author performed the work
+%	while at ...}}
+%	{School C-D\\
+%	Department C-D\\
+%	Address C-D}
+%
 \begin{document}
-
-%%%%%%%%% TITLE
-\title{\LaTeX\ Author Guidelines for CVPR Proceedings}
-
-\author{First Author\\
-Institution1\\
-Institution1 address\\
-{\tt\small firstauthor@i1.org}
-% For a paper whose authors are all at the same institution,
-% omit the following lines up until the closing ``}''.
-% Additional authors and addresses can be added with ``\and'',
-% just like the second author.
-% To save space, use either the email address or home page, not both
-\and
-Second Author\\
-Institution2\\
-First line of institution2 address\\
-{\tt\small secondauthor@i2.org}
-}
-
+%\ninept
+%
 \maketitle
-
+%
 
 %%%%%%%%% ABSTRACT
 \begin{abstract}
-\input{abstract}
+    \input{abstract}
 \end{abstract}
+\begin{keywords}
+    Video Swin Transformer, LSTM, Memory, Video, Video Anomaly Detection, Anomaly Detection
+\end{keywords}
 
 %%%%%%%%% BODY TEXT
 \input{intro}
@@ -82,9 +86,16 @@ First line of institution2 address\\
 \section*{Acknowledgments}
 \noindent This research benefits from the HPC (High Performance Computing) facility of the University of Parma, Italy.
 
-{\small
-\bibliographystyle{ieee_fullname}
-\bibliography{biblio}
-}
+\vfill\pagebreak
+
+\section{REFERENCES}
+\label{sec:refs}
+
+% References should be produced using the bibtex program from suitable
+% BiBTeX files (here: strings, refs, manuals). The IEEEbib.bst bibliography
+% style file from IEEE produces unsorted bibliography list.
+% -------------------------------------------------------------------------
+\bibliographystyle{IEEEbib}
+\bibliography{strings,refs}
 
 \end{document}
