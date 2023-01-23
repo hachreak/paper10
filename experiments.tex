@@ -12,7 +12,7 @@
 \centering
 	\includegraphics[trim=0 0 0 0, clip, width=1.\linewidth]{images/exp_2.jpg}
     % TODO aggiorna caption!
-	\caption{Performance comparison changing the number and type of (long-term) memory cells (from 1 to 4). If not defined means no memory cell (neither following Linear) is inside the model. Row \#4 is $NF 3$ of previous experiment in Figure \ref{fig:num-frames-vst}.}
+	\caption{Performance comparison changing the number and type of (long-term) memory cells (from 1 to 4). If not defined means no memory cell (neither following Linear) is inside the model. \lnote{FIX: Row \#4} is $NF 3$ of previous experiment in Figure \ref{fig:num-frames-vst}.}
 	\label{fig:num-memory-cells}
 \end{figure}
 
@@ -118,7 +118,7 @@
                 % STFE ha dei risultati non molto chiari.
                 %STFE \cite{zhou2022spatio} & 75.2 & 84.5 & 72.1 & 77.3 & 72.8 & 71.9 & 80.6 & 65.6 & 69.9 & 76.5 & 74.2 & 75.6 & 70.5 \\
                   Our  &      &      &      &      &       &      &      &      &      &      &      &      &     \\
-                  % TODO fix per OO
+                  % 
                   tmp & 85.1 & 82.5 & 82.5 & 81.4 & 83.5 & 79.3 & 72.2 & 66.7 & 69.1 & 71.1 & 73.0 & 68.4 & 74.8 & 68.9 \\
 \end{tabular}
 	\end{center}
@@ -166,7 +166,7 @@ With 4 frames we have the best result.
 Increasing the number of frames processed at each step has a much more limited effect.
 While, already with 5 frames the effect become counterproductive.
 
-% v23: rand frame order (v17) vs normal
+% (no) v23: rand frame order (v17) vs normal
 % v29_2, v29, v22: training from scratch vs pretrained (imagenet vs smth2smthv2)
 
 \noindent\textbf{Long-term memory module.}
@@ -174,10 +174,11 @@ While, already with 5 frames the effect become counterproductive.
 % v24_4: senza lstm
 % v24, v22, v24_2: 1/2/3 # celle lstm
 % v26, v26_2, v26_3: 1/2/3 # celle gru
-% v27, v27_2: pre + post lstm (1 cell) + saliency (?), pre + post lstm (1 cell)
+% (no) v27, v27_2: pre + post lstm (1 cell) + saliency (?), pre + post lstm (1 cell)
 In this experiment, we evaluate the long-term memory effect on the classification capability.
 In Figure \ref{fig:num-memory-cells}, we compare the network with and without the long-term memory.
 For the long-term memory we test the LSTM and the GRU modules, with a number of cells varying from 1 to 3.
+\lnote{se con gru non cambia molto, nel grafico metterei solo lstm e descriverei nel testo il risultato, perchè altrimenti è troppo confusionario}
 
 %\noindent\textbf{Saliency module.}
 % v25, v22: con/senza/versione ridotta della saliency
