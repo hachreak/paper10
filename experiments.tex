@@ -16,38 +16,6 @@
 	\label{fig:num-memory-cells}
 \end{figure}
 
-% TODO check se lasciare solo la figura o aggiungere anche la tabella!
-% \begin{table}[b]
-% 	\footnotesize
-% 	%\setlength{\tabcolsep}{1.2pt}
-% 	\begin{center}
-% 		\begin{tabular}{!c|^l|^c|^c|}
-% 			\# & Type & \# cells & $AUC$ \\
-% 			\hline\hline
-% 			        % v24_4
-% 			          1 &      &   & \\
-% 			        % v24
-% 			          2 & LSTM & 1 & \\
-%                     % v26
-% 			          3 & GRU  & 1 & \\
-% 			        % v22
-% 		       	    4 & LSTM & 2 & 79.21 \\
-% 	    	        % v26_2
-% 		       	    5 & GRU  & 2 &  \\
-% 	       	          % v24_2
-%                     6 & LSTM & 3 & \\
-% 		              % v26_3
-%                     7 & GRU  & 3 & \\
-%                     % v24_3
-%                     8 & LSTM & 4 & \\
-%                     % v27_2
-%                     % 8 & LSTM &
-% 	\end{tabular}
-% 	\end{center}
-% 	\caption{Study of long-term memory effect. Type: memory cell type. If not defined means no memory cell (neither following Linear) is inside the model. Row \#4 is $NF 3$ of previous experiment in Figure \ref{fig:num-frames-vst}.}
-% 	\label{tab:long-term-memory-effect}
-% \end{table}
-
 \begin{table}[b]
 	\footnotesize
 	%\setlength{\tabcolsep}{1.2pt}
@@ -95,7 +63,7 @@
                     12 & FOL-STD & Box + Flow + Ego & 69.7 \\
                     13 & FOL-Ensemble & RGB + Box + Flow + Ego & 73.0 \\
             \hline
-                    14 & Our & RGB &   \\
+                    14 & Our (MOVAD) & RGB &   \\
 \end{tabular}
 	\end{center}
 	\caption{Benchmarks of VAD (Video Anomaly Detection) methods on the DoTA dataset.}
@@ -103,21 +71,21 @@
 \end{table}
 
 % TODO visualizza anche la colonna OO e VO? (VO and OO columns are not shown because they do not contain anomalous traffic participants)
-\begin{table*}[b]
+\begin{table*}[ht]
 	\footnotesize
-	%\setlength{\tabcolsep}{1.2pt}
+	\setlength{\tabcolsep}{5.0pt}
 	\begin{center}
 		\begin{tabular}{!l|^c|^c|^c|^c|^c|^c|^c|^c|^c|^c|^c|^c|^c|^c|}
 			Model & $ST$ & $AH$ & $LA$ & $OC$ & $TC$ & $VP$ & $ST*$ & $AH*$ & $LA*$ & $OC*$ & $TC*$ & $VP*$ & $VO*$ & $OO*$ \\
 			\hline\hline
                 AnoPred \cite{liu2018future}        & 69.9 & 73.6 & 75.2 & 69.7 & 73.5 & 66.3 & 70.9 & 62.6 & 60.1 & 65.6 & 65.4 & 64.9 & 64.2 & 57.8 \\
                 AnoPred \cite{liu2018future} + Mask & 66.3 & 72.2 & 64.2 & 65.4 & 65.6 & 66.6 & 72.9 & 63.7 & 60.6 & 66.9 & 65.7 & 64.0 & 58.8 & 59.9 \\
-                FOL-STD                             & 67.3 & 77.4 & 71.1 & 68.6 & 69.2 & 65.1 & 75.1 & 66.2 & 66.8 & 74.1 & 72.0 & 69.7 & 63.8 & 69.2 \\
-                FOL-Ensemble                        & 73.3 & 81.2 & 74.0 & 73.4 & 75.1 & 70.1 & 77.5 & 69.8 & 68.1 & 76.7 & 73.9 & 71.2 & 65.2 & 69.6 \\
+                FOL-STD \cite{9712446}              & 67.3 & 77.4 & 71.1 & 68.6 & 69.2 & 65.1 & 75.1 & 66.2 & 66.8 & 74.1 & 72.0 & 69.7 & 63.8 & 69.2 \\
+                FOL-Ensemble \cite{9712446}         & 73.3 & 81.2 & 74.0 & 73.4 & 75.1 & 70.1 & 77.5 & 69.8 & 68.1 & 76.7 & 73.9 & 71.2 & 65.2 & 69.6 \\
                 % STFE gli manca la colonna VP*!
                 % STFE ha dei risultati non molto chiari.
                 %STFE \cite{zhou2022spatio} & 75.2 & 84.5 & 72.1 & 77.3 & 72.8 & 71.9 & 80.6 & 65.6 & 69.9 & 76.5 & 74.2 & 75.6 & 70.5 \\
-                  Our  &      &      &      &      &       &      &      &      &      &      &      &      &     \\
+                Our (MOVAD) &      &      &      &      &       &      &      &      &      &      &      &      &    &   \\
                   % 
                   tmp & 85.1 & 82.5 & 82.5 & 81.4 & 83.5 & 79.3 & 72.2 & 66.7 & 69.1 & 71.1 & 73.0 & 68.4 & 74.8 & 68.9 \\
 \end{tabular}
