@@ -12,7 +12,7 @@
 \centering
 	\includegraphics[trim=0 0 0 0, clip, width=1.\linewidth]{images/exp_2.jpg}
     % TODO aggiorna caption!
-	\caption{Performance comparison changing the number and type of (long-term) memory cells (from 1 to 4). If not defined means no memory cell (neither following Linear) is inside the model. "lstm 2 cells" is $NF 3$ of previous experiment in Figure \ref{fig:num-frames-vst}.}
+	\caption{Performance comparison changing the number and type of (long-term) memory cells (from 1 to 4). If not defined means no memory cell (neither following Linear) is inside the model. "lstm 2 cells" is $NF 3$ of previous experiment in Fig.~\ref{fig:num-frames-vst}.}
 	\label{fig:num-memory-cells}
 \end{figure}
 
@@ -37,7 +37,7 @@
                     6 & 24 & \\
 \end{tabular}
 	\end{center}
-	\caption{Study the effect on training of the number of frames per video. Row \#2 is NF 3 of previous experiment in Figure \ref{fig:num-frames-vst}.}
+	\caption{Study the effect on training of the number of frames per video. Row \#2 is NF 3 of previous experiment in Fig.~\ref{fig:num-frames-vst}.}
 	\label{tab:random-batch}
 \end{table}
 
@@ -100,7 +100,7 @@ It contains 4677 videos taken from YouTube channels, with a resolution of $1024 
 The videos were recorded in different countries and with different light and weather conditions.
 The dataset is split in approximately $70\%$ training and $30\%$ validation.
 \lnote{li vogliamo ignorare o no?}
-Because our benchmarks are related to the Task 1 \cite{9712446}, (online) frame-level Video Anomaly Detection, we ignore videos with unknown category or without objects, resulting in 1,305 test videos.
+Because our benchmarks are related to the Task~1~\cite{9712446}, (online) frame-level Video Anomaly Detection, we ignore videos with unknown category or without objects, resulting in 1,305 test videos.
 Furthermore, VO and OO columns are not shown because they do not contain anomalous traffic participants.
 
 \noindent\textbf{Evaluation Metrics}.
@@ -128,7 +128,7 @@ Unless otherwise specified, the model is initialized using a uniform distributio
 
 % v22: numero di frames in input
 In this experiment, we empirically show the effect of the input frames to the Short-term memory module, varying the number of frames processed by the VST at each step.
-The results are displayed in the Figure \ref{fig:num-frames-vst}.
+The results are displayed in the Fig.~\ref{fig:num-frames-vst}.
 As we expected, taking into account only the current frame is the worst situation, because an anomaly can only be recognized by processing a wider time frame.
 With 4 frames we have the best result.
 Increasing the number of frames processed at each step has a much more limited effect.
@@ -144,7 +144,7 @@ While, already with 5 frames the effect become counterproductive.
 % v26, v26_2, v26_3: 1/2/3 # celle gru
 % (no) v27, v27_2: pre + post lstm (1 cell) + saliency (?), pre + post lstm (1 cell)
 In this experiment, we evaluate the long-term memory effect on the classification capability.
-In Figure \ref{fig:num-memory-cells}, we compare the network with and without the long-term memory.
+In Fig.~\ref{fig:num-memory-cells}, we compare the network with and without the long-term memory.
 For the long-term memory we test the LSTM and the GRU modules, with a number of cells varying from 1 to 3.
 \lnote{se con gru non cambia molto, nel grafico metterei solo lstm e descriverei nel testo il risultato, perchè altrimenti è troppo confusionario}
 
@@ -165,3 +165,4 @@ In Table \ref{tab:random-batch}, we evaluate the effect of the size of the video
 %   - CUHK Avenue: https://paperswithcode.com/sota/anomaly-detection-on-chuk-avenue
 %   - UCSD Ped2: https://paperswithcode.com/sota/abnormal-event-detection-in-video-on-ucsd
 Finally, in Table \ref{tab:sota-vad-auc} we compare our architecture performance with state of the art models.
+
