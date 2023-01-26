@@ -16,30 +16,39 @@
 	\label{fig:num-memory-cells}
 \end{figure}
 
-\begin{table}[b]
-	\footnotesize
-	%\setlength{\tabcolsep}{1.2pt}
-	\begin{center}
-		\begin{tabular}{!c|^r|^c|}
-			\# & \# Frames &  $AUC$ \\
-			\hline\hline
-			        % v28
-			          1 & 4 & \\
-			        % v22
-			          2 & 8 & 79.21 \\
-                    % v28_3
-			          3 & 12 & \\
-			        % v28_4
-		       	    4 & 16 & \\
-	    	        % v28_5
-		       	    5 & 20 &  \\
-	       	          % v28_6
-                    6 & 24 & \\
-\end{tabular}
-	\end{center}
-	\caption{Study the effect on training of the video clip length. Row \#2 is NF 3 of previous experiment in Fig.~\ref{fig:num-frames-vst}.}
-	\label{tab:random-batch}
-\end{table}
+\begin{figure}[t]
+\centering
+	\includegraphics[trim=0 0 0 0, clip, width=1.\linewidth]{images/exp_3.jpg}
+    % TODO aggiorna caption!
+	\caption{Performance comparison changing the video clip length (from 4 to 16). "8 frames" is NF 3 of previous experiment in Fig.~\ref{fig:num-frames-vst}.}
+	\label{fig:random-batch}
+\end{figure}
+
+
+%\begin{table}[b]
+%	\footnotesize
+%	%\setlength{\tabcolsep}{1.2pt}
+%	\begin{center}
+%		\begin{tabular}{!c|^r|^c|}
+%			\# & \# Frames &  $AUC$ \\
+%			\hline\hline
+%			        % v28
+%			          1 & 4 & 75.53 \\
+%			        % v22
+%			          2 & 8 & 79.21 \\
+%                    % v28_3
+%			          3 & 12 & \\
+%			        % v28_4
+%		       	    4 & 16 & \\
+%	    	        % v28_5
+%		       	    5 & 20 &  \\
+%	       	          % v28_6
+%                    6 & 24 & \\
+%\end{tabular}
+%	\end{center}
+%	\caption{Study the effect on training of the video clip length. Row \#2 is NF 3 of previous experiment in Fig.~\ref{fig:num-frames-vst}.}
+%	\label{tab:random-batch}
+%\end{table}
 
 \begin{table}[b]
 	\footnotesize
@@ -86,7 +95,7 @@
                   v30 & 84.2 & 85.8 & 83.6 & 82.3 & 84.9 & 83.2 & 73.7 & 71.6 & 73.0 & 80.6 & 78.0 & 73.9 & 80.2 & 77.6 \\
 \end{tabular}
 	\end{center}
-	\caption{Detection accuracy for each individual accident category (AUC) on VAD task. "*" indicates non-ego anomaly categories. \lnote{mettiamo tutte le classi?}}
+	\caption{Detection accuracy for each individual accident category (AUC) on VAD task. "*" indicates non-ego anomaly categories. \lnote{mettiamo tutte le classi?}\vnote{secondo me si, sarebbe scorretto altrimenti, piuttosto evidenziamo le buone prestazioni in video ego}} 
 	\label{tab:sota-vad-auc-per-class}
 \end{table*}
 
@@ -157,7 +166,7 @@ The maximum value is reached by 2 LSTM cells around epoch 270.
 \noindent\textbf{Video clip length.}
 % v22, v28: random_batch 4/8/12/16/20/24: describi la modalità di addestramento -> per usare un batch size > 1 si è scelto di selezionare un numero max di frame da elaborare a ogni iterazione. per aggiungere diversità al training, il punto di inizio per ogni video viene scelto in modo casuale a ogni iterazione, adattando di conseguenza il ground-truth
 As mentioned at the beginning of the section, at each iteration and separately for each video, a random starting point is selected and a fixed number of frames is inserted inside the batch to train the network.
-In Table \ref{tab:random-batch}, we evaluate the effect of the size of the video clip length.
+In Figure \ref{fig:random-batch}, we evaluate the effect of the size of the video clip length.
 
 \noindent\textbf{MOVAD model}
 % input shape
