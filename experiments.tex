@@ -12,7 +12,7 @@
 \centering
 	\includegraphics[trim=0 0 0 0, clip, width=1.\linewidth]{images/exp_2.jpg}
     % TODO aggiorna caption!
-	\caption{Performance comparison changing the number and type of (long-term) memory cells (from 1 to 4). If not defined means no memory cell (neither following Linear) is inside the model. "lstm 2 cells" is NF 3 of previous experiment in Fig.~\ref{fig:num-frames-vst}.}
+	\caption{Performance comparison changing the number of LSTM cells (from 0 to 4) that form the long-term memory. "LSTM 2 cells" is NF 3 of previous experiment in Fig.~\ref{fig:num-frames-vst}.}
 	\label{fig:num-memory-cells}
 \end{figure}
 
@@ -20,35 +20,9 @@
 \centering
 	\includegraphics[trim=0 0 0 0, clip, width=1.\linewidth]{images/exp_3.jpg}
     % TODO aggiorna caption!
-	\caption{Performance comparison changing the video clip length (from 4 to 16). "8 frames" is NF 3 of previous experiment in Fig.~\ref{fig:num-frames-vst}.}
+	\caption{Performance comparison changing the video clip length (from 4 to 16). The "8 frames" configuration is the NF 3 configuration of previous experiment in Fig.~\ref{fig:num-frames-vst}.}
 	\label{fig:random-batch}
 \end{figure}
-
-
-%\begin{table}[b]
-%	\footnotesize
-%	%\setlength{\tabcolsep}{1.2pt}
-%	\begin{center}
-%		\begin{tabular}{!c|^r|^c|}
-%			\# & \# Frames &  $AUC$ \\
-%			\hline\hline
-%			        % v28
-%			          1 & 4 & 75.53 \\
-%			        % v22
-%			          2 & 8 & 79.21 \\
-%                    % v28_3
-%			          3 & 12 & \\
-%			        % v28_4
-%		       	    4 & 16 & \\
-%	    	        % v28_5
-%		       	    5 & 20 &  \\
-%	       	          % v28_6
-%                    6 & 24 & \\
-%\end{tabular}
-%	\end{center}
-%	\caption{Study the effect on training of the video clip length. Row \#2 is NF 3 of previous experiment in Fig.~\ref{fig:num-frames-vst}.}
-%	\label{tab:random-batch}
-%\end{table}
 
 \begin{table}[b]
 	\footnotesize
@@ -67,8 +41,8 @@
                     7 & FOL-Ensemble \cite{9712446} & RGB + Box + Flow + Ego & 73.0 \\
                     8 & STFE \cite{zhou2022spatio} & RGB + Flow & 79.3 \\
             \hline
-                    9 & Our (MOVAD) & RGB (240x320) &   \\
-                    10 & Our (MOVAD) & RGB (480x640) &   \\
+                    9 & Our (MOVAD) & RGB (320x240) &   \\
+                    10 & Our (MOVAD) & RGB (640x480) &   \\
 \end{tabular}
 	\end{center}
 	\caption{Benchmarks of VAD (Video Anomaly Detection) methods on the DoTA dataset.}
@@ -101,7 +75,7 @@
 
 \noindent\textbf{Dataset}.
 We perform our tests on the DoTa dataset \cite{9712446}.
-It contains 4677 videos taken from YouTube channels, with a resolution of $1024 \times 720$, annotated with information about the start and end of the anomaly, the category (10 in total) and the bounding boxes of the objects or persons involved.
+It contains 4677 videos taken from YouTube channels, with a resolution of $1280 \times 720$, annotated with information about the start and end of the anomaly, the category (10 in total) and the bounding boxes of the objects or persons involved.
 The videos were recorded in different countries and with different light and weather conditions.
 The dataset is split in approximately $70\%$ training and $30\%$ validation.
 Our benchmarks are related to the Task~1~\cite{9712446}, the (frame-level) Video Anomaly Detection.
@@ -109,8 +83,8 @@ Our training and evaluation takes place in the most realistic, and most interest
 That is, in which the model does not know what will happen in the future, but only know the present and the past.
 
 \noindent\textbf{Evaluation Metrics}.
-To evaluate the performance of the models, we use the well-known Area Under Curve (AUC) metric.
-This metric evaluate how well the model temporary-locate the anomaly in the videos.
+To evaluate the performance of the models, we use the well-known Area Under Curve (AUC) metric at frame-level.
+This metric evaluate how well the model temporally locate the anomaly in the videos. 
 
 \noindent\textbf{Implementation details.}
 The results of the models with which we compare our model, are taken from the respective papers.
@@ -119,9 +93,9 @@ We use the Stochastic Gradient Descent (SGD) optimization algorithm with a learn
 We use SGD instead of Adam because in our experiments the latter led the training too much unstable, leading the model to diverge after a few epochs.
 
 \noindent\textbf{Training details.}
-Because the videos contain a non-uniform number of frames, to be able to fast training with batch-size major then one, we fixed the number of frames for each video taken into account.
+Because the videos contain a non-uniform number of frames, to be able to fast training with batch-size major than one, we fixed the number of frames for each video taken into account, that is video clip length.
 At each iteration we chose the starting frame for each video, adjusting the ground-truth accordingly, in a way to offer to the network as diverse as possible training and reduce the effect of overfitting.
-Unless otherwise specified, the model is initialized using a uniform distribution for Linear weights, with a (semi) orthogonal matrix for LSTM modules and zero for bias parameters, the VST weights are initialized with a model pretrained on Something-Something v2 and input video shape is $240 \times 320$.
+Unless otherwise specified, the model is initialized using a uniform distribution for Linear weights, with a (semi) orthogonal matrix for LSTM modules and zero for bias parameters, the VST weights are initialized with a model pretrained on Something-Something v2 and input video shape is $320 \times 240$.
 
 \subsection{Ablation study}
 
@@ -150,7 +124,7 @@ While, already with 5 frames the effect become counterproductive.
 % (no) v27, v27_2: pre + post lstm (1 cell) + saliency (?), pre + post lstm (1 cell)
 In this experiment, we evaluate the long-term memory effect on the classification capability.
 In Fig.~\ref{fig:num-memory-cells}, we compare the network with and without the LSTM long-term memory.
-For the long-term memory, we test the LSTM and the GRU modules, with a number of cells varying from 1 to 4.
+For the long-term memory, we test the LSTM and the GRU \cite{chung2014empirical} modules, with a number of cells varying from 1 to 4.
 To make the Figure easier to read, the GRU results are not shown, but the trend does not differ much from the LSTM module. 
 The effect introduced by the memory cells is evident.
 Having no cell makes training slower in saturating performance and reach lowest AUC value.
@@ -165,7 +139,7 @@ The maximum value is reached by 2 LSTM cells around epoch 270.
 
 \noindent\textbf{Video clip length.}
 % v22, v28: random_batch 4/8/12/16/20/24: describi la modalità di addestramento -> per usare un batch size > 1 si è scelto di selezionare un numero max di frame da elaborare a ogni iterazione. per aggiungere diversità al training, il punto di inizio per ogni video viene scelto in modo casuale a ogni iterazione, adattando di conseguenza il ground-truth
-As mentioned at the beginning of the section, at each iteration and separately for each video, a random starting point is selected and a fixed number of frames is inserted inside the batch to train the network.
+As mentioned in training details subsection, at each iteration and separately for each video, a random starting point is selected and a fixed number of frames is inserted inside the batch to train the network.
 In Figure \ref{fig:random-batch}, we evaluate the effect of the size of the video clip length.
 
 \noindent\textbf{MOVAD model}

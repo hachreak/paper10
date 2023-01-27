@@ -1,4 +1,4 @@
-epochs,w/o lstm,lstm 1 cell,lstm 2 cells,lstm 3 cells,lstm 4 cells
+epochs,w/o LSTM,LSTM (1 cell),LSTM (2 cells),LSTM (3 cells),LSTM (4 cells)
 10,0.502361,0.705752,0.641406,0.649216,0.588691
 20,0.537619,0.737651,0.706167,0.664549,0.6135
 30,0.484589,0.738737,0.725483,0.672492,0.629457

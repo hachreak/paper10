@@ -23,7 +23,7 @@ The first memory module is able to keep track of both the present and the near p
 %TODO Breve accenno su tranformer MB: SECONDO ME NON CI STA
 %Taking inspiration from~\cite{xu2021long}, recently observed frames have been taken into account as a source of information related to the ongoing action, and past frames as a source of information on the context.
 Since we are dealing with online anomaly frame classification, the only information available to the system, at any given time, are the current and the past frames.
-In the case of the short memory module, only a small portion of these frames are used as input.
+In the case of the short-term memory module, only a small portion of these frames are used as input.
 %Experiments will report an ablation study to justify this specific choice.\lnote{check, perchè 4 sembra meglio!}
 %The network has to take the time into consideration, as incorrect behavior is often recognizable by taking into consideration the immediate past.
 In order to deploy this module, we selected a Vision Transformer~\cite{DBLP:conf/iclr/DosovitskiyB0WZ21}, which has become very popular in computer vision tasks, challenging the predominance of CNN architectures. 
@@ -58,7 +58,7 @@ In addition, the Classification Head also deals with long-term memory thanks to 
 \noindent\textbf{Long-term memory module.}
 In order to not lose information from the distant past, we need a way to keep track of it.
 For this reason, we introduce a long-term memory module  which is updated whenever a new set of frames is analyzed by the system.
-Specifically, we choose to employ an RNN module (LSTM in this specific case  \mnote{GRU? CITAZIONE? \cite{lstm,gru}}).
+Specifically, we choose to employ an RNN module (LSTM \cite{lstm,gru} in this specific case).
 Given that the input of the LSTM  are only the latent features, the module is very efficient and leads to a limited additional computational cost.
 Indeed, it condenses all its knowledge into two states: an hidden state $h_t$ and cell state $c_t$.
 Since the output of the first Linear layer of the classifier head provides the summary about the $T$ frames processed by the short-term memory model, the LSTM cells is added after it.
