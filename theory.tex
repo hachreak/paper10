@@ -10,7 +10,7 @@
             \centerline{\includegraphics[trim=205 500 80 130, clip, width=0.8\linewidth]{images/arch.pdf}}
         %}
         % FIXME aggiungi link per immagine dei frame (copyright)
-        \caption{The online video frame anomaly detection architecture. $f[t]$ is the frame at time $t$, $x$ the output of the Reducer. \lnote{aggiungi f[t-3]}}
+        \caption{The online video frame anomaly detection architecture. $f[t]$ is the frame at time $t$, $x$ the output of the Reducer.}
 		\label{fig:arch}
 \end{figure*}
 
@@ -32,7 +32,7 @@ and over an RNN \tnote{such as qualcosa e poi una citazione?} given the ability 
 %The VST model is the extension to video of the Swin Transformer~\cite{liu2021Swin}, which is a general-purpose image backbone with high performance on tasks that involve detection and localization.
 Originally born to carry out the task of video action classification, analyzing all the frames in one step, in this work it has been adapted to perform single frame classification.
 In particular, it considers only a small temporal window of $T$ frames of the video going from the current frame at time $t$ to the previous frames at time $t-T-1$.
-As shown in Fig.~\ref{fig:arch}, in our case $T=3$, i.e., the input of the VST is formed by $f[t]$, $f[t-1]$ and $f[t-2]$ \tnote{io preferisco la notazione $f_t$}, where $f[y]$ represents the frame at time $y$.
+As shown in Fig.~\ref{fig:arch}, in our case $T=4$, i.e., the input of the VST is formed by $f[t]$, $f[t-1]$ and $f[t-2]$ \tnote{io preferisco la notazione $f_t$}, where $f[y]$ represents the frame at time $y$.
 
 VST takes as input a video with size $T \times H \times W \times 3$, where $T$, $H$ e $W$ correspond to the number of frames, height, width and RGB channels, respectively.
 The model internally splits the frames in non-overlapping 3D patches, partitioning the video in $\frac{T}{2} \times \frac{H}{4} \times \frac{W}{4}$ 3D tokens, projecting the features to an arbitrary dimension $C$.
