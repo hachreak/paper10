@@ -41,8 +41,10 @@
                     7 & FOL-Ensemble \cite{9712446} & RGB + Box + Flow + Ego & 73.0 \\
                     8 & STFE \cite{zhou2022spatio} & RGB + Flow & 79.3 \\
             \hline
-                    9 & Our (MOVAD) & RGB (320x240) &   \\
-                    10 & Our (MOVAD) & RGB (640x480) &   \\
+                    % v22_2
+\rowstyle{\bfseries}9 & Our (MOVAD) & RGB (320x240) &  80.13 \\
+                    % v30
+\rowstyle{\bfseries}10 & Our (MOVAD) & RGB (640x480) &  81.70 \\
 \end{tabular}
 	\end{center}
 	\caption{Benchmarks of VAD (Video Anomaly Detection) methods on the DoTA dataset.}
@@ -63,10 +65,9 @@
                 FOL-Ensemble \cite{9712446}         & 73.3 & 81.2 & 74.0 & 73.4 & 75.1 & 70.1 & 77.5 & 69.8 & 68.1 & 76.7 & 73.9 & 71.2 & 65.2 & 69.6 \\
                 % STFE gli manca la colonna VP*!
                 % STFE ha dei risultati non molto chiari.
-                STFE \cite{zhou2022spatio} & 75.2 & 84.5 & 72.1 & 77.3 & 72.8 & 71.9 & 80.6 & 65.6 & 69.9 & 76.5 & 74.2 & N.D. & 75.6 & 70.5 \\
-                Our (MOVAD) &      &      &      &      &       &      &      &      &      &      &      &      &    &   \\
-                  % 
-                  v30 & 84.2 & 85.8 & 83.6 & 82.3 & 84.9 & 83.2 & 73.7 & 71.6 & 73.0 & 80.6 & 78.0 & 73.9 & 80.2 & 77.6 \\
+                STFE \cite{zhou2022spatio} & 75.2 & 84.5 & 72.1 & 77.3 & 72.8 & 71.9 & \textbf{80.6} & 65.6 & 69.9 & 76.5 & 74.2 & N.D. & 75.6 & 70.5 \\
+                % v30
+                \textbf{Our (MOVAD)} &  \textbf{86.7} & \textbf{86.7} & \textbf{84.1} & \textbf{83.2} & \textbf{86.1} & \textbf{81.9} & 73.2 & \textbf{70.2} & \textbf{74.5} & \textbf{80.0} & \textbf{77.7} & \textbf{75.5} & \textbf{80.1} & \textbf{78.0}  \\
 \end{tabular}
 	\end{center}
 	\caption{Detection accuracy for each individual accident category (AUC) on VAD task. "*" indicates non-ego anomaly categories. \lnote{mettiamo tutte le classi?}\vnote{secondo me si, sarebbe scorretto altrimenti, piuttosto evidenziamo le buone prestazioni in video ego}} 
