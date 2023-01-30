@@ -1,9 +1,10 @@
 \section{Introduction and related works}
+
 Autonomous Vehicles (AVs) are becoming every day a reality thanks to the enormous scientific and technical advances. Nevertheless, safety of AVs is still a relevant issue which can jeopardize their world-wide diffusion.
 Increasing safety of AVs can be reached by providing vehicles with the ability of detecting accidents in a prompt way.
-Even more, also anomalous traffic situations are relevant for many automatic tasks of AVs.
+In general, all anomalous traffic situations are relevant for many automatic tasks of AVs.
 Their detection provides information to avoid collisions, protect pedestrians, or re-route the current travel \cite{4298901}.
-Moreover, if a V2V network infrastructure (such as VANET \cite{fatemidokht2021efficient}) is available, dissemination of useful information can provide other connected vehicles insights about the traffic status. 
+Moreover, if a V2V (vehicles to vehicles) network infrastructure (such as VANET \cite{fatemidokht2021efficient}) is available, dissemination of useful information can provide other connected vehicles insights about the traffic status. 
 
 Among the different sensors equipped in AVs, cameras can provide rich real-time information about the scene.
 Real-time video analysis can make useful tools available for driving scene interpretation in the context of Advanced Driver Assistance Systems (ADAS).
@@ -13,27 +14,35 @@ Real-time performance does not only call for efficient algorithms, but also impl
 Secondly, aiming at detecting anomalies in traffic scenes, a proper, formal and generally-acknowledged model of what an anomaly is should be available.
 Unfortunately, this shared model does not exist and, in any case, would be likely to be subjective.
 For instance, improper crossing of driving lanes might be perceived as anomalous and dangerous if long-lasting and in crowded traffic, while being negligible in other cases.
-In addition, there are plenty of possible accident classes that must be taken into account compared to normal traffic situations, and different classes might require different actions.
-Lastly, we aim to precise time localize the anomaly and the definition of precise boundaries of an anomaly/accident is even more subjective and doubtful.We can define an anomaly as an hazardous situation that can lead to an accident, but, since the hazardousness prior to the accident may be determined subjectively by each individual, the time interval edges for an anomaly are not really clear and this is reflected in dataset labelling.
+In addition, there are plenty of possible accident classes that must be taken into account compared to normal traffic situations, and, for each of them, the available examples are very exiguous.
+Lastly, we aim to precise time localize the anomaly and the definition of precise boundaries of an anomaly/accident is even more subjective and doubtful.
+We can define an anomaly as an hazardous situation that can lead to an accident, but, since the hazardousness prior to the accident may be determined subjectively by each individual, the time interval edges for an anomaly are not really clear and this is reflected in dataset labelling.
 Nevertheless. some attempts have been made to propose a deterministic method in the interest of defining an anomaly.
 First, Fang \emph{et al.} \cite{fang2019dada} want to predict an accident likely to happen in the next 5 seconds, labelling the anomaly start from the moment in which half part of the object involved in the accident appears in the view.
-Yao \emph{et al.} \cite{yao2020when} proposed a Detection of Traffic Anomaly (DoTA) dataset that takes into account when the anomalous event starts and ends, locates spatially where all the involved entities are in each frame and what type of anomaly is. Their work formulates the anomaly start as the instant after which the accident is unavoidable (still, a subjective concept).
+Yao \emph{et al.} \cite{yao2020when} proposed a Detection of Traffic Anomaly (DoTA) dataset that takes into account when the anomalous event starts and ends, locating spatially where all the involved entities are in each frame and what type of anomaly is. Their work formulates the anomaly start as the instant after which the accident is unavoidable (still, a subjective concept).
+We have decided to take this last dataset as a benchmark for our model.
 \lnote{se il testo è troppo lungo, questa parte dove parla della definizione di anomalia la possiamo togliere}
 
 Despite all these premises, there have been several previous works addressing the problem of traffic anomaly detection.
 Authors in \cite{hasan2016learning} proposed a convolutional AutoEncoder (ConvAE) trained only on normal frames with the objective of frames reconstruction.
-In \cite{luo2017remembering, wang2018abnormal}, authors used Convolutional LSTM Auto-Encoder as framework to encode appearance and motion. Authors in \cite{liu2018future} proposed AnoPred, which uses a multi-task loss including image intensity, optical flow, gradient, and adversarial losses for video frame-level anomaly detection by applying a UNet to predict a future RGB frame.
-%In \cite{yao2019unsupervised}, authors proposed an unsupervised method which tracks traffic participants trajectories and detect anomaly monitoring prediction consistency.
-Considering also to predict future situations in the scene, the TRN model \cite{xu2019temporal} coupled the action detection task with both the historical temporal dependencies modeled by a RNN and the anticipation of the future via a temporal decoder. \anote{Manca commento critico ai related}
+In \cite{luo2017remembering, wang2018abnormal}, authors used Convolutional LSTM Auto-Encoder as framework to encode appearance and motion.
+As noted by \cite{ramachandra2020survey} auto-encoder-type reconstruction methods are sensitive to the amount of anomalies that occur in the scene, many times requiring additional post-processing techniques.
+Authors in \cite{liu2018future} proposed AnoPred, which uses a multi-task loss including image intensity, optical flow, gradient, and adversarial losses for video frame-level anomaly detection by applying a UNet to predict a future RGB frame.
+As mentioned in \cite{9712446}, AnoPred was thought in a surveillance video context, while traffic videos are more dynamic and difficult to predict.
+In \cite{zhou_spatio-temporal_2022}, authors make first a coarse detection, by the encoding of the temporal features with Histogram of Optical Flow (HOF) \cite{wang2013action} and ordinal features of frames by a CNN, and then a fine detection by encoding the CNN features and spatial relationships of the objects.
+Future Object Localization (FOL) \cite{9712446}, authors try to avoid the future prediction for the entire frame, focusing instead on tracking actors position and predict their future locations.
+Conversely to us, their method is limited by the presence of actors in the Field of View (FOV).
+In addition, differently from \cite{liu2018future, 9712446, zhou_spatio-temporal_2022}, we only need RGB frames.
+Considering also to predict future situations in the scene, the TRN model \cite{xu2019temporal} coupled the action detection task with both the historical temporal dependencies modeled by a RNN and the anticipation of the future via a temporal decoder.
 %In 2020, authors of \cite{9712446} proposed a new dataset of video anomaly detection called Detection of Traffic Anomaly (DoTA).
 
-In this paper, in order to build a system that is capable of recognizing different types of anomalous situations \lnote{non so se dire "capable of recognizing different types of anomalous situations", perchè alla fine le usiamo tutte come se fossero appartenenti a una classe "anomalia", non addestriamo la rete a riconoscere la classe} and locate them temporally in the video, we have introduced two main architectural contributions. The first exploits a Video Swin Transformer (VST) network \cite{liu_video_2022}, adapted to model short-term memory. This adaptation allows the system to incorporate temporal correlation and to reproduce online behaviors, by relying only on the current and few previous frames.
-
-Transformers \cite{vaswani2017attention} have been proposed as an architecture to solve sequence-to-sequence problems, handling long-range dependencies in a simple way with the advantage of a strong parallelization compared to state-of-the-art architectures such as RNNs and variants.
-Initially developed for text analysis tasks, transformers have also found application in the image field.
-The seminal work \cite{DBLP:conf/iclr/DosovitskiyB0WZ21} first proposed a Vision Transformer (ViT), paving the way for a new generation of detectors, alternative to CNN.
-Afterwards, with the aim of improving the performance in terms of accuracy of the results and decreasing the computational need, variants such as the Swin Tranformers \cite{liu2021Swin} were proposed. In order to reduce the computational cost of the self-attention mechanism, authors proposed a shifted-windowing scheme to compute self-attention on smaller non-overlapping windows, introducing cross-window connections to cope with the lack of connections between different regions of the image.
-As a direct evolution of Swin Tranformers, to process video instead of images, a new architecture called Video Swin Trasformer was proposed in \cite{liu_video_2022}. The authors proposed to approximate spatio-temporal self-attention by compute self-attention locally, extending spatial domain to the spatio-temporal domain. \anote{anche qui qualcosa su come ci differenziamo} \lnote{noi usiamo questa architettura dentro al nostro modello}
-
+In this paper, in order to build a system that is capable of performing  detection of anomalies belonging to a wide range of possible situations and locate them temporally in the video, we have introduced two main architectural contributions. 
+The first exploits a Video Swin Transformer (VST) network \cite{liu_video_2022}, adapted to model short-term memory.
+This adaptation allows the system to incorporate temporal correlation and to reproduce online behaviors, by relying only on the current and few previous frames.
+%Transformers \cite{vaswani2017attention} have been proposed as an architecture to solve sequence-to-sequence problems, handling long-range dependencies in a simple way with the advantage of a strong parallelization compared to state-of-the-art architectures such as RNNs and variants.
+%Initially developed for text analysis tasks, transformers have also found application in the image field.
+%The seminal work \cite{DBLP:conf/iclr/DosovitskiyB0WZ21} first proposed a Vision Transformer (ViT), paving the way for a new generation of detectors, alternative to CNN.
+%Afterwards, with the aim of improving the performance in terms of accuracy of the results and decreasing the computational need, variants such as the Swin Tranformers \cite{liu2021Swin} were proposed. In order to reduce the computational cost of the self-attention mechanism, authors proposed a shifted-windowing scheme to compute self-attention on smaller non-overlapping windows, introducing cross-window connections to cope with the lack of connections between different regions of the image.
+%As a direct evolution of Swin Tranformers, to process video instead of images, a new architecture called Video Swin Trasformer was proposed in \cite{liu_video_2022}. The authors proposed to approximate spatio-temporal self-attention by compute self-attention locally, extending spatial domain to the spatio-temporal domain. \anote{anche qui qualcosa su come ci differenziamo} \lnote{noi usiamo questa architettura dentro al nostro modello}
 The second architectural contribution is the injection of a LSTM module inside the classifier head to model the long-term memory of the past. This is crucial to have the network learning from the remote past situations how to better model anomalies.
 Other contributions of this paper include an exhaustive ablation study on all the components of the architecture, called \emph{MOVAD}, and the extensive experiments over a public dataset, showing superior performance in terms of AUC wrt the state of the art, by also incorporating real-time and online capabilities.

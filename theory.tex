@@ -48,12 +48,6 @@ In addition, the Classification Head also deals with long-term memory thanks to 
 
 
 
-%train  dataset:  3191  video annotations found
-%Normal frames found:  221429
-%Anomaly frames found: 108121
-%val  dataset:  1376  video annotations found
-%Normal frames found:  94347
-%Anomaly frames found: 46971
 
 \noindent\textbf{Long-term memory module.}
 In order to not lose information from the distant past, we need a way to keep track of it.
@@ -70,4 +64,11 @@ Since the output of the first Linear layer of the classifier head provides the s
 %\noindent\textbf{Training the system.}
 
 During the training phase, for each frame at time $t$, the model outputs the anomaly classification score $s_t \in [0,1]$, where $s_t=0$ means absence of anomaly and $s_t=1$ means the frame is surely anomalous.
-A weighted cross-entropy loss was chosen, giving more weight to the anomaly class, because it is spotted less frequently \tnote{scriviamo il rapporto fra le due classi: 70/30?} \vnote{TODO: contare il numero effettivo di frame anomali/normali}.
+A weighted cross-entropy loss was chosen, giving more weight to the anomaly class, reflecting the distribution of the data.
+
+%train  dataset:  3191  video annotations found
+%Normal frames found:  221429
+%Anomaly frames found: 108121
+%val  dataset:  1376  video annotations found
+%Normal frames found:  94347
+%Anomaly frames found: 46971
