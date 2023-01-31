@@ -69,7 +69,7 @@
                 \textbf{Our (MOVAD)} &  \textbf{86.7} & \textbf{86.7} & \textbf{84.1} & \textbf{83.2} & \textbf{86.1} & \textbf{81.9} & 73.2 & \textbf{70.2} & \textbf{74.5} & \textbf{80.0} & \textbf{77.7} & \textbf{75.5} & \textbf{80.1} & \textbf{78.0}  \\
 \end{tabular}
 	\end{center}
-	\caption{Detection accuracy for each individual accident category (AUC) on VAD task. "*" indicates non-ego anomaly categories. \lnote{mettiamo tutte le classi?}\vnote{secondo me si, sarebbe scorretto altrimenti, piuttosto evidenziamo le buone prestazioni in video ego}} 
+	\caption{Detection accuracy for each individual accident category (AUC) on VAD task. "*" indicates non-ego anomaly categories. \lnote{mettiamo tutte le classi? sono VO, OO, UK, UK* (per gli altri mettiamo N.D.}\vnote{secondo me si, sarebbe scorretto altrimenti, piuttosto evidenziamo le buone prestazioni in video ego}} 
 	\label{tab:sota-vad-auc-per-class}
 \end{table*}
 
@@ -141,7 +141,7 @@ The maximum AUC is reached by 2 LSTM cells around epoch 270.
 As mentioned in training details subsection, at each iteration and separately for each video, a random starting point is selected and a fixed number of frames (video clip length) is inserted inside the batch to train the network.
 In Figure \ref{fig:random-batch}, we evaluate the effect of the size of the video clip length.
 The worse and most unstable training is obtained with 4 frames, probably because they are too few to exploit the long-term memory effect of LSTM cells.
-Increasing the clip length permits to saturate performance quicker,, but with the drawback on highest AUC obtained during the entire training.
+Increasing the clip length permits to saturate performance quicker, but with the drawback on highest AUC obtained during the entire training.
 In fact, the highest AUC value is obtained by 8 frames, which represents a good balance between enlarge clip size and exploits LSTM cells, and do not overfit too much due to consecutive frames that are too similar to each other.
 
 \noindent\textbf{MOVAD model}
@@ -151,7 +151,7 @@ In fact, the highest AUC value is obtained by 8 frames, which represents a good 
 %   - ShanghaiTech: https://paperswithcode.com/sota/anomaly-detection-on-shanghaitech
 %   - CUHK Avenue: https://paperswithcode.com/sota/anomaly-detection-on-chuk-avenue
 %   - UCSD Ped2: https://paperswithcode.com/sota/abnormal-event-detection-in-video-on-ucsd
-Finally, in Table \ref{tab:sota-vad-auc} we compare our architecture performance with state of the art models using in input video shape of $320\times240$, but also $640\times480$.
+Finally, in Table \ref{tab:sota-vad-auc} we compare our model performance with state of the art models using in input video shape of $320\times240$, but also $640\times480$.
 Table \ref{tab:sota-vad-auc-per-class} shows results per class.
 Our MOVAD architecture surpasses the state-of-the-art model by $+2.4$ AUC, reaching the highest value of $81.70$.
 
