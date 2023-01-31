@@ -4,7 +4,7 @@
 \begin{figure}[t]
 \centering
 	\includegraphics[trim=0 0 0 0, clip, width=1.\linewidth]{images/exp_1.jpg}
-	\caption{Performance comparison changing the number of frames (from 1 to 5) in input of the Short-term memory module. NF: number of frames. \mnote{memento risolvere il crollo di NF1}}
+	\caption{Performance comparison, changing the number of frames (from 1 to 5) in input of the Short-term memory module. NF: number of frames. \mnote{memento risolvere il crollo di NF1} \lnote{risolvere o commentare perchè?}}
 	\label{fig:num-frames-vst}
 \end{figure}
 
@@ -12,7 +12,7 @@
 \centering
 	\includegraphics[trim=0 0 0 0, clip, width=1.\linewidth]{images/exp_2.jpg}
     % TODO aggiorna caption!
-	\caption{Performance comparison changing the number of LSTM cells (from 0 to 4) that form the long-term memory. "LSTM 2 cells" is NF 3 of previous experiment in Fig.~\ref{fig:num-frames-vst}.}
+	\caption{Performance comparison, changing the number of LSTM cells (from 0 to 4) that form the long-term memory. "LSTM 2 cells" is NF 3 of previous experiment in Fig.~\ref{fig:num-frames-vst}.}
 	\label{fig:num-memory-cells}
 \end{figure}
 
@@ -20,7 +20,7 @@
 \centering
 	\includegraphics[trim=0 0 0 0, clip, width=1.\linewidth]{images/exp_3.jpg}
     % TODO aggiorna caption!
-	\caption{Performance comparison changing the video clip length (from 4 to 16). The "8 frames" configuration is the NF 3 configuration of previous experiment in Fig.~\ref{fig:num-frames-vst}.}
+	\caption{Performance comparison, changing the video clip length (from 4 to 16). The "8 frames" configuration is the NF 3 configuration of previous experiment in Fig.~\ref{fig:num-frames-vst}.}
 	\label{fig:random-batch}
 \end{figure}
 
@@ -37,7 +37,6 @@
                     4 & ConvLSTMAE \cite{chong2017abnormal} & Flow & 62.5 \\
                     5 & AnoPred \cite{liu2018future} & RGB & 67.5 \\
                     6 & AnoPred \cite{liu2018future} & Masked RGB & 64.8 \\
-            \hline
                     7 & FOL-Ensemble \cite{9712446} & RGB + Box + Flow + Ego & 73.0 \\
                     8 & STFE \cite{zhou_spatio-temporal_2022} & RGB + Flow & 79.3 \\
             \hline
@@ -78,7 +77,7 @@
 We perform our tests on the DoTa dataset \cite{9712446}.
 It contains 4677 videos taken from YouTube channels, with a resolution of $1280 \times 720$, annotated with information about the start and end of the anomaly, the category (10 in total) and the bounding boxes of the objects or persons involved.
 The videos were recorded in different countries and with different light and weather conditions.
-The dataset is split in approximately $70\%$ training and $30\%$ validation.
+We use the original dataset split, in approximately $70\%$ training and $30\%$ validation.
 Our benchmarks are related to the Task~1~\cite{9712446}, the (frame-level) Video Anomaly Detection.
 Our training and evaluation takes place in the most realistic, and most interesting condition from our point of view, online scenario.
 That is, in which the model does not know what will happen in the future, but only know the present and the past.
@@ -152,3 +151,45 @@ In Figure \ref{fig:random-batch}, we evaluate the effect of the size of the vide
 %   - UCSD Ped2: https://paperswithcode.com/sota/abnormal-event-detection-in-video-on-ucsd
 Finally, in Table \ref{tab:sota-vad-auc} we compare our architecture performance with state of the art models.
 Table \ref{tab:sota-vad-auc-per-class} shows results per class.
+
+%VB: Potrebbe servire come confronto per il numero parametri e flops
+%sembra non riesca a calcolare i flops della rnn però
+%| module                    | #parameters or shape   | #flops     |
+%|:--------------------------|:-----------------------|:-----------|
+%| model                     | 0.144G                 | 0.208T     |
+%|  rnn                      |  16.794M               |  0         |
+%|   rnn.weight_ih_l0        |   (4096, 1024)         |            |
+%|   rnn.weight_hh_l0        |   (4096, 1024)         |            |
+%|   rnn.bias_ih_l0          |   (4096,)              |            |
+%|   rnn.bias_hh_l0          |   (4096,)              |            |
+%|   rnn.weight_ih_l1        |   (4096, 1024)         |            |
+%|   rnn.weight_hh_l1        |   (4096, 1024)         |            |
+%|   rnn.bias_ih_l1          |   (4096,)              |            |
+%|   rnn.bias_hh_l1          |   (4096,)              |            |
+%|  rnn_bn                   |  2.048K                |  5.12K     |
+%|   rnn_bn.weight           |   (1024,)              |            |
+%|   rnn_bn.bias             |   (1024,)              |            |
+%|  lin1                     |  37.75M                |  37.749M   |
+%|   lin1.weight             |   (1024, 36864)        |            |
+%|   lin1.bias               |   (1024,)              |            |
+%|  lin2                     |  1.05M                 |  1.049M    |
+%|   lin2.weight             |   (1024, 1024)         |            |
+%|   lin2.bias               |   (1024,)              |            |
+%|  lin3                     |  2.05K                 |  2.048K    |
+%|   lin3.weight             |   (2, 1024)            |            |
+%|   lin3.bias               |   (2,)                 |            |
+%|  bn                       |  73.728K               |  0.184M    |
+%|   bn.weight               |   (36864,)             |            |
+%|   bn.bias                 |   (36864,)             |            |
+%|  model                    |  88.656M               |  0.208T    |
+%|   model.patch_embed       |   12.672K              |   0.496G   |
+%|    model.patch_embed.proj |    12.416K             |    0.472G  |
+%|    model.patch_embed.norm |    0.256K              |    24.576M |
+%|   model.layers            |   88.641M              |   0.208T   |
+%|    model.layers.0         |    0.571M              |    18.801G |
+%|    model.layers.1         |    2.19M               |    17.997G |
+%|    model.layers.2         |    60.353M             |    0.153T  |
+%|    model.layers.3.blocks  |    25.528M             |    17.831G |
+%|   model.norm              |   2.048K               |   3.072M   |
+%|    model.norm.weight      |    (1024,)             |            |
+%|    model.norm.bias        |    (1024,)             |            |
