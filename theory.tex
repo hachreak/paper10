@@ -42,7 +42,7 @@ A weighted cross-entropy loss was chosen, giving more weight to the anomaly clas
 \noindent\textbf{Long-term memory module.}
 In order to not lose information from the distant past, we need a way to keep track of it.
 For this reason, we introduce a long-term memory module  which is updated whenever a new frame is analyzed by the system.
-Specifically, we choose to employ an RNN module (LSTM \cite{lstm,gru} in this specific case).
+Specifically, we choose to employ a RNN module (LSTM \cite{lstm,gru} in this specific case).
 Given that the input of the LSTM  are only the latent features in output of the Reducer, the module is very efficient and leads to a limited additional computational cost.
 Indeed, it condenses all its knowledge into two states: an hidden state $h_t$ and cell state $c_t$.
 Since the output of the first Linear layer of the classifier head provides the summary about the $T$ frames processed by the short-term memory model, the LSTM cells is added after it.

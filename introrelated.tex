@@ -1,6 +1,6 @@
 \section{Introduction and related works}
 
-Autonomous Vehicles (AVs) are becoming every day a reality thanks to the enormous scientific and technical advances.
+Autonomous Vehicles (AVs) are becoming every day a reality thanks to the enormous scientific and technical recent advances.
 Nevertheless, safety of AVs is still a relevant issue which can jeopardize their world-wide diffusion.
 Increasing safety of AVs can be reached by providing vehicles with the ability of detecting accidents in a prompt way.
 In general, all anomalous traffic situations are relevant for many automatic tasks of AVs.
@@ -12,11 +12,11 @@ Despite the gigantic advances of video analysis algorithms, anomalous situation 
 First of all, detection of traffic anomalies requires real-time performance in order to allow the driver and/or the vehicle's actuators to react promptly.
 Real-time performance does not only call for efficient algorithms, but also implies an online strategy, meaning that the system needs to rely only on current frames and, at most, knowing the past (or part of it), but having no idea of what happens in the future.
 Secondly, aiming at detecting anomalies in traffic scenes, a proper, formal and generally-acknowledged model of what an anomaly is should be available.
-Unfortunately, this shared model does not exist and, in any case, would be likely to be subjective.
+Unfortunately, this shared model does not exist and, in any case, would likely be subjective.
 For instance, improper crossing of driving lanes might be perceived as anomalous and dangerous if long-lasting and in crowded traffic, while being negligible in other cases.
 In addition, there are plenty of possible accident classes that must be taken into account compared to normal traffic situations, and the available examples are proportionally very exiguous.
 Lastly, we aim to precise time localize the anomaly and the definition of precise boundaries of an anomaly/accident is even more subjective and doubtful.
-We can define an anomaly as an hazardous situation that can lead to an accident, but, since the hazardousness prior to the accident may be determined subjectively by each individual, the time interval edges for an anomaly are not really clear and this is reflected in dataset labelling.
+Indeed, we can define an anomaly as an hazardous situation that can lead to an accident, but, since the hazardousness prior to the accident may be determined subjectively by each individual, the time interval edges for an anomaly are not really clear and this is reflected in dataset labelling.
 Nevertheless. some attempts have been made to propose a deterministic method in the interest of defining an anomaly.
 First, Fang \emph{et al.} \cite{fang2019dada} want to predict an accident likely to happen in the next 5 seconds, labelling the anomaly start from the moment in which half part of the object involved in the accident appears in the view.
 Yao \emph{et al.} \cite{yao2020when} proposed a Detection of Traffic Anomaly (DoTA) dataset that takes into account when the anomalous event starts and ends, locating spatially where all the involved entities are in each frame and what type of anomaly is.
