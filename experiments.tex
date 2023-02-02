@@ -43,7 +43,7 @@
                     % v22_2
 \rowstyle{\bfseries}9 & Our (MOVAD) & RGB ($320\times240$) &  80.13 \\
                     % v30_3
-\rowstyle{\bfseries}9 & Our (MOVAD) & RGB ($320\times240$) &  XXX \\
+%\rowstyle{\bfseries}9 & Our (MOVAD) & RGB ($320\times240$) &  XXX \\
                     % v30
 \rowstyle{\bfseries}10 & Our (MOVAD) & RGB ($640\times480$) &  82.05 \\
 \end{tabular}
@@ -116,8 +116,8 @@ In this experiment, we empirically show the effects of the input frames to the S
 The results are displayed in the Fig.~\ref{fig:num-frames-vst}.
 As we expected, taking into account only the current frame is the worst situation, making the training more unstable.
 This is reasonable as the short-term memory module processes and embeds only the current frame, without any knowledge of the near past, leading the long-term memory module to overfit data since consecutive frames are very similar. \vnote{confermare con esperimento NF=1 e no LSTM}
-On the contrary, with 4 frames we have the highest AUC.
 Increasing the number of frames processed at each step has a much more limited effect. Indeed, with 5 frames the effect already becomes counterproductive since the increased amount of information processed is not justified by a gain in performance.
+The highest AUC is obtained with 4 frames.
 
 % (no) v23: rand frame order (v17) vs normal
 % v29_2, v29, v22: training from scratch vs pretrained (imagenet vs smth2smthv2)
@@ -159,7 +159,7 @@ In fact, the highest AUC value is obtained using 8 frames as video clip length, 
 %   - CUHK Avenue: https://paperswithcode.com/sota/anomaly-detection-on-chuk-avenue
 %   - UCSD Ped2: https://paperswithcode.com/sota/abnormal-event-detection-in-video-on-ucsd
 Finally, in Table \ref{tab:sota-vad-auc} we compare our model performance with state of the art models using in input video shape of $320\times240$ and $640\times480$, with video clip length of 8, 3 LSTM cells and $NF=3$.
-Table \ref{tab:sota-vad-auc-per-class} shows results per class \tnote{gli acronimi delle classi cosa rappresentano?}.
+Table \ref{tab:sota-vad-auc-per-class} shows results per class (see \cite{9712446} for acronyms meaning).
 Our MOVAD architecture surpasses the state-of-the-art model by $+2.75\%$ AUC, reaching the highest value of $82.05\%$.
 %VB: Potrebbe servire come confronto per il numero parametri e flops
 %sembra non riesca a calcolare i flops della rnn però
