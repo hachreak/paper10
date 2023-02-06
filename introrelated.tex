@@ -1,45 +1,45 @@
 \section{Introduction and related works}
 
-Autonomous Vehicles (AVs) are becoming every day a reality thanks to the enormous scientific and technical recent advances.
+Autonomous Vehicles (AVs) are becoming every day a reality thanks to the recent enormous scientific and technical advances.
 Nevertheless, safety of AVs is still a relevant issue which can jeopardize their world-wide diffusion.
 Increasing safety of AVs can be reached by providing vehicles with the ability of detecting accidents in a prompt way.
 In general, all anomalous traffic situations are relevant for many automatic tasks of AVs.
 Their detection provides information to avoid collisions, protect pedestrians, or re-route the current travel \cite{4298901}.
-Moreover, if a V2V (vehicles to vehicles) network infrastructure (such as VANET \cite{fatemidokht2021efficient}) is available, dissemination of useful information can provide other connected vehicles insights about the traffic status.
-Among the different sensors equipped in AVs, cameras can provide rich real-time information about the scene.
-Real-time video analysis can make useful tools available for driving scene interpretation in the context of Advanced Driver Assistance Systems (ADAS).
+%Moreover, if a V2V (vehicles to vehicles) network infrastructure (such as VANET \cite{fatemidokht2021efficient}) is available, dissemination of useful information can provide other connected vehicles insights about the traffic status.
+Among the different sensors exploited in AVs, cameras can provide rich real-time information about the scene.
+%Real-time video analysis can make useful tools available for driving scene interpretation in the context of Advanced Driver Assistance Systems (ADAS)\mnote{forse la toglierei}.
 Despite the gigantic advances of video analysis algorithms, anomalous situation detection in real traffic scenarios is still very challenging, due to several reasons.
 First of all, detection of traffic anomalies requires real-time performance in order to allow the driver and/or the vehicle's actuators to react promptly.
-Real-time performance does not only call for efficient algorithms, but also implies an online strategy, meaning that the system needs to rely only on current frames and, at most, knowing the past (or part of it), but having no idea of what happens in the future.
+Real-time performance does not only call for efficient algorithms, but also implies an online strategy, meaning that the system needs to rely only on current frames and, at most, knowing the past (or part of it), but having no idea of what will happen in the future.
 Secondly, aiming at detecting anomalies in traffic scenes, a proper, formal and generally-acknowledged model of what an anomaly is should be available.
-Unfortunately, this shared model does not exist and, in any case, would likely be subjective.
-For instance, improper crossing of driving lanes might be perceived as anomalous and dangerous if long-lasting and in crowded traffic, while being negligible in other cases.
-In addition, there are plenty of possible accident classes that must be taken into account compared to normal traffic situations, and the available examples are proportionally very exiguous.
-Lastly, we aim to precise time localize the anomaly and the definition of precise boundaries of an anomaly/accident is even more subjective and doubtful.
+Unfortunately, this shared model does not exist and, in any case, would likely be highly subjective.
+%For instance, improper crossing of driving lanes might be perceived as anomalous and dangerous if long-lasting and in crowded traffic, while being negligible in other cases.
+In addition, there are plenty of possible accident classes that must be taken into account compared to normal traffic situations, and, for some of them, the number of available examples are very exiguous.
+Lastly, we aim to precisely localize in time the anomaly and the definition of precise boundaries of an anomaly/accident is even more subjective and doubtful.
 Indeed, we can define an anomaly as an hazardous situation that can lead to an accident, but, since the hazardousness prior to the accident may be determined subjectively by each individual, the time interval edges for an anomaly are not really clear and this is reflected in dataset labelling.
-Nevertheless. some attempts have been made to propose a deterministic method in the interest of defining an anomaly.
-First, Fang \emph{et al.} \cite{fang2019dada} want to predict an accident likely to happen in the next 5 seconds, labelling the anomaly start from the moment in which half part of the object involved in the accident appears in the view.
-Yao \emph{et al.} \cite{yao2020when} proposed a Detection of Traffic Anomaly (DoTA) dataset that takes into account when the anomalous event starts and ends, locating spatially where all the involved entities are in each frame and what type of anomaly is.
+Nevertheless, some attempts have been made to propose a deterministic method in the interest of defining an anomaly.
+E.g., Fang \emph{et al.} \cite{fang2019dada} want to predict an accident likely to happen in the next 5 seconds, labelling the anomaly start from the moment in which half part of the object involved in the accident appears in the view.
+Yao \emph{et al.}~\cite{yao2020when} proposed a Detection of Traffic Anomaly (DoTA) dataset that takes into account when the anomalous event starts and ends, locating spatially where all the involved entities are in each frame and what type of anomaly is.
 Their work formulates the anomaly start as the instant after which the accident is unavoidable (still, a subjective concept).
-We have decided to take this last dataset as a benchmark for our model.
+We have decided to take this last dataset as a benchmark for our work.
 
 Despite all these premises, there have been several previous works addressing the problem of traffic anomaly detection.
-Authors in \cite{hasan2016learning} proposed a Convolutional AutoEncoder (ConvAE) trained only on normal frames with the objective of frames reconstruction.
+Authors in \cite{hasan2016learning} proposed a Convolutional AutoEncoder (ConvAE) trained only on normal frames with the objective of frame reconstruction.
 In \cite{luo2017remembering, wang2018abnormal}, authors used Convolutional LSTM Auto-Encoder as framework to encode appearance and motion.
 As noted by \cite{ramachandra2020survey}, auto-encoder-type reconstruction methods are sensitive to the amount of anomalies that occur in the scene and many times they require additional post-processing techniques.
 Authors in \cite{liu2018future} proposed AnoPred, which uses a multi-task loss including image intensity, optical flow, gradient, and adversarial losses for video frame-level anomaly detection by applying a UNet to predict a future RGB frame.
-As mentioned in \cite{9712446}, AnoPred was thought in a surveillance video context, while traffic videos are more dynamic and difficult to predict.
+As mentioned in \cite{9712446}, AnoPred was thought in a surveillance video context, while videos acquired on board of a moving vehicle are more dynamic and difficult to predict.
 In \cite{zhou_spatio-temporal_2022}, authors make first a coarse detection, by the encoding of the temporal features with Histogram of Optical Flow (HOF) \cite{wang2013action} and ordinal features of frames by a CNN, and then a fine detection by encoding the CNN features and spatial relationships of the objects.
-Future Object Localization (FOL) \cite{9712446}, authors try to avoid the future prediction for the entire frame, focusing instead on tracking actors position and predict their future locations.
+In the case of Future Object Localization (FOL)~\cite{9712446}, authors try to avoid the future prediction for the entire frame, focusing instead on tracking actors position and predicting their future locations.
 Conversely to us, their method is limited by the presence of actors in the Field of View (FOV).
-In addition, differently from AnoPred \cite{liu2018future}, FOL \cite{9712446} and \cite{zhou_spatio-temporal_2022}, we only need RGB frames.
+In addition, differently from AnoPred~\cite{liu2018future}, FOL \cite{9712446} and \cite{zhou_spatio-temporal_2022}, we only need RGB frames.
 In \cite{xu2019temporal}, the TRN model couples the action detection task with both the historical temporal dependencies modeled by a RNN and the anticipation of the future via a temporal decoder.
 In our case, we do not speculate on the future, but rely only on the present and the past.
 
-In this paper, we describe our new architecture called \emph{MOVAD}.
+In this paper, we describe our new architecture called \emph{MOVAD} (Memory-augmented Online Video Anomaly Detection).
 In order to build a system that is capable to temporally locate anomalies in videos, belonging to a wide range of possible situations, we have introduced two main architectural contributions.
 The first exploits a Video Swin Transformer \cite{liu_video_2022} (VST) model, adapted to model short-term memory in a real-time and online scenario.
 This adaptation allows the system to incorporate temporal correlation and to detect online behaviors, by relying only on the current and few previous frames.
 The second architectural contribution is the injection of a LSTM module inside the classifier head to model the long-term memory of the past.
 This is crucial to have the network learning from the remote past situations how to better model anomalies.
-We show an exhaustive ablation study on all the components of the architecture over the public dataset DoTa \cite{9712446}, showing superior performance in terms of AUC w.r.t. the state of the art, adding a further degree of difficulty given by the real-time and online capabilities.
+An exhaustive ablation study on all the components of the architecture over the public dataset DoTA \cite{9712446} shows superior performance in terms of AUC w.r.t.~the state of the art, adding a further degree of difficulty given by the real-time and online capabilities.\mnote{e comunque parliamo di real time ma ricordo male io o non si parla di tempi di esecuzione?}\anote{Ha ragione Massimo. Verifichiamo bene}
