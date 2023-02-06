@@ -3,11 +3,11 @@
 
 
 \noindent\textbf{Dataset}.
-We perform our tests on the DoTa dataset \cite{9712446}.
-It contains 4677 videos taken from YouTube channels, with a resolution of $1280 \times 720$, annotated with information about the start and end of the anomaly, the anomaly category (10 in total) and the bounding boxes of the objects or persons involved.
+We perform our tests on the DoTA dataset \cite{9712446}.
+It contains 4677 videos taken from YouTube, with a resolution of $1280 \times 720$, annotated with information about the start and end of the anomaly, the anomaly category (10 in total) and the bounding boxes of the objects or persons involved.
 The videos were recorded in different countries and with different illumination and weather conditions.
 We use the original dataset split, in approximately $70\%$ training and $30\%$ validation.
-Our benchmarks are related to the Task~1~\cite{9712446}, the (frame-level) Video Anomaly Detection.
+Our tests are related to the Task~1~\cite{9712446}, the (frame-level) Video Anomaly Detection.
 Our model training and evaluation take place in the online scenario, that is the most realistic and most interesting condition from our point of view.
 
 \noindent\textbf{Evaluation Metrics}.
@@ -20,35 +20,36 @@ We perform the training on a single machine with an A100 GPU\@.
 We use the Stochastic Gradient Descent (SGD) optimization algorithm with a learning rate of 0.0001, a momentum of 0.9, video clip length 8 and batch size 8.
 We use SGD instead of Adam because in our experiments the latter led the training to be unstable, resulting in the model diverging after a few epochs.
 
-\noindent\textbf{Training details.}
-Because the videos contain a non-uniform number of frames, we fixed the number of frames for each video taken into account (video clip length) in order to be able to train the model with a batch size larger than one.
-At each iteration, we randomly choose the starting frame for each video, adjusting the ground-truth accordingly. This makes the training as diverse as possible and reduces the effect of overfitting.
-Unless otherwise specified, the input video shape is $320 \times 240$, video clip length is 8, LSTM cell number is 2, input number of frames of VST ($NF$) is 3 and the classification head is initialized using a uniform distribution for linear weights, with a (semi-)orthogonal matrix for LSTM modules and bias parameters set to zero. The VST weights are initialized with a model pretrained on Something-Something v2 \cite{goyal2017something}.
-
-\begin{figure}[tbh]
+\begin{figure}[b!]
 \centering
-	\includegraphics[trim=0 0 0 0, clip, width=0.8\columnwidth]{images/exp_1.jpg}
+	\includegraphics[trim=0 0 0 0, clip, width=0.7\columnwidth]{images/exp_1.jpg}
 	\caption{Performance comparison, changing the number of frames (\emph{NF}) in input to the VST  (from 1 to 5).}
 	\label{fig:num-frames-vst}
 \end{figure}
 
-\begin{figure}[tbh]
+\begin{figure}[b!]
 \centering
-	\includegraphics[trim=0 0 0 0, clip, width=0.8\columnwidth]{images/exp_2.jpg}
+	\includegraphics[trim=0 0 0 0, clip, width=0.7\columnwidth]{images/exp_2.jpg}
     % TODO aggiorna caption!
 	\caption{Performance comparison, changing the number of LSTM cells (from 0 to 4) that form the long-term memory. "LSTM 2 cells" corresponds to NF 3 in Fig.~\ref{fig:num-frames-vst}.\mnote{forse per simmetria la taglierei anche questa sui 400 come le altre due.}\anote{Concordo}}
 	\label{fig:num-memory-cells}
 \end{figure}
 
-\begin{figure}[bht]
+\noindent\textbf{Training details.}
+Since the videos contain a non-uniform number of frames, we fixed the number of frames for each video taken into account (video clip length) in order to be able to train the model with a batch size larger than one.
+At each iteration, we randomly choose the starting frame for each video, adjusting the ground-truth accordingly. This makes the training as diverse as possible and reduces the effect of overfitting.
+Unless otherwise specified, the input video is $320 \times 240$, video clip length is 8, LSTM cell number is 2, input number of frames of VST ($NF$) is 3 and the classification head is initialized using a uniform distribution for linear weights, with a (semi-)orthogonal matrix for LSTM modules and bias parameters set to zero. The VST weights are initialized with a model pretrained on Something-Something v2~\cite{goyal2017something}.
+
+\begin{figure}[t!]
 \centering
-	\includegraphics[trim=0 0 0 0, clip, width=0.8\columnwidth]{images/exp_3.jpg}
+	\includegraphics[trim=0 0 0 0, clip, width=0.7\columnwidth]{images/exp_3.jpg}
     % TODO aggiorna caption!
 	\caption{Performance comparison, changing the video clip length (from 4 to 16). The "8 frames" configuration corresponds to NF 3 in Fig.~\ref{fig:num-frames-vst}.}
 	\label{fig:random-batch}
 \end{figure}
 
-\begin{table}[b]
+
+\begin{table}[b!]
 	\footnotesize
 	%\setlength{\tabcolsep}{1.2pt}
 	\begin{center}
@@ -68,8 +69,8 @@ Unless otherwise specified, the input video shape is $320 \times 240$, video cli
 \rowstyle{\bfseries}9 & Our (MOVAD) & RGB ($320\times240$) &  80.13 \\
                     % v30_3
 %\rowstyle{\bfseries}9 & Our (MOVAD) & RGB ($320\times240$) &  XXX \\
-                    % v30
-\rowstyle{\bfseries}10 & Our (MOVAD) & RGB ($640\times480$) &  82.05 \\
+                    % v30_2
+\rowstyle{\bfseries}10 & Our (MOVAD) & RGB ($640\times480$) &  82.11 \\
 \end{tabular}
 	\end{center}
 	\caption{Benchmarks of VAD (Video Anomaly Detection) methods on the DoTA dataset. \lnote{aggiungi risultati v30\_3, dato che $v30\_2 \ge v30$, e descrivi le caratteristiche}}
@@ -77,30 +78,32 @@ Unless otherwise specified, the input video shape is $320 \times 240$, video cli
 \end{table}
 
 % TODO visualizza anche la colonna OO e VO? (VO and OO columns are not shown because they do not contain anomalous traffic participants)
-\begin{table*}[ht]
+\begin{table*}[bht!]
 	\footnotesize
 	\setlength{\tabcolsep}{3.7pt}
 	\begin{center}
 		\begin{tabular}{|!l||^c|^c|^c|^c|^c|^c|^c|^c|^c|^c|^c|^c|^c|^c|^c|^c|^c|^c|}
 			Model & $ST$ & $AH$ & $LA$ & $OC$ & $TC$ & $VP$ & $VO$ & $OO$ & $UK$ & $ST*$ & $AH*$ & $LA*$ & $OC*$ & $TC*$ & $VP*$ & $VO*$ & $OO*$ & $UK*$ \\
 			\hline\hline
-                AnoPred \cite{liu2018future}          & 69.9 & 73.6 & 75.2 & 69.7 & 73.5 & 66.3 & N.D. & N.D. & N.D. & 70.9 & 62.6 & 60.1 & 65.6 & 65.4 & 64.9 & 64.2 & 57.8 & N.D. \\
-                AnoPred \cite{liu2018future} + Mask   & 66.3 & 72.2 & 64.2 & 65.4 & 65.6 & 66.6 & N.D. & N.D. & N.D. & 72.9 & 63.7 & 60.6 & 66.9 & 65.7 & 64.0 & 58.8 & 59.9 & N.D. \\
-                FOL-STD \cite{9712446}                & 67.3 & 77.4 & 71.1 & 68.6 & 69.2 & 65.1 & N.D. & N.D. & N.D. & 75.1 & 66.2 & 66.8 & 74.1 & 72.0 & 69.7 & 63.8 & 69.2 & N.D. \\
-                FOL-Ensemble \cite{9712446}           & 73.3 & 81.2 & 74.0 & 73.4 & 75.1 & 70.1 & N.D. & N.D. & N.D. & \red{77.5} & 69.8 & 68.1 & \red{76.7} & 73.9 & 71.2 & 65.2 & 69.6 & N.D. \\
+                AnoPred \cite{liu2018future}          & 69.9 & 73.6 & 75.2 & 69.7 & 73.5 & 66.3 & N/A & N/A & N/A & 70.9 & 62.6 & 60.1 & 65.6 & 65.4 & 64.9 & 64.2 & 57.8 & N/A \\
+                AnoPred \cite{liu2018future} + Mask   & 66.3 & 72.2 & 64.2 & 65.4 & 65.6 & 66.6 & N/A & N/A & N/A & 72.9 & 63.7 & 60.6 & 66.9 & 65.7 & 64.0 & 58.8 & 59.9 & N/A \\
+                FOL-STD \cite{9712446}                & 67.3 & 77.4 & 71.1 & 68.6 & 69.2 & 65.1 & N/A & N/A & N/A & 75.1 & 66.2 & 66.8 & 74.1 & 72.0 & 69.7 & 63.8 & 69.2 & N/A \\
+                FOL-Ensemble \cite{9712446}           & 73.3 & 81.2 & 74.0 & 73.4 & 75.1 & 70.1 & N/A & N/A & N/A & \red{77.5} & 69.8 & 68.1 & \red{76.7} & 73.9 & 71.2 & 65.2 & 69.6 & N/A \\
                 % STFE gli manca la colonna VP*!
                 % STFE ha dei risultati non molto chiari.
-                STFE \cite{zhou_spatio-temporal_2022} & 75.2 & \red{84.5} & 72.1 & 77.3 & 72.8 & 71.9 & N.D. & N.D. & N.D. & \textbf{80.6} & 65.6 & \red{69.9} & 76.5 & 74.2 & N.D. & \red{75.6} & \red{70.5} & N.D. \\
-                % v22_2 epoca 320
-                \textbf{Our (MOVAD)}                  &  \red{85.6} & \red{84.5} & \red{81.4} & \red{82.8} & \red{84.9} & \textbf{85.8} & \textbf{79.1} & \textbf{87.4} & \textbf{76.2} & 75.1 & \red{69.9} & 68.4 & 76.6 & \red{75.8} & \red{71.8} & 74.1 & 70.2 & \red{69.4} \\
+                STFE \cite{zhou_spatio-temporal_2022} & 75.2 & \red{84.5} & 72.1 & 77.3 & 72.8 & 71.9 & N/A & N/A & N/A & \textbf{80.6} & 65.6 & \red{69.9} & 76.5 & 74.2 & N/A & \red{75.6} & \red{70.5} & N/A \\
+                % v22_2 epoca 370
+                \textbf{Our (MOVAD)}                  &  \red{85.6} & \red{84.5} & \red{81.4} & \red{82.8} & \red{84.9} & \textbf{85.8} & \textbf{79.1} & \red{87.4} & \textbf{76.2} & 75.1 & \red{69.9} & 68.4 & 76.6 & \red{75.8} & \red{71.8} & 74.1 & 70.2 & \red{69.4} \\
                 % v30
                 %\textbf{Our (MOVAD)} &  \textbf{86.7} & \textbf{86.7} & \textbf{84.1} & \textbf{83.2} & \textbf{86.1} & \textbf{81.9} & 73.2 & \textbf{70.2} & \textbf{74.5} & \textbf{80.0} & \textbf{77.7} & \textbf{75.5} & \textbf{80.1} & \textbf{78.0}  \\
                 % v30_2 (epoca 450)
-                \textbf{Our (MOVAD) **}                  &  \textbf{87.2} & \textbf{86.6} & \textbf{85.0} & \textbf{83.8} & \textbf{86.2} & \red{79.1} & \red{77.9} & \red{87.1} & \red{74.1} & 72.8 & \textbf{73.1} & \textbf{75.7} & \textbf{82.2} & \textbf{79.0} & \textbf{74.7} & \textbf{80.3} & \textbf{77.8} & \textbf{72.1} \\
+                \textbf{Our (MOVAD) **}                  &  \textbf{86.6} & \textbf{86.3} & \textbf{84.9} & \textbf{83.7} & \textbf{85.5} & \red{81.6} & \red{77.4} & \textbf{87.9} & \red{73.8} & 72.2 & \textbf{74.0} & \textbf{74.8} & \textbf{80.2} & \textbf{79.6} & \textbf{76.8} & \textbf{82.2} & \textbf{78.3} & \textbf{72.9} \\
+                % v30_2 (epoca 450)
+                %\textbf{Our (MOVAD) **}                  &  \textbf{87.2} & \textbf{86.6} & \textbf{85.0} & \textbf{83.8} & \textbf{86.2} & \red{79.1} & \red{77.9} & \red{87.1} & \red{74.1} & 72.8 & \textbf{73.1} & \textbf{75.7} & \textbf{82.2} & \textbf{79.0} & \textbf{74.7} & \textbf{80.3} & \textbf{77.8} & \textbf{72.1} \\
         \hline
 \end{tabular}
 	\end{center}
-	\caption{Detection accuracy for each individual accident category (AUC) on VAD task. "*" indicates non-ego anomaly categories. "**" indicates input video resolution is $640\times480$ instead of $320\times240$. N.D. (Not Defined): means no value is available on paper that describes the corresponding model. Bold and red values are respectively the best and second-best results.\lnote{aggiungi anche v22\_2 o 30\_3}}
+	\caption{Detection accuracy (AUC) for individual accident categories. "*" indicates non-ego anomaly categories. "**" indicates input resolution is $640\times480$ instead of $320\times240$. N/A=Not Available. Bold and red values are the best and second-best results.\lnote{aggiungi 30\_3 al posto della 20\_2}}
 	\label{tab:sota-vad-auc-per-class}
 \end{table*}
 
@@ -134,8 +137,7 @@ To make the graph easier to read, the GRU results are not shown, but the trend i
 The effect introduced by the memory cells is evident.
 Having no cells makes training slower in saturating performance and it reaches the lowest AUC value.
 With only one cell the performance saturates very quickly, with a slow degradation during the rest of the epochs.
-By increasing the number of cells, the maximum peak of AUC is reached slower, but its absolute value is higher. The maximum AUC is reached by 2 LSTM cells around epoch 270. 
-\lnote{v30\_2: check se aggiungere pezzo relativo a: alla fine la migliore è con 3 celle perchè il picco lo raggiunge verso 400 epoche quando interessa maggiormente a noi}
+By increasing the number of cells, the maximum peak of AUC is reached slower, but its absolute value is higher. The maximum AUC is reached, even if with just +$0.02\%$ compared to 3 LSTM cells, by 2 LSTM cells around epoch 270.
 
 %\noindent\textbf{Saliency module.}
 % v25, v22: con/senza/versione ridotta della saliency
@@ -156,9 +158,12 @@ In fact, the highest AUC value is obtained using 8 frames as video clip length, 
 %   - ShanghaiTech: https://paperswithcode.com/sota/anomaly-detection-on-shanghaitech
 %   - CUHK Avenue: https://paperswithcode.com/sota/anomaly-detection-on-chuk-avenue
 %   - UCSD Ped2: https://paperswithcode.com/sota/abnormal-event-detection-in-video-on-ucsd
-Finally, in Table \ref{tab:sota-vad-auc} we compare our model with state-of-the-art models using input videos of $320\times240$ and $640\times480$, with video clip length of 8, 3 LSTM cells and $NF=4$.
+Finally, in Table \ref{tab:sota-vad-auc} we compare MOVAD with state-of-the-art models using.
+The first is using in input a videos size of $320\times240$, while the second $640\times480$.
+Both are trained with the following winning configuration of: video clip length of 8, 3 LSTM cells and $NF=4$.
+It should be noted that, even if in the long-term memory experiment the peak was reached with 2 lstm cells, here we use 3 because its ability to increase the quality of training in a slower and more continuous way has had a better benefit, versus saturating performance early and then degrading it over time.
 Table \ref{tab:sota-vad-auc-per-class} shows results per class (see \cite{9712446} for explanation of different classes).
-Our MOVAD architecture surpasses the state-of-the-art model by $2.75\%$ AUC, reaching the highest value of $82.05\%$.
+Our architecture surpasses the state-of-the-art model by $2.81\%$ AUC, reaching the highest value of $82.11\%$.
 %VB: Potrebbe servire come confronto per il numero parametri e flops
 %sembra non riesca a calcolare i flops della rnn però
 %| module                    | #parameters or shape   | #flops     |
