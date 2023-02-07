@@ -36,13 +36,20 @@
 %\newcommand{\anote}[1]{\textcolor{red}{\textbf{}}}
 %\newcommand{\mnote}[1]{\textcolor{violet}{\textbf{}}}
 
-\newcommand{\lnote}[1]{\textcolor{blue}{\textbf{LR: #1}}}
-\newcommand{\tnote}[1]{\textcolor{teal}{\textbf{[TF: #1]}}}
-\newcommand{\vnote}[1]{\textcolor{orange}{\textbf{[VB: #1]}}}
-\newcommand{\anote}[1]{\textcolor{red}{\textbf{[AP: #1]}}}
-\newcommand{\mnote}[1]{\textcolor{violet}{\textbf{[MB: #1]}}}
+%\providecommand{\lnote}[1]{\textcolor{blue}{\textbf{LR: #1}}}
+%\providecommand{\tnote}[1]{\textcolor{teal}{\textbf{[TF: #1]}}}
+%\providecommand{\vnote}[1]{\textcolor{orange}{\textbf{[VB: #1]}}}
+%\providecommand{\anote}[1]{\textcolor{red}{\textbf{[AP: #1]}}}
+%\providecommand{\mnote}[1]{\textcolor{violet}{\textbf{[MB: #1]}}}
 
-\newcommand{\red}[1]{\textcolor{red}{#1}}
+\providecommand{\red}[1]{\textcolor{red}{#1}}
+
+\providecommand{\lnote}[1]{}
+\providecommand{\tnote}[1]{}
+\providecommand{\vnote}[1]{}
+\providecommand{\anote}[1]{}
+\providecommand{\mnote}[1]{}
+
 
 % Title.
 % ------
@@ -50,7 +57,7 @@
 %
 % Single address.
 % ---------------
-\name{Leonardo Rossi, Vittorio Bernuzzi, Tomaso Fontanini, Massimo Bertozzi, Andrea Prati}
+\name{Leonardo Rossi, Vittorio Bernuzzi, Tomaso Fontanini, Massimo Bertozzi, Andrea Prati\thanks{This research benefits from the HPC (High Performance Computing) facility of the University of Parma, Italy.}}
 %\address{}
 %
 % For example:
@@ -94,8 +101,8 @@
 \input{experiments}
 \input{conclusions}
 
-\section*{Acknowledgments}
-\noindent This research benefits from the HPC (High Performance Computing) facility of the University of Parma, Italy. \mnote{roadster non ha vincoli di citazione?}
+%\section*{Acknowledgments}
+%\noindent This research benefits from the HPC (High Performance Computing) facility of the University of Parma, Italy. \mnote{roadster non ha vincoli di citazione?}
 
 %\vfill\pagebreak
 

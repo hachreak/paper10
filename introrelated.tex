@@ -41,5 +41,5 @@ In order to build a system that is capable to temporally locate anomalies in vid
 The first exploits a Video Swin Transformer \cite{liu_video_2022} (VST) model, adapted to model short-term memory in a real-time and online scenario.
 This adaptation allows the system to incorporate temporal correlation and to detect online behaviors, by relying only on the current and few previous frames.
 The second architectural contribution is the injection of a LSTM module inside the classifier head to model the long-term memory of the past.
-This is crucial to have the network learning from the remote past situations how to better model anomalies.
+This is crucial to have the network learning how to better model anomalies from the remote past situations.
 An exhaustive ablation study on all the components of the architecture over the public dataset DoTA \cite{9712446} shows superior performance in terms of AUC w.r.t.~the state of the art, adding a further degree of difficulty given by the real-time and online capabilities.\mnote{e comunque parliamo di real time ma ricordo male io o non si parla di tempi di esecuzione?}\anote{Ha ragione Massimo. Verifichiamo bene}

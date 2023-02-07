@@ -4,14 +4,9 @@
 \fboxsep=1mm%padding thickness
 \fboxrule=1pt%border thickness
 
-\begin{figure}[!ht]
-		%  trim={<left> <lower> <right> <upper>}
-        %\fcolorbox{red}{yellow}{
-            \centerline{\includegraphics[clip, width=\linewidth]{images/arch-rx-cropped.pdf}}
-        %}
-        % FIXME aggiungi link per immagine dei frame (copyright)
-        \caption{The online video frame anomaly detection architecture. $f[t]$ is the frame at time $t$, $x$ the output of the Reducer, $NF$ the number of frames in input to the VST, $s[t]$ the anomaly classification score of the frame $f[t]$. \mnote{L'ho messa io singola colonna per vedere quanto spazio risparmiavamo. EDIT: anche modificata e croppata spostando l'I/O dell'LSTM (ha senso stressare RNN?) di modo da stringerla e aggiunto VST. }}
-		\label{fig:arch}
+\begin{figure}[!t]
+            \centerline{\includegraphics[clip, width=.9\linewidth]{images/arch-rx-cropped.pdf}}
+        \caption{The online video frame anomaly detection architecture. $f[t]$ is the frame at time $t$, $x$ the output of the Reducer, $NF$ the number of frames in input to the VST, $s[t]$ the anomaly classification score of the frame $f[t]$.\vspace{-5mm}\label{fig:arch}\mnote{L'ho messa io singola colonna per vedere quanto spazio risparmiavamo. EDIT: anche modificata e croppata spostando l'I/O dell'LSTM (ha senso stressare RNN?) di modo da stringerla e aggiunto VST. }}
 \end{figure}
 
 In this section, the MOVAD architecture is described.  
@@ -45,6 +40,6 @@ For this reason, we introduce a long-term memory module  which is updated whenev
 Specifically, we choose to employ a RNN module (LSTM \cite{lstm,gru} in this specific case).
 Given that the input of the LSTM  are only the latent features in output of the Reducer, the module is very efficient and leads to a limited additional computational cost.
 Indeed, it condenses all its knowledge into two states: an hidden state $h_t$ and cell state $c_t$.
-Since the output of the first linear layer of the classifier head provides the summary about the $T$ frames processed by the short-term memory model, the LSTM cells is added after it.
+Since the output of the first linear layer of the classifier head provides the summary about the $NF$ frames processed by the short-term memory model, the LSTM cells is added after it.
 
 % copyright image frame: <a href="https://www.freepik.com/free-vector/realistic-vector-icon-film-tape-strip-with-white-square-isolated-white-cinema-concept_31096470.htm#query=video%20frame&position=31&from_view=keyword">Image by user15245033</a> on Freepik

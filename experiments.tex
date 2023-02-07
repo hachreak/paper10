@@ -21,39 +21,27 @@ We use the Stochastic Gradient Descent (SGD) optimization algorithm with a learn
 We use SGD instead of Adam because in our experiments the latter led the training to be unstable, resulting in the model diverging after a few epochs.
 
 \begin{figure}[b!]
-\centering
-	\includegraphics[trim=0 0 0 0, clip, width=0.7\columnwidth]{images/exp_1.jpg}
+\centerline{\includegraphics[clip,width=0.6\columnwidth]{images/exp_1.jpg}}
 	\caption{Performance comparison, changing the number of frames (\emph{NF}) in input to the VST  (from 1 to 5).}
 	\label{fig:num-frames-vst}
 \end{figure}
 
 \begin{figure}[b!]
-\centering
-	\includegraphics[trim=0 0 0 0, clip, width=0.7\columnwidth]{images/exp_2.jpg}
+\centerline{\includegraphics[clip,width=0.6\columnwidth]{images/exp_2.jpg}}
     % TODO aggiorna caption!
-	\caption{Performance comparison, changing the number of LSTM cells (from 0 to 4) that form the long-term memory. "LSTM 2 cells" corresponds to NF 3 in Fig.~\ref{fig:num-frames-vst}.\mnote{forse per simmetria la taglierei anche questa sui 400 come le altre due.}\anote{Concordo}}
+	\caption{Performance comparison, changing the number of LSTM cells (from 0 to 4) that form the long-term memory. "LSTM 2 cells" corresponds to NF 3 in Fig.~\ref{fig:num-frames-vst}.}
 	\label{fig:num-memory-cells}
 \end{figure}
 
 \noindent\textbf{Training details.}
 Since the videos contain a non-uniform number of frames, we fixed the number of frames for each video taken into account (video clip length) in order to be able to train the model with a batch size larger than one.
 At each iteration, we randomly choose the starting frame for each video, adjusting the ground-truth accordingly. This makes the training as diverse as possible and reduces the effect of overfitting.
-Unless otherwise specified, the input video is $320 \times 240$, video clip length is 8, LSTM cell number is 2, input number of frames of VST ($NF$) is 3 and the classification head is initialized using a uniform distribution for linear weights, with a (semi-)orthogonal matrix for LSTM modules and bias parameters set to zero. The VST weights are initialized with a model pretrained on Something-Something v2~\cite{goyal2017something}.
-
-\begin{figure}[t!]
-\centering
-	\includegraphics[trim=0 0 0 0, clip, width=0.7\columnwidth]{images/exp_3.jpg}
-    % TODO aggiorna caption!
-	\caption{Performance comparison, changing the video clip length (from 4 to 16). The "8 frames" configuration corresponds to NF 3 in Fig.~\ref{fig:num-frames-vst}.}
-	\label{fig:random-batch}
-\end{figure}
-
-
+It means a batch has the size of $[B, V, H, W]$, where they are batch size, video clip length, height and width, respectively.
+Unless otherwise specified, the input video is $320 \times 240$, video clip length is 8, LSTM cell number is 2, input number of frames of VST ($NF$) is 3 and the classification head is initialized using a uniform distribution for linear weights, with a (semi-)orthogonal matrix for LSTM modules and bias parameters set to zero.~The VST weights are inited with a model pretrained on Something-Something v2~\cite{goyal2017something}.
 \begin{table}[b!]
 	\footnotesize
 	%\setlength{\tabcolsep}{1.2pt}
-	\begin{center}
-		\begin{tabular}{!r|^l|^l|^c|}
+	\centerline{\begin{tabular}{!r|^l|^l|^c|}
 			\# & Method & Input & $AUC$ \\
 			\hline\hline
 	   	              1 & ConvAE \cite{hasan2016learning} & Gray & 64.3 \\
@@ -66,23 +54,29 @@ Unless otherwise specified, the input video is $320 \times 240$, video clip leng
                     8 & STFE \cite{zhou_spatio-temporal_2022} & RGB + Flow & 79.3 \\
             \hline
                     % v22_2
-\rowstyle{\bfseries}9 & Our (MOVAD) & RGB ($320\times240$) &  80.13 \\
+%\rowstyle{\bfseries}9 & Our (MOVAD) & RGB ($320\times240$) &  80.13 \\
                     % v30_3
-%\rowstyle{\bfseries}9 & Our (MOVAD) & RGB ($320\times240$) &  XXX \\
+\rowstyle{\bfseries}9 & Our (MOVAD)  & RGB ($320\times240$) &  80.11 \\
                     % v30_2
 \rowstyle{\bfseries}10 & Our (MOVAD) & RGB ($640\times480$) &  82.11 \\
-\end{tabular}
-	\end{center}
-	\caption{Benchmarks of VAD (Video Anomaly Detection) methods on the DoTA dataset. \lnote{aggiungi risultati v30\_3, dato che $v30\_2 \ge v30$, e descrivi le caratteristiche}}
+\end{tabular}}
+	\caption{Benchmarks of Video Anomaly Detection methods on the DoTA dataset.}
 	\label{tab:sota-vad-auc}
 \end{table}
+
+\begin{figure}[t!]
+\centerline{\includegraphics[clip,width=0.6\columnwidth]{images/exp_3.jpg}}
+    \caption{Performance comparison, changing the video clip length (from 4 to 16). The "8 frames" configuration corresponds to NF 3 in Fig.~\ref{fig:num-frames-vst}.\vspace{-2mm}\label{fig:random-batch}}
+\end{figure}
+
+
+
 
 % TODO visualizza anche la colonna OO e VO? (VO and OO columns are not shown because they do not contain anomalous traffic participants)
 \begin{table*}[bht!]
 	\footnotesize
 	\setlength{\tabcolsep}{3.7pt}
-	\begin{center}
-		\begin{tabular}{|!l||^c|^c|^c|^c|^c|^c|^c|^c|^c|^c|^c|^c|^c|^c|^c|^c|^c|^c|}
+	\centerline{\begin{tabular}{|!l||^c|^c|^c|^c|^c|^c|^c|^c|^c|^c|^c|^c|^c|^c|^c|^c|^c|^c|}
 			Model & $ST$ & $AH$ & $LA$ & $OC$ & $TC$ & $VP$ & $VO$ & $OO$ & $UK$ & $ST*$ & $AH*$ & $LA*$ & $OC*$ & $TC*$ & $VP*$ & $VO*$ & $OO*$ & $UK*$ \\
 			\hline\hline
                 AnoPred \cite{liu2018future}          & 69.9 & 73.6 & 75.2 & 69.7 & 73.5 & 66.3 & N/A & N/A & N/A & 70.9 & 62.6 & 60.1 & 65.6 & 65.4 & 64.9 & 64.2 & 57.8 & N/A \\
@@ -91,19 +85,20 @@ Unless otherwise specified, the input video is $320 \times 240$, video clip leng
                 FOL-Ensemble \cite{9712446}           & 73.3 & 81.2 & 74.0 & 73.4 & 75.1 & 70.1 & N/A & N/A & N/A & \red{77.5} & 69.8 & 68.1 & \red{76.7} & 73.9 & 71.2 & 65.2 & 69.6 & N/A \\
                 % STFE gli manca la colonna VP*!
                 % STFE ha dei risultati non molto chiari.
-                STFE \cite{zhou_spatio-temporal_2022} & 75.2 & \red{84.5} & 72.1 & 77.3 & 72.8 & 71.9 & N/A & N/A & N/A & \textbf{80.6} & 65.6 & \red{69.9} & 76.5 & 74.2 & N/A & \red{75.6} & \red{70.5} & N/A \\
+                STFE \cite{zhou_spatio-temporal_2022} & 75.2 & 84.5 & 72.1 & 77.3 & 72.8 & 71.9 & N/A & N/A & N/A & \textbf{80.6} & 65.6 & 69.9 & 76.5 & 74.2 & N/A & 75.6 & 70.5 & N/A \\
                 % v22_2 epoca 370
-                \textbf{Our (MOVAD)}                  &  \red{85.6} & \red{84.5} & \red{81.4} & \red{82.8} & \red{84.9} & \textbf{85.8} & \textbf{79.1} & \red{87.4} & \textbf{76.2} & 75.1 & \red{69.9} & 68.4 & 76.6 & \red{75.8} & \red{71.8} & 74.1 & 70.2 & \red{69.4} \\
+                %\textbf{Our (MOVAD)}                  &  \red{85.6} & \red{84.5} & \red{81.4} & \red{82.8} & \red{84.9} & \textbf{85.8} & \textbf{79.1} & \red{87.4} & \textbf{76.2} & 75.1 & \red{69.9} & 68.4 & 76.6 & \red{75.8} & \red{71.8} & 74.1 & 70.2 & \red{69.4} \\
+                % v30_3 560
+                \textbf{Our (MOVAD)   }                &  \red{85.6} & \red{85.1} & \red{83.9} & \red{82.2} & \red{85.3} & \textbf{86.2} & \textbf{79.3} & \red{86.7} & \textbf{77.1} & 72.1 & \red{71.6} & \red{72.3} & 76.5 & \red{75.7} & \red{74.1} & \red{77.9} & \red{71.7} & \red{69.1} \\
                 % v30
                 %\textbf{Our (MOVAD)} &  \textbf{86.7} & \textbf{86.7} & \textbf{84.1} & \textbf{83.2} & \textbf{86.1} & \textbf{81.9} & 73.2 & \textbf{70.2} & \textbf{74.5} & \textbf{80.0} & \textbf{77.7} & \textbf{75.5} & \textbf{80.1} & \textbf{78.0}  \\
-                % v30_2 (epoca 450)
-                \textbf{Our (MOVAD) **}                  &  \textbf{86.6} & \textbf{86.3} & \textbf{84.9} & \textbf{83.7} & \textbf{85.5} & \red{81.6} & \red{77.4} & \textbf{87.9} & \red{73.8} & 72.2 & \textbf{74.0} & \textbf{74.8} & \textbf{80.2} & \textbf{79.6} & \textbf{76.8} & \textbf{82.2} & \textbf{78.3} & \textbf{72.9} \\
+                % v30_2 (epoca 560)
+                \textbf{Our (MOVAD) \dag}                &  \textbf{86.6} & \textbf{86.3} & \textbf{84.9} & \textbf{83.7} & \textbf{85.5} & \red{81.6} & \red{77.4} & \textbf{87.9} & \red{73.8} & 72.2 & \textbf{74.0} & \textbf{74.8} & \textbf{80.2} & \textbf{79.6} & \textbf{76.8} & \textbf{82.2} & \textbf{78.3} & \textbf{72.9} \\
                 % v30_2 (epoca 450)
                 %\textbf{Our (MOVAD) **}                  &  \textbf{87.2} & \textbf{86.6} & \textbf{85.0} & \textbf{83.8} & \textbf{86.2} & \red{79.1} & \red{77.9} & \red{87.1} & \red{74.1} & 72.8 & \textbf{73.1} & \textbf{75.7} & \textbf{82.2} & \textbf{79.0} & \textbf{74.7} & \textbf{80.3} & \textbf{77.8} & \textbf{72.1} \\
         \hline
-\end{tabular}
-	\end{center}
-	\caption{Detection accuracy (AUC) for individual accident categories. "*" indicates non-ego anomaly categories. "**" indicates input resolution is $640\times480$ instead of $320\times240$. N/A=Not Available. Bold and red values are the best and second-best results.\lnote{aggiungi 30\_3 al posto della 20\_2}}
+\end{tabular}}
+	\caption{Detection accuracy (AUC) for individual accident categories. "*" indicates non-ego anomaly categories. "\dag" indicates input resolution is $640\times480$ instead of $320\times240$. N/A=Not Available. Bold and red values are the best and second-best results.}
 	\label{tab:sota-vad-auc-per-class}
 \end{table*}
 
@@ -118,7 +113,7 @@ Unless otherwise specified, the input video is $320 \times 240$, video clip leng
 In this experiment, we empirically study the effects of the number of input frames to the short-term memory module, varying the number of frames $NF$ processed by the VST at each step.
 The results are displayed in the Fig.~\ref{fig:num-frames-vst}.
 As we expected, taking into account only the current frame is the worst situation, making the training also unstable.
-This is reasonable as the short-term memory module processes and embeds only the current frame, without any knowledge of the near past, leading the long-term memory module to overfit data since consecutive frames are very similar. \vnote{confermare con esperimento NF=1 e no LSTM}
+This is reasonable as the short-term memory module processes and embeds only the current frame, without any knowledge of the near past, leading the long-term memory module to overfit data since consecutive frames are very similar.\vnote{confermare con esperimento NF=1 e no LSTM}
 Increasing the number of frames processed at each step has a much more limited effect. Indeed, with 5 frames the effect already becomes counterproductive since the increased amount of information processed does not lead to a gain in performance. Overall, the highest AUC is obtained with 4 frames.
 
 % (no) v23: rand frame order (v17) vs normal
@@ -137,7 +132,7 @@ To make the graph easier to read, the GRU results are not shown, but the trend i
 The effect introduced by the memory cells is evident.
 Having no cells makes training slower in saturating performance and it reaches the lowest AUC value.
 With only one cell the performance saturates very quickly, with a slow degradation during the rest of the epochs.
-By increasing the number of cells, the maximum peak of AUC is reached slower, but its absolute value is higher. The maximum AUC is reached, even if with just +$0.02\%$ compared to 3 LSTM cells, by 2 LSTM cells around epoch 270.
+By increasing the number of cells, the maximum peak of AUC is reached slower, but its value is higher. The maximum AUC is reached, even if with just +$0.02\%$ compared to 3 LSTM cells, by 2 LSTM cells around epoch 270.
 
 %\noindent\textbf{Saliency module.}
 % v25, v22: con/senza/versione ridotta della saliency
