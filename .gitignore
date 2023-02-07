@@ -1,0 +1,12 @@
+papers
+template
+paper.synctex.gz
+paper.pdf
+*.brf
+*.log
+*.aux
+*.blg
+*.bbl
+*.toc
+tmp
+*~lock*
