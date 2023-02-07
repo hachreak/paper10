@@ -7,7 +7,7 @@ We perform our tests on the DoTA dataset \cite{9712446}.
 It contains 4677 videos taken from YouTube, with a resolution of $1280 \times 720$, annotated with information about the start and end of the anomaly, the anomaly category (10 in total) and the bounding boxes of the objects or persons involved.
 The videos were recorded in different countries and with different illumination and weather conditions.
 We use the original dataset split, in approximately $70\%$ training and $30\%$ validation.
-Our tests are related to the Task~1~\cite{9712446}, the (frame-level) Video Anomaly Detection.
+Our tests are related to the Task~1~\cite{9712446}, the (frame-level) VAD.
 Our model training and evaluation take place in the online scenario, that is the most realistic and most interesting condition from our point of view.
 
 \noindent\textbf{Evaluation Metrics}.
@@ -127,7 +127,7 @@ Increasing the number of frames processed at each step has a much more limited e
 % (no) v27, v27_2: pre + post lstm (1 cell) + saliency (?), pre + post lstm (1 cell)
 In this experiment, we evaluate the long-term memory effect on the classification capability.
 In Fig.~\ref{fig:num-memory-cells}, we compare the network with and without the LSTM long-term memory.
-For the long-term memory, we tested LSTM and Gated Recurrent Unit (GRU) \cite{chung2014empirical} modules, with a number of cells varying from 1 to 4.
+For the long-term memory, we tested LSTM and Gated Recurrent Unit (GRU) modules, with a number of cells varying from 1 to 4.
 To make the graph easier to read, the GRU results are not shown, but the trend is very similar to LSTM module. 
 The effect introduced by the memory cells is evident.
 Having no cells makes training slower in saturating performance and it reaches the lowest AUC value.
