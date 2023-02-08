@@ -20,16 +20,19 @@ We perform the training on a single machine with an A100 GPU\@.
 We use the Stochastic Gradient Descent (SGD) optimization algorithm with a learning rate of 0.0001, a momentum of 0.9, video clip length 8 and batch size 8.
 We use SGD instead of Adam because in our experiments the latter led the training to be unstable, resulting in the model diverging after a few epochs.
 
+\newcommand{\figsize}{0.7\columnwidth}
+
 \begin{figure}[b!]
-\centerline{\includegraphics[clip,width=0.6\columnwidth]{images/exp_1.jpg}}
-	\caption{Performance comparison, changing the number of frames (\emph{NF}) in input to the VST  (from 1 to 5).}
+\centerline{\includegraphics[clip,width=\figsize]{images/exp_1.jpg}}
+	\caption{Performance comparison, changing the number of frames ($\mathit{NF}$) in input to the VST  (from 1 to 5).}
 	\label{fig:num-frames-vst}
 \end{figure}
 
+
 \begin{figure}[b!]
-\centerline{\includegraphics[clip,width=0.6\columnwidth]{images/exp_2.jpg}}
+\centerline{\includegraphics[clip,width=\figsize]{images/exp_2.jpg}}
     % TODO aggiorna caption!
-	\caption{Performance comparison, changing the number of LSTM cells (from 0 to 4) that form the long-term memory. "LSTM 2 cells" corresponds to NF 3 in Fig.~\ref{fig:num-frames-vst}.}
+	\caption{Performance comparison, changing the number of LSTM cells (from 0 to 4) that form the long-term memory. "LSTM 2 cells" corresponds to $\mathit{NF}=3$  in Fig.~\ref{fig:num-frames-vst}.}
 	\label{fig:num-memory-cells}
 \end{figure}
 
@@ -37,7 +40,7 @@ We use SGD instead of Adam because in our experiments the latter led the trainin
 Since the videos contain a non-uniform number of frames, we fixed the number of frames for each video taken into account (video clip length) in order to be able to train the model with a batch size larger than one.
 At each iteration, we randomly choose the starting frame for each video, adjusting the ground-truth accordingly. This makes the training as diverse as possible and reduces the effect of overfitting.
 It means a batch has the size of $[B, V, H, W]$, where they are batch size, video clip length, height and width, respectively.
-Unless otherwise specified, the input video is $320 \times 240$, video clip length is 8, LSTM cell number is 2, input number of frames of VST ($NF$) is 3 and the classification head is initialized using a uniform distribution for linear weights, with a (semi-)orthogonal matrix for LSTM modules and bias parameters set to zero.~The VST weights are inited with a model pretrained on Something-Something v2~\cite{goyal2017something}.
+Unless otherwise specified, the input video is $320 \times 240$, video clip length is 8, LSTM cell number is 2, input number of frames of VST ($\mathit{NF}$) is 3 and the classification head is initialized using a uniform distribution for linear weights, with a (semi-)orthogonal matrix for LSTM modules and bias parameters set to zero.~The VST weights are inited with a model pretrained on Something-Something v2~\cite{goyal2017something}.
 \begin{table}[b!]
 	\footnotesize
 	%\setlength{\tabcolsep}{1.2pt}
@@ -65,8 +68,8 @@ Unless otherwise specified, the input video is $320 \times 240$, video clip leng
 \end{table}
 
 \begin{figure}[t!]
-\centerline{\includegraphics[clip,width=0.6\columnwidth]{images/exp_3.jpg}}
-    \caption{Performance comparison, changing the video clip length (from 4 to 16). The "8 frames" configuration corresponds to NF 3 in Fig.~\ref{fig:num-frames-vst}.\vspace{-2mm}\label{fig:random-batch}}
+\centerline{\includegraphics[clip,width=\figsize]{images/exp_3.jpg}}
+    \caption{Performance comparison, changing the video clip length (from 4 to 16). The "8 frames" configuration corresponds to $\mathit{NF}=3$ in Fig.~\ref{fig:num-frames-vst}.\label{fig:random-batch}}
 \end{figure}
 
 
@@ -110,7 +113,7 @@ Unless otherwise specified, the input video is $320 \times 240$, video clip leng
 \noindent\textbf{Short-term memory module.}
 
 % v22: numero di frames in input
-In this experiment, we empirically study the effects of the number of input frames to the short-term memory module, varying the number of frames $NF$ processed by the VST at each step.
+In this experiment, we empirically study the effects of the number of input frames to the short-term memory module, varying the number of frames $\mathit{NF}$ processed by the VST at each step.
 The results are displayed in the Fig.~\ref{fig:num-frames-vst}.
 As we expected, taking into account only the current frame is the worst situation, making the training also unstable.
 This is reasonable as the short-term memory module processes and embeds only the current frame, without any knowledge of the near past, leading the long-term memory module to overfit data since consecutive frames are very similar.\vnote{confermare con esperimento NF=1 e no LSTM}
@@ -144,7 +147,7 @@ As mentioned in training details paragraph, at each iteration and separately for
 In Fig.~\ref{fig:random-batch}, we evaluate the effect of the size of the video clip length.
 The worst and most unstable training is obtained with 4 frames, probably because they are too few to exploit the long-term memory effect of LSTM cells. \anote{Ma non ho capito ... prendiamo solo 4 frames per ogni video??? O 16? Ma non sono troppo pochi per vedere un'anomalia? Se è così io valuterei se togliere tutto questo esperimento, anche per motivi di spazio}
 Increasing the clip length permits to saturate performance quicker, but a value too high (like 12 or 16) tends to produce a lower AUC overall.
-In fact, the highest AUC value is obtained using 8 frames as video clip length, which represents a good tradeoff between enlarging clip size and exploiting LSTM cells while, at the same time, avoiding overfitting due to consecutive frames being too similar to each other.
+In fact, the highest AUC value is obtained using 8 frames as video clip length, which represents a good tradeoff between enlarging clip size and exploiting LSTM cells while, at the same time, avoiding overfitting due to consecutive frames being too similar to each other.\mnote{poi me la spiegate}
 
 \subsection{Comparison with the state of the art}
 % input shape
@@ -155,7 +158,7 @@ In fact, the highest AUC value is obtained using 8 frames as video clip length, 
 %   - UCSD Ped2: https://paperswithcode.com/sota/abnormal-event-detection-in-video-on-ucsd
 Finally, in Table \ref{tab:sota-vad-auc} we compare MOVAD with state-of-the-art models using.
 The first is using in input a videos size of $320\times240$, while the second $640\times480$.
-Both are trained with the following winning configuration of: video clip length of 8, 3 LSTM cells and $NF=4$.
+Both are trained with the following winning configuration of: video clip length of 8, 3 LSTM cells and $\mathit{NF}=4$.
 It should be noted that, even if in the long-term memory experiment the peak was reached with 2 lstm cells, here we use 3 because its ability to increase the quality of training in a slower and more continuous way has had a better benefit, versus saturating performance early and then degrading it over time.
 Table \ref{tab:sota-vad-auc-per-class} shows results per class (see \cite{9712446} for explanation of different classes).
 Our architecture surpasses the state-of-the-art model by $2.81\%$ AUC, reaching the highest value of $82.11\%$.

@@ -15,6 +15,7 @@
 \usepackage{subcaption}
 \usepackage{array}
 \usepackage{xcolor}
+\usepackage{ifthen}
 
 % If you comment hyperref and then uncomment it, you should delete
 % egpaper.aux before re-running latex.  (Or just hit 'q' on the first latex
@@ -30,26 +31,23 @@
     
 }
 
-%\newcommand{\lnote}[1]{\textcolor{blue}{\textbf{}}}
-%\newcommand{\tnote}[1]{\textcolor{teal}{\textbf{}}}
-%\newcommand{\vnote}[1]{\textcolor{orange}{\textbf{}}}
-%\newcommand{\anote}[1]{\textcolor{red}{\textbf{}}}
-%\newcommand{\mnote}[1]{\textcolor{violet}{\textbf{}}}
-
-%\providecommand{\lnote}[1]{\textcolor{blue}{\textbf{LR: #1}}}
-%\providecommand{\tnote}[1]{\textcolor{teal}{\textbf{[TF: #1]}}}
-%\providecommand{\vnote}[1]{\textcolor{orange}{\textbf{[VB: #1]}}}
-%\providecommand{\anote}[1]{\textcolor{red}{\textbf{[AP: #1]}}}
-%\providecommand{\mnote}[1]{\textcolor{violet}{\textbf{[MB: #1]}}}
-
 \providecommand{\red}[1]{\textcolor{red}{#1}}
 
+\def\debug{1}
+
+\ifnum \debug=1
+\providecommand{\lnote}[1]{\textcolor{blue}{\textbf{LR: #1}}}
+\providecommand{\tnote}[1]{\textcolor{teal}{\textbf{[TF: #1]}}}
+\providecommand{\vnote}[1]{\textcolor{orange}{\textbf{[VB: #1]}}}
+\providecommand{\anote}[1]{\textcolor{red}{\textbf{[AP: #1]}}}
+\providecommand{\mnote}[1]{\textcolor{violet}{\textbf{[MB: #1]}}}
+\else
 \providecommand{\lnote}[1]{}
 \providecommand{\tnote}[1]{}
 \providecommand{\vnote}[1]{}
 \providecommand{\anote}[1]{}
 \providecommand{\mnote}[1]{}
-
+\fi
 
 % Title.
 % ------
@@ -64,7 +62,7 @@
 % ------------
 \address{IMP Lab - Dipartimento di Ingegneria e Architettura\\
     University of Parma, Italy\\
-    Emails: \{name.surname\}@unipr.it}
+    Emails: \{name.surname\}@unipr.it \mnote{ocio!}}
 
 % Two addresses (uncomment and modify for two-address case).
 % ----------------------------------------------------------
@@ -90,7 +88,7 @@
     \input{abstract}
 \end{abstract}
 \begin{keywords}
-    Video Swin Transformer, LSTM, Video Anomaly Detection
+    Video Transformer, LSTM, Video Anomaly Detection
 \end{keywords}
 
 %%%%%%%%% BODY TEXT

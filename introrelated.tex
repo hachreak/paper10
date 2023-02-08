@@ -11,7 +11,7 @@ Among the different sensors exploited in AVs, cameras can provide rich real-time
 Despite the gigantic advances of video analysis algorithms, anomalous situation detection in real traffic scenarios is still very challenging, due to several reasons.
 First of all, it requires real-time performance in order to allow the driver and/or the vehicle's actuators to react promptly.
 Real-time performance does not only call for efficient algorithms, but also implies guaranteed response times and an online strategy, meaning that the system needs to rely only on current frames and, at most, knowing the past (or part of it), but having no idea of what will happen in the future.
-Secondly, we still miss a formal shared model of what an anomaly is should be, because many times the riskness is highly subjective.
+Secondly, we still miss a formal shared model of what an anomaly should be, because many times the riskness is highly subjective.
 For instance, improper crossing of driving lanes might be perceived as anomalous and dangerous if long-lasting and in crowded traffic, while being negligible in other cases.
 In addition, there are plenty of possible accident classes that must be taken into account compared to normal traffic situations, and, for some of them, the number of available examples are very exiguous.
 Lastly, we aim to precisely localize in time the anomaly and the definition of precise boundaries of an anomaly is even more subjective and doubtful.
@@ -27,7 +27,7 @@ Authors in \cite{hasan2016learning} proposed a Convolutional AutoEncoder (ConvAE
 In \cite{luo2017remembering, wang2018abnormal}, authors used Convolutional LSTM Auto-Encoder as framework to encode appearance and motion.
 As noted by \cite{ramachandra2020survey}, auto-encoder-type reconstruction methods are sensitive to the amount of anomalies that occur in the scene and many times they require additional post-processing techniques.
 Authors in \cite{liu2018future} proposed AnoPred, which uses a multi-task loss, including image intensity, optical flow, gradient and adversarial losses for Video Anomaly Detection (VAD) by predicting a future frame.
-As stated in \cite{9712446}, AnoPred was thought in a video surveillance context, while videos acquired from a moving vehicle are more dynamic and difficult to predict.
+As stated in~\cite{9712446}, AnoPred was thought in a video surveillance context, while videos acquired from a moving vehicle are more dynamic and difficult to predict.
 In \cite{zhou_spatio-temporal_2022}, authors make coarse-to-fine detection, by the encoding of the temporal features with Histogram of Optical Flow (HOF) \cite{wang2013action} and ordinal features of frames by a CNN, and then by encoding the CNN features and spatial relationships of the objects.
 In FOL~\cite{9712446}, authors try to avoid the future prediction for the entire frame, focusing instead on tracking actors position and predicting their future locations.
 Conversely to us, their method is limited by the presence of actors in the Field of View (FOV).
@@ -37,8 +37,10 @@ In our case, we do not speculate on the future, but rely only on the present and
 
 In this paper, we describe our new architecture called \emph{MOVAD} (Memory-augmented Online Video Anomaly Detection).
 In order to build a system that is capable to temporally locate anomalies in videos, belonging to a wide range of possible situations, we have introduced two main architectural contributions.
-The first exploits a Video Swin Transformer \cite{liu_video_2022} (VST) model, adapted to model short-term memory in a real-time and online scenario.
+The first exploits a Video Swin Transformer~\cite{liu_video_2022} (VST) model, adapted to model a short-term memory in a real-time and online scenario.
 This adaptation allows the system to incorporate temporal correlation and to detect online behaviors, by relying only on the current and few previous frames.
-The second architectural contribution is the injection of a LSTM module inside the classifier head to model the long-term memory of the past.
-This is crucial to have the network learning how to better model anomalies from the remote past situations.
-An exhaustive ablation study on all the components of the architecture over the public dataset DoTA \cite{9712446} shows superior performance in terms of AUC w.r.t.~the state of the art, adding a further degree of difficulty given by the real-time and online capabilities.\mnote{e comunque parliamo di real time ma ricordo male io o non si parla di tempi di esecuzione?}\anote{Ha ragione Massimo. Verifichiamo bene}
+The second contribution is the injection of a LSTM module inside the classifier head to model the long-term memory of the past.
+This is crucial to exploits contextual information spread into the entire video.
+An exhaustive ablation study is done over the dataset DoTA \cite{9712446}.
+Compared w.r.t.~the state of the art, MOVAD shows superior performance in terms of AUC.
+It is worth noting that our model works in a more restrictive scenario than most of other models, adding a further degree of difficulty given by the real time guaranteed response times and online capabilities.\mnote{con il guaranteed mi sembra si stressi ancora di piú il real time!}
