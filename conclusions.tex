@@ -1,7 +1,7 @@
 \section{Conclusions}
 \label{sec:conclusions}
 
-In this paper, we proposed a new architecture called MOVAD for the online frame-level Video Aanomaly Detection task.
-It works in the most restrictive scenario, adding a further degree of difficulty given by the real time guaranteed response times and online capabilities.
-MOVAD is composed by a short-term memory to extract information related to the ongoing action, implemented by a Video Swin Transformer adapted to work in a online scenario, and a long-term memory module that considers remote past information thanks to LSTM.
-We evaluated its performance on Detection of Traffic Anomaly (DoTA) dataset, a collection of dash-mounted camera videos of accidents, reaching $82.11\%$ AUC, surpassing the current state of the art by $2.81\%$ AUC.\mnote{un po' equivoco}
+In this paper, we propose a new architecture called MOVAD for the online frame-level Video Anomaly Detection task.
+It handle the most restrictive scenario, adding a further degree of difficulty given by the real time guaranteed response times and online capabilities.
+MOVAD is composed by a short-term memory, which extracts information related to the ongoing action, implemented by a Video Swin Transformer adapted to work in a online scenario, and a long-term memory module that considers remote past information thanks to LSTM.
+We evaluated its performance on Detection of Traffic Anomaly (DoTA) dataset, a collection of dash-mounted camera videos of accidents, reaching $82.11\%$ AUC, surpassing the current state of the art by +$2.81\%$ AUC.
