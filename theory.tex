@@ -16,7 +16,7 @@ Taking inspiration from~\cite{xu2021long}, recently observed frames have been ta
 \noindent\textbf{Short-term memory module.}
 Since we are dealing with the online version of VAD task, the only information available to the system, at any given time, are the current and the past frames.
 In order to implement this module, we selected the Video Swin Transformer (VST)~\cite{liu_video_2022} over ViViT~\cite{Arnab_2021_ICCV} due to its superior performance, and over an RNN given its ability to process frames in parallel.
-Originally born to carry out the Video Action Classification task, analyzing all the frames in one step, we adapted to perform single-frame classification using few of them.
+Originally born to carry out the Video Action Classification task, analyzing all the frames in one step, we adapted it to perform single-frame classification using few of them.
 In particular, it considers only a small temporal window of $\mathit{NF}$ frames of the video, going from the current frame at time $t$ to the previous frame at time $t-\left(\mathit{NF}-1\right)$.
 VST takes as input a video with size $\mathit{NF} \times H \times W \times 3$, where $\mathit{NF}$ ($=4$), $H$ e $W$ correspond to the number of frames, height, width and RGB channels, respectively.
 The model internally splits the frames in non-overlapping 3D patches, partitioning the video in $\frac{\mathit{NF}}{2} \times \frac{H}{4} \times \frac{W}{4}$ 3D tokens, projecting the features to an arbitrary dimension $C$.
@@ -25,7 +25,7 @@ The rest of the VST architecture is similar to the original Swin Transformer~\ci
 \noindent\textbf{Long-term memory module.}
 The output of VST goes through Adaptive Average Pool 3D layer (Reducer in Fig.~\ref{fig:arch}) and, finally, enter inside the classification Head.
 As shown in Fig.~\ref{fig:arch}, the Head is composed by a series of normalization layers, linear layers and dropout, alternating. 
-It deals with long-term memory thanks to a LSTM module inserted after the last normalization layer.
+It deals with long-term memory thanks to an LSTM module inserted after the last normalization layer.
 This module is composed by three cells stacked together to form a stacked LSTM.
 The state, composed by three hidden states $h[t]$ and three cell states $c[t]$, is updated whenever a new frame is available.
 The LSTM receives in input a features block of $[B, 1024]$, where $B$ is the batch size, and returns a block of same size together with the state of the cells.
