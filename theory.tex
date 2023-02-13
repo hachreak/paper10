@@ -23,7 +23,7 @@ The model internally splits the frames in non-overlapping 3D patches, partitioni
 The rest of the VST architecture is similar to the original Swin Transformer~\cite{liu2021Swin}, with four stages of Video Swin Transformer blocks, interspersed with $2\times$ spatial down-sampling in the patch merging layer.
 
 \noindent\textbf{Long-term memory module.}
-The output of VST goes through Adaptive Average Pool 3D layer (Reducer in Fig.~\ref{fig:arch}) and, finally, enter inside the classification Head.
+The output of VST goes through Adaptive Average Pool 3D layer (Reducer in Fig.~\ref{fig:arch}) and, finally, enters inside the classification Head.
 As shown in Fig.~\ref{fig:arch}, the Head is composed by a series of normalization layers, linear layers and dropout, alternating. 
 It deals with long-term memory thanks to an LSTM module inserted after the last normalization layer.
 This module is composed by three cells stacked together to form a stacked LSTM.
@@ -31,6 +31,6 @@ The state, composed by three hidden states $h[t]$ and three cell states $c[t]$, 
 The LSTM receives in input a features block of $[B, 1024]$, where $B$ is the batch size, and returns a block of same size together with the state of the cells.
 Because the state is relatively small, the module is very efficient and leads to a fixed and limited additional computational cost.
 For each frame $f[t]$, the model outputs the anomaly classification score $s[t] \in [0,1]$, where $0$ means no anomaly and $1$ means the frame is anomalous.
-A weighted cross-entropy loss was chosen to train the model, giving higher weight to the anomaly class, in order to reflect the distribution of the data.
+Finally, a weighted cross-entropy loss was chosen to train the model, giving higher weight to the anomaly class, in order to reflect the distribution of the data.
 
 % copyright image frame: <a href="https://www.freepik.com/free-vector/realistic-vector-icon-film-tape-strip-with-white-square-isolated-white-cinema-concept_31096470.htm#query=video%20frame&position=31&from_view=keyword">Image by user15245033</a> on Freepik
