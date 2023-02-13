@@ -46,12 +46,12 @@ We use SGD instead of Adam because in our experiments the latter led the trainin
 	\centerline{\begin{tabular}{!r|^c|^c|^c|}
 			\# & Short-term & Long-term & $AUC$ \\
 			\hline\hline
-	   	            1 &            &            & 53.35 \\
+	   	            1 &            &            & 66.53 \\
 	   	            2 & \checkmark &            & 74.46 \\
 	   	            3 &            & \checkmark & 68.76 \\
 \rowstyle{\bfseries}4 & \checkmark & \checkmark & 79.21 \\
 \end{tabular}}
-	\caption{Performance comparison, with and w/out short and long-term memory. Short-term: with (NF=3) and w/out (NF=1). Long-term: with (2 cells) and w/out (0 cells). }
+	\caption{Performance comparison, with and w/out short and long-term memory for 400 epochs. Short-term: with ($\mathit{NF}=3$) and w/out ($\mathit{NF}=1$). Long-term: with (2 cells) and w/out (0 cells). }
 	\label{tab:short-vs-long-term-auc}
 \end{table}
 
@@ -155,10 +155,10 @@ Having no cells makes training slower in saturating performance and it reaches t
 In general, by increasing the number of cells, its maximum AUC is reached slower in time but higher than w/out LSTM.
 With 1 cell the performance saturates very quickly, with a slow degradation during the rest of the epochs.
 With 4 cells leads to a very slow saturation w/out reaching the best performance.
-The global maximum AUC is reached by 2 cells, even if with just +$0.02\%$ compared to 3 cells.
+The global maximum AUC is reached by 2 cells, even if with just +$0.02$ compared to 3 cells.
 Despite this, we prefer the latter configuration because we think its ability to increase the quality of training in a slower (but not too much) and more continuous way has a better general benefit.
-We verified that, in conjunction with the use of NF=4 (best configuration found in the previous experiment), it permits to obtain higher AUC than with 2 cells.
-We speculate this happen because both (3 cells in Fig. \ref{fig:num-memory-cells} and NF=4 in Fig. \ref{fig:num-frames-vst}) reach the best AUC at same time (around 400 epochs).
+We verified that, in conjunction with the use of $\mathit{NF}=4$ (best configuration found in the previous experiment), it permits to obtain higher AUC than with 2 cells.
+We speculate this happen because both (3 cells in Fig. \ref{fig:num-memory-cells} and $\mathit{NF}=4$ in Fig. \ref{fig:num-frames-vst}) reach the best AUC at same time (around 400 epochs).
 
 %\noindent\textbf{Saliency module.}
 % v25, v22: con/senza/versione ridotta della saliency
@@ -183,7 +183,7 @@ Finally, in Table \ref{tab:sota-vad-auc} we compare MOVAD (with $320\times240$ a
 Both trained with the best configuration of: VCL of 8, 3 LSTM cells and $\mathit{NF}=4$.
 Table \ref{tab:sota-vad-auc-per-class} shows results per class (see \cite{9712446} for explanation of classes).
 Both MOVAD surpass the state-of-the-art (SOTA) models.
-Our best MOVAD surpasses SOTA by +$2.81\%$ AUC, reaching the highest value of $82.11\%$ AUC.
+Our best MOVAD surpasses SOTA by +$2.81$ AUC, reaching the highest value of $82.11\%$ AUC.
 %VB: Potrebbe servire come confronto per il numero parametri e flops
 %sembra non riesca a calcolare i flops della rnn però
 %| module                    | #parameters or shape   | #flops     |
