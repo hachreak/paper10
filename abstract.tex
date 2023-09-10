@@ -1,0 +1,7 @@
+The ability to understand the surrounding scene is of paramount importance for Autonomous Vehicles (AVs).
+This paper presents a system capable to work in an online fashion, giving an immediate response to the arise of anomalies surrounding the AV, exploiting only the videos captured by a dash-mounted camera.
+Our architecture, called \emph{MOVAD}, relies on two main modules: a Short-Term Memory Module to extract information related to the ongoing action, implemented by a Video Swin Transformer (VST) adapted to work in an online scenario, and a Long-Term Memory Module injected inside the classifier that considers also remote past information thanks to the use of a Long-Short Term Memory (LSTM) network. 
+\tnote{Additionally, MOVAD is trained end-to-end and does not require additional information, but relies only on analysing RGB frames, greatly optimizing the computational resources.}
+% \vnote{A noteworthy advantage of our method is the processing of exclusively RGB frames within video sequences. This approach optimizes computational resources and enhances the efficiency of our end-to-end system, thereby contributing to its overall effectiveness.}
+We evaluated the performance of our method on Detection of Traffic Anomaly (DoTA) dataset, a challenging collection of dash-mounted camera videos of accidents.
+After an extensive ablation study, MOVAD is able to reach an AUC score of 82.17\%, surpassing the current state-of-the-art by $+2.87$ AUC.

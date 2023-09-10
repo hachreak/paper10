@@ -1,0 +1,115 @@
+% Template for ICASSP-2024 paper; to be used with:
+%          spconf.sty  - ICASSP/ICIP LaTeX style file, and
+%          IEEEbib.bst - IEEE bibliography style file.
+% --------------------------------------------------------------------------
+\documentclass{article}
+\usepackage{spconf,amsmath,graphicx}
+
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{multirow}
+%\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{ifthen}
+\usepackage{adjustbox}
+\usepackage{enumitem}
+\usepackage[pagebackref=true,breaklinks=true,colorlinks,bookmarks=false]{hyperref}
+
+\newcolumntype{!}{>{\global\let\currentrowstyle\relax}}
+
+\newcolumntype{^}{>{\currentrowstyle}}
+\newcommand{\rowstyle}[1]{\gdef\currentrowstyle{#1}%
+
+    #1\ignorespaces
+
+}
+
+% Example definitions.
+% --------------------
+\def\x{{\mathbf x}}
+\def\L{{\cal L}}
+
+\providecommand{\red}[1]{\textcolor{red}{#1}}
+
+\def\debug{1}
+
+\ifnum \debug=1
+\providecommand{\lnote}[1]{\textcolor{blue}{[LR: #1]}}
+\providecommand{\tnote}[1]{\textcolor{teal}{[TF: #1]}}
+\providecommand{\vnote}[1]{\textcolor{orange}{[VB: #1]}}
+\providecommand{\anote}[1]{\textcolor{red}{[AP: #1]}}
+\providecommand{\mnote}[1]{\textcolor{violet}{[MB: #1]}}
+\else
+\providecommand{\lnote}[1]{}
+\providecommand{\tnote}[1]{}
+\providecommand{\vnote}[1]{}
+\providecommand{\anote}[1]{}
+\providecommand{\mnote}[1]{}
+\fi
+
+
+% Title.
+% ------
+\title{Memory-augmented Online Video Anomaly Detection}
+%
+% Single address.
+% ---------------
+% \name{Author(s) Name(s)\thanks{Thanks to XYZ agency for funding.}}
+% \address{Author Affiliation(s)}
+
+\name{Leonardo Rossi \qquad Vittorio Bernuzzi \qquad Tomaso Fontanini \qquad Massimo Bertozzi \qquad Andrea Prati}
+\address{University of Parma, Department of Engineering and Architecture}
+
+%
+% For example:
+% ------------
+%\address{School\\
+%	Department\\
+%	Address}
+%
+% Two addresses (uncomment and modify for two-address case).
+% ----------------------------------------------------------
+%\twoauthors
+%  {A. Author-one, B. Author-two\sthanks{Thanks to XYZ agency for funding.}}
+%	{School A-B\\
+%	Department A-B\\
+%	Address A-B}
+%  {C. Author-three, D. Author-four\sthanks{The fourth author performed the work
+%	while at ...}}
+%	{School C-D\\
+%	Department C-D\\
+%	Address C-D}
+%
+\begin{document}
+%\ninept
+%
+\maketitle
+%
+    %%%%%%%%% HEADER
+    \title{Memory-augmented Online Video Anomaly Detection}
+    \maketitle
+    %
+    
+    %%%%%%%%% ABSTRACT
+    \begin{abstract}
+        \input{abstract}
+    \end{abstract}
+    \begin{keywords}
+        Video Transformer, LSTM, Video Anomaly Detection, Online VAD, Memory-Augmented Networks
+    \end{keywords}
+    
+    %%%%%%%%% BODY TEXT
+    \input{introrelated}
+    %\input{intro}
+    %\input{related}
+    \input{theory}
+    \input{experiments}
+    \input{conclusions}
+    %%%%%%%%% BIBLIOGRAPHY
+    \bibliographystyle{splncs04}
+    \bibliography{bibliography}
+\end{document}
