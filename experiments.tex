@@ -2,11 +2,9 @@
 \label{sec:experiments}
 
 \noindent\textbf{Dataset}.
-We perform our tests on DoTA dataset \cite{9712446}, using only the anomaly class and its temporal boundaries.
+We perform our training and test on Task~1~\cite{9712446}, the frame-level VAD, of DoTA dataset \cite{9712446}, using only the anomaly class and its temporal boundaries, strictly on the online scenario.
 %It contains 4677 videos taken from YouTube, recorded in different countries and with different illumination and weather conditions, with a resolution of $1280 \times 720$.
 %We use the original dataset split, which approximately divide the training and validation in $70\%$ and $30\%$.
-Our tests are related to the Task~1~\cite{9712446}, the frame-level VAD.
-Our model training and evaluation take place in the online scenario.
 % , that is the most realistic and most interesting condition from our point of view.
 
 \newcommand{\figsize}{0.8\columnwidth}
@@ -32,8 +30,8 @@ We use the well-known Area Under the Curve (AUC) metric at frame-level, to evalu
 %The results of the models, with which we compare, are taken from the respective papers.
 We perform the training on a single machine with an A100 GPU\@, with Stochastic Gradient Descent (SGD) optimization algorithm, learning rate of 0.0001, momentum of 0.9.
 We use SGD instead of Adam because in our experiments the latter led the training to be more unstable, resulting in model diverging after a few epochs.
-Additionally, unless otherwise specified, batch size is 8, input video size is $320 \times 240$, Video Clip Length (VCL), which is the number of frames inside the batch for each video, is 8, LSTM cell number is 2, $\mathit{NF}$ is 3, linear weights are initialized using a uniform distribution, LSTM cells with a (semi-)orthogonal matrix, bias parameters are set to zero and the VST is initialized with a model pretrained on Something-Something v2~\cite{goyal2017something}.
-We train our model using a weighted Cross-Entropy loss to address the issue of imbalanced data within the DoTA dataset, assigning $w_n=0.3$ and $w_a=0.7$ to the normal and anomaly class respectively.
+Unless otherwise specified, batch size is 8, input video size is $320 \times 240$, Video Clip Length (VCL), which is the number of frames inside the batch for each video, is 8, LSTM cell number is 2, $\mathit{NF}$ is 3, linear weights are initialized using a uniform distribution, LSTM cells with a (semi-)orthogonal matrix, bias parameters are set to zero and the VST is initialized with a model pretrained on Something-Something v2~\cite{goyal2017something}.
+We train using a weighted Cross-Entropy loss to address the issue of imbalanced data within the DoTA dataset, assigning $w_n=0.3$ and $w_a=0.7$ to the normal and anomaly class respectively.
 
 \begin{figure}[ht!]
 \centerline{\includegraphics[clip,width=\figsize]{images/exp_3.jpg}}
@@ -138,7 +136,7 @@ We train our model using a weighted Cross-Entropy loss to address the issue of i
 \end{tabular}
     \end{adjustbox}
     \hspace{0.5em}
-	\caption{Detection accuracy (AUC) for individual accident categories. ``*'' indicates non-ego anomaly categories. ``\dag'' when input resolution is $640\times480$ instead of $320\times240$. N/A=Not Available. Bold and red values are the best and second-best results.}
+	\caption{Detection accuracy (AUC) for individual accident categories. ``*'' for non-ego anomaly categories. ``\dag'' when input resolution is $640\times480$ instead of $320\times240$. N/A=Not Available. Bold and red values are the best and second-best results.}
 	\label{tab:sota-vad-auc-per-class}
 \end{table}
 % \noindent\textbf{Training details.}
@@ -154,8 +152,8 @@ In this section different configurations will be individually explored and final
 
 \noindent\textbf{Memory modules effectiveness.}
 % In this experiment, we study the effects of the memories (short and long). See Table \ref{tab:short-vs-long-term-auc} caption for more details about the configuration.
-We had tested in advace the effect of both memories.
-As shown in Table \ref{tab:short-vs-long-term-auc}, STMM and LTMM both contribute to enhance the general performance, obtaining the best AUC when both are active, highlighting the need for both. 
+As shown in Table \ref{tab:short-vs-long-term-auc}, we first tested the effect of both memories.
+STMM and LTMM both contribute to enhance the general performance, obtaining the best AUC when both are active, highlighting the need for both. 
 %Taking into account the past is always profitable compared to classify the single frame.
 %In addition combining these modules allowed to reach the highest AUC, highlighting the need for both.
 
@@ -195,7 +193,7 @@ With 1 cell the performance saturates very quickly, with a slow degradation duri
 On the other side, 4 cells lead to a very slow saturation w/out reaching the best performance.
 The global maximum AUC is reached with 2 cells, even if with just +$0.02$ compared to 3 cells.
 Despite this, we prefer the latter configuration, because we think its ability to increase the quality of training in a slower and more continuous way has a better general benefit.
-We verified this hypothesis and, in conjunction with the use of $\mathit{NF}=4$ (best configuration found in the previous experiment), it permits to obtain higher AUC than with 2 cells.
+We verified this hypothesis and, in conjunction with $\mathit{NF}=4$ (best configuration in the previous experiment), it permits to obtain higher AUC than with 2 cells.
 We speculate this happens because both (3 cells in Fig. \ref{fig:num-memory-cells} and $\mathit{NF}=4$ in Fig. \ref{fig:num-frames-vst}) reach the best AUC at same time (around 400 epochs).
 
 %\noindent\textbf{Saliency module.}
@@ -220,7 +218,7 @@ In fact, the highest AUC is obtained using 8 frames as VCL, which represents a g
 %   - CUHK Avenue: https://paperswithcode.com/sota/anomaly-detection-on-chuk-avenue
 %   - UCSD Ped2: https://paperswithcode.com/sota/abnormal-event-detection-in-video-on-ucsd
 Finally, in Table \ref{tab:sota-vad-auc} we compare MOVAD (with $320\times240$ and $640\times480$ input videos size) with state-of-the-art (SOTA) models.
-The training of MOVAD followed the best configuration found using information obtained through previous ablation studies: VCL of 8, 3 LSTM cells and $\mathit{NF}=4$.
+The training of MOVAD followed the best configuration found using information obtained through ablation studies: VCL of 8, 3 LSTM cells and $\mathit{NF}=4$.
 % we have chosen the best configuration for MOVAD.
 % Both our models are trained with the best configuration of: VCL of 8, 3 LSTM cells and $\mathit{NF}=4$.
 Both MOVAD surpass the SOTA models.

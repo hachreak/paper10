@@ -9,10 +9,11 @@ Among the different sensors exploited in AVs, cameras offer rich real-time infor
 % Real-time performance does not only call for efficient algorithms, but also implies guaranteed response times and an online strategy, meaning that the system needs to rely only on current frames and, at most, knowing the past (or part of it), but without idea of future.
 In particular, we still miss a formal shared model of what an anomaly should be, because many times the riskness is highly subjective.
 %For instance, improper crossing of driving lanes might be perceived as anomalous and dangerous if long-lasting and in crowded traffic, while being negligible in other cases.
-In addition, there are plenty of possible accident classes to take into account compared to normal traffic situations, and the number of available examples for some of them are very exiguous.
-Lastly, the definition of precise time boundaries of an anomaly is even more subjective and doubtful.
-Nevertheless, some attempts have been made to propose a deterministic method in the interest of defining an anomaly.
-Fang \emph{et al.} \cite{fang2019dada} want to predict an accident likely to happen in the next 5 seconds, labelling the anomaly start from the moment in which half part of the object involved in the accident appears in the view.
+In addition, there are plenty of possible accident classes with a very exiguous number of examples to take into account compared to normal traffic situations.
+%, and the number of available examples for some of them are very exiguous.
+Lastly, the definition of time boundaries of an anomaly is even more subjective and doubtful.
+Nevertheless, some attempts have been made to propose a deterministic method to define an anomaly.
+Fang \emph{et al.} \cite{fang2019dada} labels the anomaly start from the moment in which half part of the object involved in the accident appears in the view.
 Yao \emph{et al.}~\cite{9712446} proposed the Detection of Traffic Anomaly (DoTA) dataset, 
 %that takes into account when the anomalous event starts and ends, spatially locating the entities involved and classifying the type.
 where the anomaly is starting the instant after which the accident is unavoidable. % (still, a subjective concept).
