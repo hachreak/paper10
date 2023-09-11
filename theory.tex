@@ -9,31 +9,36 @@
         \caption{The online frame-level VAD architecture. $f[t]$ is the frame at time $t$, $x$ the output of the Reducer, $\mathit{NF}$ the number of frames in input to the VST, $s[t]$ the anomaly classification score of the frame $f[t]$.\label{fig:arch}}
 \end{figure}
 
-MOVAD is composed by: a Short-Term Memory Module (STMM) and a classification Head that includes a Long-Term Memory Module (LTMM) (see Fig.~\ref{fig:arch}). 
 Taking inspiration from~\cite{xu2021long}, recently observed frames and past frames have been taken into account as a source of information related to the ongoing action and the context, respectively.
+In order to process current and past frames for the Online VAD task, we equipped MOVAD of two main components: a Short-Term Memory Module (STMM) and a Long-Term Memory Module (LTMM) inside the classification head (see Fig.~\ref{fig:arch}). 
 
 \noindent\textbf{Short-Term Memory Module.}
-In the online version of VAD task, the only information available to the system, at any given time, are the current and the past frames.
-In order to implement this module, we selected  the VST~\cite{liu_video_2022} over ViViT~\cite{Arnab_2021_ICCV} \vnote{as our backbone network} due to its superior performance \vnote{and more efficient computation of self-attention mechanism.
-We also favored VST over an RNN due to its ability to process frames in parallel.}
+In order to elaborate the coming frame and to retain near-past spatio-temporal information, we chosen a transformer architecture over an RNN, to be able to process them in a parallel fashion.
+We selected VST~\cite{liu_video_2022} as our backbone network over model like ViViT~\cite{Arnab_2021_ICCV}, due to its superior performance and more efficient computation of self-attention mechanism.
 %Originally VST was born to carry out the Video Action Classification task, analyzing all the frames in one step, we adapted it to perform single-frame classification using few of them. \vnote{forse si può togliere l'ultima frase}
-\vnote{Despite its efficient computation, the self-attention mechanism remains computationally intensive, particularly for long videos. Therefore, we have opted to utilize VST to encode features from small video sequences into a compact representation that will subsequently be forwarded to the LTMM.}
+Despite this, the self-attention mechanism remains computationally intensive, particularly for long videos. 
+Therefore, we limited the input to small video sequences made by only 4 frames.
+In this way, we obtain a compact representation that will subsequently be forwarded to the LTMM.
 In particular, a small temporal window of $\mathit{NF}$ frames of the video is considered, going from the current frame at time $t$ to the previous frame at time $t-\left(\mathit{NF}-1\right)$.
-VST takes as input a video with size $\mathit{NF} \times H \times W \times 3$, where $\mathit{NF}$ ($=4$), $H$ e $W$ correspond to the number of frames, height, width and RGB channels, respectively.
-The model internally splits the frames in non-overlapping 3D patches, partitioning the video in $\frac{\mathit{NF}}{2} \times \frac{H}{4} \times \frac{W}{4}$ 3D tokens, projecting the features to an arbitrary dimension $C$\vnote{, where $C$ denotes the channel number of the hidden layers in the first stage and varies depending on the version of VST used.}.
-The rest of the VST architecture is composed by four stages of VST blocks, interspersed with $2\times$ spatial down-sampling in the patch merging layer.
+VST takes as input a video with size $\mathit{NF} \times H \times W \times 3$, where $\mathit{NF}$ ($=4$), $H$, $W$ and $3$ correspond to the number of frames, height, width and RGB channels, respectively.
+The model internally splits the frames in non-overlapping 3D patches, partitioning the video in $\frac{\mathit{NF}}{2} \times \frac{H}{4} \times \frac{W}{4}$ 3D tokens, and using a 3D shifted windows to obtain cross-window connections and exploit spatio-temporal information.
 
 \noindent\textbf{Long-Term Memory Module.}
-\vnote{We aim to encourage a finer classification by considering the contextual information from previous events in the driving scene. To formulate this context, we repeatedly transfer the compact representation obtained from the STMM to our LTMM.
-Over time, the latter will accumulate a richer understanding of the scene, enabling more precise classifications.}
-In details, the output of VST goes through Adaptive Average Pool 3D layer (Reducer in Fig.~\ref{fig:arch}) and, finally, enters inside the classification Head.
-As shown in Fig.~\ref{fig:arch}, the Head is composed by a series of normalization layers, linear layers and dropout, alternating. 
-Then, an LSTM module is inserted after the last normalization layer to model the LTMM.
+\label{Long-Term Memory Module descr}
+As will be highlighted in ablation \ref{Short-Term Memory Module exp}, too much information about the past tends to mislead the transformer, resulting in a loss of judgment.
+According to our hypothesis, this occurs because all frames are put on the same level, without a possibility of weighing them based on how much they belong to the past.
+For this reason, we thought of a different way to integrate and enrich the latent space output from the transformer with context information extrapolated from the distant past.
+To formulate this context, we repeatedly transfer the compact representation obtained from the STMM to our LTMM.
+Over time, we maintains the focus on what is happening now, and at same time accumulating a richer understanding of the scene, enabling more precise classifications.
+In details, the output of VST goes through Adaptive Average Pool 3D layer (Reducer in Fig.~\ref{fig:arch}) and, finally, enters inside the classification head.
+As shown in Fig.~\ref{fig:arch}, the head is composed by a series of normalization layers, linear layers and dropout, alternating. 
+An LSTM module is inserted after the last normalization layer to model the LTMM.
 This module is composed by three cells stacked together to form a stacked LSTM.
-The state, composed by three hidden states $h[t]$ and three cell states $c[t]$, is updated whenever a new frame is available.
+The state, composed by three hidden $h[t]$ and cell $c[t]$ states, is updated whenever a new frame is available.
 The LSTM receives in input a features block of $[B, 1024]$, where $B$ is the batch size, and returns a block of same size together with the state of the cells.
 Because the state is relatively small, the module is very efficient and leads to a fixed and limited additional computational cost.
-For each frame $f[t]$, the model outputs the anomaly classification score $s[t] \in [0,1]$, where $0$ means no anomaly and $1$ means the frame is anomalous.
-Finally, a weighted cross-entropy loss was chosen to train the model, giving higher weight to the anomaly class reflecting the distribution of the data.
+For each frame $f[t]$, the classification head outputs the anomaly classification score $s[t] \in [0,1]$, where $0$ means no anomaly and $1$ means the frame is anomalous.
+A weighted cross-entropy loss was chosen to train the model, giving higher weight to the anomaly class reflecting the distribution of the data.
+We used the formula $w_i = e / (e_i)$, where $w_i$ is the weight associated to the class, $e$ the amount of examples in the dataset and $e_i$ the amount of examples for the class $i$.
 
 % copyright image frame: <a href="https://www.freepik.com/free-vector/realistic-vector-icon-film-tape-strip-with-white-square-isolated-white-cinema-concept_31096470.htm#query=video%20frame&position=31&from_view=keyword">Image by user15245033</a> on Freepik

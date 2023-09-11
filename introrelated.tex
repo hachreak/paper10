@@ -14,23 +14,23 @@ Lastly, the definition of precise time boundaries of an anomaly is even more sub
 Nevertheless, some attempts have been made to propose a deterministic method in the interest of defining an anomaly.
 Fang \emph{et al.} \cite{fang2019dada} want to predict an accident likely to happen in the next 5 seconds, labelling the anomaly start from the moment in which half part of the object involved in the accident appears in the view.
 Yao \emph{et al.}~\cite{9712446} proposed the Detection of Traffic Anomaly (DoTA) dataset, that takes into account when the anomalous event starts and ends, spatially locating the entities involved and classifying the type.
-They formulate the anomaly start as the instant after which the accident is unavoidable (still, a subjective concept).
-We take this last dataset as the benchmark for our work.
+They formulate the anomaly start as the instant after which the accident is unavoidable. % (still, a subjective concept).
+We take this last dataset as the benchmark for our work because it is the most complete and used dataset for this type of task in the road traffic safety.
 
-Despite these premises, there have been several previous works addressing the problem of traffic anomaly detection.
+There have been several previous works addressing the problem of video anomaly detection.
 Authors in \cite{hasan2016learning} proposed a Convolutional AutoEncoder (ConvAE) trained only on normal frames with the objective of frame reconstruction.
 In \cite{luo2017remembering,wang2018abnormal}, authors used Convolutional LSTM Auto-Encoder as framework to encode appearance and motion.
-As noted by \cite{ramachandra2020survey}, auto-encoder-type reconstruction methods are sensitive to the amount of anomalies that occur in the scene and many times they require additional post-processing techniques.
+As noted by \cite{ramachandra2020survey}, auto-encoder-type reconstruction methods are sensitive to the amount of anomalies that occur in the scene and many times they require additional ad-hoc post-processing techniques.
 Authors in \cite{liu2018future} proposed AnoPred, which uses a multi-task loss, including image intensity, optical flow, gradient and adversarial losses for Video Anomaly Detection (VAD) by predicting a future frame.
-As stated in~\cite{9712446}, AnoPred was thought in a video surveillance context, while videos acquired from a moving vehicle are more dynamic and difficult to predict.
-In \cite{zhou_spatio-temporal_2022}, authors of STFE model make coarse-to-fine detection, by encoding the temporal features with Histogram of Optical Flow (HOF) \cite{wang2013action} and ordinal features of frames by a CNN, and then, by encoding the CNN features and spatial relationships of the objects.
+As stated in~\cite{9712446}, AnoPred was thought in a video surveillance context, while videos acquired from inside a moving vehicle are more dynamic and difficult to predict.
+In \cite{zhou_spatio-temporal_2022}, authors of STFE model make a two-stage detector: a coarse detection to encode temporal features with Histogram of Optical Flow (HOF) \cite{wang2013action} and ordinal features of frames by a CNN, and then, a fine detection, by encoding the CNN features and spatial relationships of the objects.
 In FOL~\cite{9712446}, authors try to avoid the future prediction for the entire frame, focusing instead on tracking actors position and predicting their future locations.
-Conversely to us, both methods are limited by the presence of actors in the Field of View (FOV).
-\vnote{Moreover, AnoPred~\cite{liu2018future}, STFE \cite{zhou_spatio-temporal_2022} and FOL \cite{9712446} rely on supplementary input information other than RGB frames, such as Optical Flow and Bounding Boxes.
-Our model outperforms the results of the cited methods by exclusively processing RGB video frames, thereby highlighting its capability to comprehend anomalies in video traffic scenes without the need for auxiliary information.}.
+Conversely to us, the applicability of both last methods are limited by the presence of actors in the Field of View (FOV).
+Moreover, AnoPred~\cite{liu2018future}, STFE \cite{zhou_spatio-temporal_2022} and FOL \cite{9712446} rely on supplementary input information other than RGB frames, such as Optical Flow, Bounding Boxes and Ego-motion information of the moving camera.
+Our model outperforms them by exclusively processing RGB frames, thereby highlighting its capability to comprehend anomalies in video traffic scenes without the need for auxiliary information.
 In \cite{xu2019temporal}, the TRN model couples the action detection task with both the temporal dependencies modeled by a RNN and the anticipation of the future via a temporal decoder.
 %In our case, we do not speculate on the future, but rely only on the present and the past.
-\vnote{Instead, in our case, we constrain our model to operate within an online scenario, refraining from speculating about the future and instead relying solely on the present and the past. This constraint introduces an additional level of complexity.}
+Like them, we exploit an RNN to obtain temporal information, but not limiting ourselves to this, by dividing between short- and long-memory through two distinct and both trained modules, we obtain a more informative description of the ongoing situation.
 %In this paper, we propose an architecture called \emph{MOVAD} (Memory-augmented Online Video Anomaly Detection).
 %MOVAD is capable to locate anomalies in videos, belonging to a wide range of possible situations by introducing two main architectural contributions.
 %The first exploits a Video Swin Transformer~\cite{liu_video_2022} (VST) model which was adapted to model a short-term memory in an online scenario.
@@ -44,11 +44,10 @@ In \cite{xu2019temporal}, the TRN model couples the action detection task with b
 %%% Moreover, the proposed system features a constant execution time and therefore is suitable for real time systems.
 Summarizing, the main contributions of this paper are:
 \begin{itemize}%[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
-    \item A straightforward end-to-end architecture for online Video Anomaly Detection (VAD) called \emph{MOVAD}, which processes RGB frames and does not need auxiliary information to provide an accurate classification.
-    \item A custom version of VST ~\cite{liu_video_2022} model which was adapted to model a Short-Term Memory Module in an online scenario.
-    This allows the system to incorporate temporal correlation and to detect online behaviors by relying only on the current and some previous frames.
-    \item Injection of a LSTM module inside the classification Head to model the Long-Term Memory Module.
-    This is crucial to exploit contextual information spread across the entire video.
+    \item A straightforward end-to-end architecture for Online Video Anomaly Detection (VAD) called \emph{MOVAD}, which processes ongoing RGB frames, with less assumptions as possible about them and without any extra auxiliary information to provide.
+    \item A plugged-in Transformer ~\cite{liu_video_2022} model used as backbone for Short-Term Memory information extraction in an online scenario.
+    This allows the system to incorporate the most recent temporal and spatial correlations by relying only on the current and few past frames.
+    \item The injection of a LSTM module inside the classification head to model the Long-Term Memory and to exploit contextual information spread across the entire video.
     \item An exhaustive ablation study over the dataset DoTA \cite{9712446}.
     Compared w.r.t.~the state of the art, MOVAD shows superior performance in terms of AUC.
 \end{itemize}
