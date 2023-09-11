@@ -13,9 +13,10 @@ In addition, there are plenty of possible accident classes to take into account 
 Lastly, the definition of precise time boundaries of an anomaly is even more subjective and doubtful.
 Nevertheless, some attempts have been made to propose a deterministic method in the interest of defining an anomaly.
 Fang \emph{et al.} \cite{fang2019dada} want to predict an accident likely to happen in the next 5 seconds, labelling the anomaly start from the moment in which half part of the object involved in the accident appears in the view.
-Yao \emph{et al.}~\cite{9712446} proposed the Detection of Traffic Anomaly (DoTA) dataset, that takes into account when the anomalous event starts and ends, spatially locating the entities involved and classifying the type.
-They formulate the anomaly start as the instant after which the accident is unavoidable. % (still, a subjective concept).
-We take this last dataset as the benchmark for our work because it is the most complete and used dataset for this type of task in the road traffic safety.
+Yao \emph{et al.}~\cite{9712446} proposed the Detection of Traffic Anomaly (DoTA) dataset, 
+%that takes into account when the anomalous event starts and ends, spatially locating the entities involved and classifying the type.
+where the anomaly is starting the instant after which the accident is unavoidable. % (still, a subjective concept).
+We take this last dataset as the benchmark for our work because it is the most complete and used dataset for this type of task in the road traffic safety context.
 
 There have been several previous works addressing the problem of video anomaly detection.
 Authors in \cite{hasan2016learning} proposed a Convolutional AutoEncoder (ConvAE) trained only on normal frames with the objective of frame reconstruction.
@@ -30,7 +31,8 @@ Moreover, AnoPred~\cite{liu2018future}, STFE \cite{zhou_spatio-temporal_2022} an
 Our model outperforms them by exclusively processing RGB frames, thereby highlighting its capability to comprehend anomalies in video traffic scenes without the need for auxiliary information.
 In \cite{xu2019temporal}, the TRN model couples the action detection task with both the temporal dependencies modeled by a RNN and the anticipation of the future via a temporal decoder.
 %In our case, we do not speculate on the future, but rely only on the present and the past.
-Like them, we exploit an RNN to obtain temporal information, but not limiting ourselves to this, by dividing between short- and long-memory through two distinct and both trained modules, we obtain a more informative description of the ongoing situation.
+Like them, we exploit an RNN to obtain temporal information, but not limiting ourselves to this.
+We formulated an advanced version of memory, differentiate between short- and long-memory through two distinct and trained-at-same-time modules, obtaining a more informative description of the ongoing situation, without speculating on the future.
 %In this paper, we propose an architecture called \emph{MOVAD} (Memory-augmented Online Video Anomaly Detection).
 %MOVAD is capable to locate anomalies in videos, belonging to a wide range of possible situations by introducing two main architectural contributions.
 %The first exploits a Video Swin Transformer~\cite{liu_video_2022} (VST) model which was adapted to model a short-term memory in an online scenario.
@@ -44,10 +46,10 @@ Like them, we exploit an RNN to obtain temporal information, but not limiting ou
 %%% Moreover, the proposed system features a constant execution time and therefore is suitable for real time systems.
 Summarizing, the main contributions of this paper are:
 \begin{itemize}%[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt]
-    \item A straightforward end-to-end architecture for Online Video Anomaly Detection (VAD) called \emph{MOVAD}, which processes ongoing RGB frames, with less assumptions as possible about them and without any extra auxiliary information to provide.
+    \item A straightforward end-to-end architecture for Online Video Anomaly Detection (VAD) called \emph{MOVAD}, which processes ongoing RGB frames, with less assumptions as possible about the ongoing action and without any extra auxiliary information to provide.
     \item A plugged-in Transformer ~\cite{liu_video_2022} model used as backbone for Short-Term Memory information extraction in an online scenario.
     This allows the system to incorporate the most recent temporal and spatial correlations by relying only on the current and few past frames.
-    \item The injection of a LSTM module inside the classification head to model the Long-Term Memory and to exploit contextual information spread across the entire video.
+    \item The injection of a LSTM module inside the classification head to model the Long-Term Memory and to exploit contextual information spread across the entire history.
     \item An exhaustive ablation study over the dataset DoTA \cite{9712446}.
     Compared w.r.t.~the state of the art, MOVAD shows superior performance in terms of AUC.
 \end{itemize}

@@ -14,7 +14,7 @@ In order to process current and past frames for the Online VAD task, we equipped
 
 \noindent\textbf{Short-Term Memory Module.}
 In order to elaborate the coming frame and to retain near-past spatio-temporal information, we chosen a transformer architecture over an RNN, to be able to process them in a parallel fashion.
-We selected VST~\cite{liu_video_2022} as our backbone network over model like ViViT~\cite{Arnab_2021_ICCV}, due to its superior performance and more efficient computation of self-attention mechanism.
+We selected VST~\cite{liu_video_2022} as our backbone network over models like ViViT~\cite{Arnab_2021_ICCV}, due to its superior performance and more efficient computation of self-attention mechanism.
 %Originally VST was born to carry out the Video Action Classification task, analyzing all the frames in one step, we adapted it to perform single-frame classification using few of them. \vnote{forse si può togliere l'ultima frase}
 Despite this, the self-attention mechanism remains computationally intensive, particularly for long videos. 
 Therefore, we limited the input to small video sequences made by only 4 frames.
@@ -29,7 +29,7 @@ As will be highlighted in ablation \ref{Short-Term Memory Module exp}, too much 
 According to our hypothesis, this occurs because all frames are put on the same level, without a possibility of weighing them based on how much they belong to the past.
 For this reason, we thought of a different way to integrate and enrich the latent space output from the transformer with context information extrapolated from the distant past.
 To formulate this context, we repeatedly transfer the compact representation obtained from the STMM to our LTMM.
-Over time, we maintains the focus on what is happening now, and at same time accumulating a richer understanding of the scene, enabling more precise classifications.
+In this way, we can maintain the focus on what is happening now, and at same time accumulating a richer understanding of the scene, enabling more precise classifications.
 In details, the output of VST goes through Adaptive Average Pool 3D layer (Reducer in Fig.~\ref{fig:arch}) and, finally, enters inside the classification head.
 As shown in Fig.~\ref{fig:arch}, the head is composed by a series of normalization layers, linear layers and dropout, alternating. 
 An LSTM module is inserted after the last normalization layer to model the LTMM.
@@ -39,6 +39,6 @@ The LSTM receives in input a features block of $[B, 1024]$, where $B$ is the bat
 Because the state is relatively small, the module is very efficient and leads to a fixed and limited additional computational cost.
 For each frame $f[t]$, the classification head outputs the anomaly classification score $s[t] \in [0,1]$, where $0$ means no anomaly and $1$ means the frame is anomalous.
 A weighted cross-entropy loss was chosen to train the model, giving higher weight to the anomaly class reflecting the distribution of the data.
-We used the formula $w_i = e / (e_i)$, where $w_i$ is the weight associated to the class, $e$ the amount of examples in the dataset and $e_i$ the amount of examples for the class $i$.
+We used the formula $w_i = e / e_i$, where $w_i$ is the weight associated to the class, $e$ the amount of examples in the dataset and $e_i$ the amount of examples for the class $i$.
 
 % copyright image frame: <a href="https://www.freepik.com/free-vector/realistic-vector-icon-film-tape-strip-with-white-square-isolated-white-cinema-concept_31096470.htm#query=video%20frame&position=31&from_view=keyword">Image by user15245033</a> on Freepik
