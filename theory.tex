@@ -4,8 +4,13 @@
 \fboxsep=1mm%padding thickness
 \fboxrule=1pt%border thickness
 
+%\begin{figure}[!t]
+%            \centerline{\includegraphics[clip, width=\linewidth]{images/arch-rx-cropped.pdf}}
+%        \caption{The online frame-level VAD architecture. $f[t]$ is the frame at time $t$, $x$ the output of the Reducer, $\mathit{NF}$ the number of frames in input to the VST, $s[t]$ the anomaly classification score of the frame $f[t]$.\label{fig:arch}}
+%\end{figure}
+
 \begin{figure}[!t]
-            \centerline{\includegraphics[clip, width=\linewidth]{images/arch-rx-cropped.pdf}}
+            \centerline{\includegraphics[clip, trim=236 510 113 133, width=\linewidth]{images/arch-rx.pdf}}
         \caption{The online frame-level VAD architecture. $f[t]$ is the frame at time $t$, $x$ the output of the Reducer, $\mathit{NF}$ the number of frames in input to the VST, $s[t]$ the anomaly classification score of the frame $f[t]$.\label{fig:arch}}
 \end{figure}
 
@@ -13,7 +18,7 @@ In our system, recently observed frames and past frames are taken into account a
 In order to process current and past frames for the Online VAD task, we equipped MOVAD of two main components: a Short-Term Memory Module (STMM) and a Long-Term Memory Module (LTMM) inside the classification head (see Fig.~\ref{fig:arch}). 
 
 \noindent\textbf{Short-Term Memory Module.}
-In order to elaborate the coming frame and to retain near-past spatio-temporal information, we chosen a transformer architecture over an RNN, to be able to process them in a parallel fashion.
+In order to elaborate the coming frame and to retain near-past spatio-temporal information, we chosen a transformer architecture over an RNN, to be able to process them in a parallel fashion. \vnote{Ripensandoci credo che la giustificazione del processare più frame in parallelo non basti, sarebbe sufficiente un encoder con Conv3D seguito dalla RNN per processare più frame in parallelo, ma i transformer hanno ovviamente altri vantaggi. In secondo luogo la RNN in testa all'architettura limita comunque la parallelizzazione.}
 We selected VST~\cite{liu_video_2022} as our backbone network over models like ViViT~\cite{Arnab_2021_ICCV}, due to its superior performance and more efficient computation of self-attention mechanism.
 %Originally VST was born to carry out the Video Action Classification task, analyzing all the frames in one step, we adapted it to perform single-frame classification using few of them. \vnote{forse si può togliere l'ultima frase}
 Despite this, the self-attention mechanism remains computationally intensive, particularly for long videos. 
