@@ -2,7 +2,7 @@
 \label{sec:experiments}
 
 \noindent\textbf{Dataset}.
-We perform our training and test on Task~1~\cite{9712446}, the frame-level VAD, of DoTA dataset \cite{9712446}, using only the anomaly class and its temporal boundaries, strictly on the online scenario.
+We perform our training and test on Task~1, the frame-level VAD, of DoTA dataset \cite{9712446}, using only the anomaly class and its temporal boundaries, strictly on the online scenario.
 %It contains 4677 videos taken from YouTube, recorded in different countries and with different illumination and weather conditions, with a resolution of $1280 \times 720$.
 %We use the original dataset split, which approximately divide the training and validation in $70\%$ and $30\%$.
 % , that is the most realistic and most interesting condition from our point of view.
@@ -29,9 +29,9 @@ We use the well-known Area Under the Curve (AUC) metric at frame-level, to evalu
 \noindent\textbf{Training details.}
 %The results of the models, with which we compare, are taken from the respective papers.
 We perform the training on a single machine with an A100 GPU\@, with Stochastic Gradient Descent (SGD) optimization algorithm, learning rate of 0.0001, momentum of 0.9.
-We use SGD instead of Adam because in our experiments the latter led the training to be more unstable, resulting in model diverging after a few epochs.
+We use SGD instead of Adam because in our experiments the latter led the training to be more unstable, resulting in model diverging after few epochs.
 Unless otherwise specified, batch size is 8, input video size is $320 \times 240$, Video Clip Length (VCL), which is the number of frames inside the batch for each video, is 8, LSTM cell number is 2, $\mathit{NF}$ is 3, linear weights are initialized using a uniform distribution, LSTM cells with a (semi-)orthogonal matrix, bias parameters are set to zero and the VST is initialized with a model pretrained on Something-Something v2~\cite{goyal2017something}.
-We train using a weighted Cross-Entropy loss to address the issue of imbalanced data within the DoTA dataset, assigning $w_n=0.3$ and $w_a=0.7$ to the normal and anomaly class respectively.
+We train using a weighted Cross-Entropy loss to address the issue of imbalanced data within the DoTA dataset, assigning $w_n=0.3$ and $w_a=0.7$ to the normal and anomaly class, respectively following equation reported at the end of Section \ref{sec:theory}.
 
 \begin{figure}[ht!]
 \centerline{\includegraphics[clip,width=\figsize]{images/exp_3.jpg}}
@@ -136,7 +136,7 @@ We train using a weighted Cross-Entropy loss to address the issue of imbalanced 
 \end{tabular}
     \end{adjustbox}
     \hspace{0.5em}
-	\caption{Detection accuracy (AUC) for individual accident categories. ``*'' for non-ego anomaly categories. ``\dag'' when input resolution is $640\times480$ instead of $320\times240$. N/A=Not Available. Bold and red values are the best and second-best results.}
+	\caption{Detection accuracy (AUC) for individual accident categories. ``*'' non-ego anomaly categories. ``\dag'' if input resolution is $640\times480$ instead of $320\times240$. N/A=Not Available. Bold and red values are the best and second-best results.}
 	\label{tab:sota-vad-auc-per-class}
 \end{table}
 % \noindent\textbf{Training details.}
@@ -148,7 +148,7 @@ We train using a weighted Cross-Entropy loss to address the issue of imbalanced 
 % class weight loss
 % 2xsoftmax vs 1x
 % learning rate differences (sto finendo l’esperimento con multipli lr)
-In this section different configurations will be individually explored and finally, an optimal setup of MOVAD will be presented in Section \ref{comparison-with-sota}.
+In this section different configurations will be individually explored and, finally, an optimal setup of MOVAD will be presented in Section \ref{comparison-with-sota}.
 
 \noindent\textbf{Memory modules effectiveness.}
 % In this experiment, we study the effects of the memories (short and long). See Table \ref{tab:short-vs-long-term-auc} caption for more details about the configuration.
@@ -166,12 +166,12 @@ We decided to design our STMM based on a Video Swin-B architecture, characterize
 % In this experiment, we study the effects of the past frames in the short-term memory module, varying the number of frames $\mathit{NF}$ processed by the VST at each step.
 % The results are displayed in Fig.~\ref{fig:num-frames-vst}.
 In Fig.~\ref{fig:num-frames-vst}, results when varying the number of frames $\mathit{NF}$ processed by the VST at each step are displayed.
-As expected, taking into account only the current frame is the worst situation, losing any temporal information and making the training unstable.
+As expected, taking into account only the current frame is the worst situation, loosing any temporal information and making the training unstable.
 This is reasonable: by not having any knowledge of the near past, the STMM leads the LTMM to overfitting since consecutive frames are very similar.
 % This is reasonable, as the short-term memory module processes and embeds only the current frame, without any knowledge of the near past, leading the long-term memory module to overfit data since consecutive frames are very similar.
 On the contrary, increasing the number of frames generally increase the performance. 
 This is true until processing 5 frames, where the effect becomes counterproductive.
-As mentioned in \ref{Long-Term Memory Module descr}, according to our hypotheses, overloading the transformer becomes harmful, as it does not have a mechanism to weight the past tense differently.
+As mentioned in section \ref{Long-Term Memory Module descr}, according to our hypotheses, overloading the transformer becomes harmful, as it does not have a mechanism to weight the past tense differently.
 Overall, the highest AUC is obtained with 4 frames.
 % (no) v23: rand frame order (v17) vs normal
 % v29_2, v29, v22: training from scratch vs pretrained (imagenet vs smth2smthv2)
@@ -207,7 +207,7 @@ We speculate this happens because both (3 cells in Fig. \ref{fig:num-memory-cell
 In Fig.~\ref{fig:random-batch}, different values of VCL are explored.
 The worst and most unstable training is obtained with 4 frames, probably because they are too few to exploit the long-term memory effect of LSTM cells.
 Increasing VCL permits to saturate performance quicker, but a value too high (like 12 or 16) tends to produce a lower AUC overall.
-In fact, the highest AUC is obtained using 8 frames as VCL, which represents a good trade-off between enlarging clip size and exploiting LSTM cells while, avoiding overfitting due to consecutive frames being too similar to each other.
+In fact, the highest AUC is obtained using 8 frames as VCL, which represents a good trade-off between enlarging clip size and exploiting LSTM cells, while avoiding overfitting due to consecutive frames being too similar to each other.
 
 \subsection{Comparison with the state of the art}
 \label{comparison-with-sota}
@@ -221,12 +221,11 @@ Finally, in Table \ref{tab:sota-vad-auc} we compare MOVAD (with $320\times240$ a
 The training of MOVAD followed the best configuration found using information obtained through ablation studies: VCL of 8, 3 LSTM cells and $\mathit{NF}=4$.
 % we have chosen the best configuration for MOVAD.
 % Both our models are trained with the best configuration of: VCL of 8, 3 LSTM cells and $\mathit{NF}=4$.
-Both MOVAD surpass the SOTA models.
+Both MOVAD configurations surpass the SOTA models.
 Our best MOVAD surpasses SOTA by +$2.87$ AUC, reaching the highest value of $82.17\%$ AUC.
-Table \ref{tab:sota-vad-auc-per-class} shows results per class (see \cite{9712446} for explanation of classes).
-The classes are grouped by ego and non-ego anomaly categories.
+Table \ref{tab:sota-vad-auc-per-class} shows results per class, grouped by ego and non-ego anomaly categories (see \cite{9712446} for explanation of classes).
 It is worth to note that, unlike previous SOTA models, our model also process videos in which traffic participants are not present or visible without any problem.
-For this reason, the table shows the results obtained by MOVAD for the classes VO and OO.
+For this reason, the table shows results also for ego-involved classes VO (vehicle-obstacle collision) and OO (oncoming out-of-control).
 %VB: Potrebbe servire come confronto per il numero parametri e flops
 %sembra non riesca a calcolare i flops della rnn però
 %| module                    | #parameters or shape   | #flops     |
