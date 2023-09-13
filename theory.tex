@@ -32,7 +32,7 @@ The model internally splits the frames in non-overlapping 3D patches, partitioni
 
 \noindent\textbf{Long-Term Memory Module.}
 \label{Long-Term Memory Module descr}
-As will be highlighted in ablation in section \ref{Short-Term Memory Module exp}, too much information about the past ($\mathit{NF} > 4$) tends to mislead the STMM, resulting in a loss of performance.
+As will be highlighted in ablation in Section~\ref{Short-Term Memory Module exp}, too much information about the past ($\mathit{NF} > 4$) tends to mislead the STMM, resulting in a loss of performance.
 According to our hypothesis, this occurs because all frames are placed at the same level, without a possibility of weighing them based on how much they belong to the past.
 For this reason, we engineered a different way to integrate and enrich the output latent space from the STMM with contextual information extrapolated from the distant past.
 Every time a new frame is available, we transfer the compact representation obtained from the STMM to our LTMM, in order to update its representation of the past.

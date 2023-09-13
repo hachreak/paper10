@@ -30,7 +30,7 @@ In FOL~\cite{9712446}, authors try to avoid the future prediction for the entire
 Conversely to us, the applicability of both last methods are limited by the presence of actors in the Field of View (FOV).
 Moreover, AnoPred~\cite{liu2018future}, STFE \cite{zhou_spatio-temporal_2022} and FOL \cite{9712446} rely on supplementary input information other than RGB frames, such as optical flow, bounding boxes and ego-motion information of the moving camera.
 Our model outperforms them by exclusively processing RGB frames, thereby highlighting its capability to comprehend anomalies in video traffic scenes without the need for auxiliary information.
-In \cite{xu2019temporal}, the TRN model couples the action detection task with both the temporal dependencies modeled by a RNN and the anticipation of the future via a temporal decoder.
+In~\cite{xu2019temporal}, the TRN model couples the action detection task with both the temporal dependencies modeled by a RNN and the anticipation of the future via a temporal decoder.
 %In our case, we do not speculate on the future, but rely only on the present and the past.
 Like them, we exploit an RNN to obtain temporal information, but not limiting ourselves to this.
 We formulated an advanced version of memory, differentiating between short- and long-memory through two distinct and trained-at-same-time modules, obtaining a more informative description of the ongoing situation, without speculating on the future.
@@ -52,6 +52,6 @@ Summarizing, the main contributions of this paper are:
     \item A plugged-in Transformer ~\cite{liu_video_2022} model used as backbone for Short-Term Memory information extraction in an online scenario.
     This allows the system to incorporate the most recent temporal and spatial correlations by relying only on the current and few past frames.
     \item The injection of a LSTM module inside the classification head to model the Long-Term Memory and to exploit contextual information spread across the entire history.
-    \item An exhaustive ablation study over the dataset DoTA \cite{9712446}.
+    \item An exhaustive ablation study over the dataset DoTA~\cite{9712446}.
     Compared w.r.t.~the state of the art, MOVAD shows superior performance in terms of AUC.
 \end{itemize}
