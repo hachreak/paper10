@@ -184,7 +184,7 @@ Overall, the highest AUC is obtained with 4 frames.
 % (no) v27, v27_2: pre + post lstm (1 cell) + saliency (?), pre + post lstm (1 cell)
 % In this experiment, we evaluate the long-term memory effect on the classification capability, varying the number of cells from zero (no LSTM at all) to four.
 % The results are displayed in Fig.~\ref{fig:num-memory-cells}.
-In Fig.~\ref{fig:num-memory-cells} the LTMM on the classification capability are evaluated, varying the number of cells from zero (no LSTM at all) to four.
+In Fig.~\ref{fig:num-memory-cells} the LTMM capabilities are evaluated, varying the number of cells from zero (no LSTM at all) to four.
 %We tested also Gated Recurrent Unit (GRU) module instead of LSTM.
 %Because the trend is very similar to LSTM, to make the figure easier to read, the GRU results are not shown.
 Indeed, having no cells makes training slower in saturating performance and the lowest AUC is reached.
@@ -207,7 +207,7 @@ We speculate this happens because both (3 cells in Fig. \ref{fig:num-memory-cell
 In Fig.~\ref{fig:random-batch}, different values of VCL are explored.
 The worst and most unstable training is obtained with 4 frames, probably because they are too few to exploit the long-term memory effect of LSTM cells.
 Increasing VCL permits to saturate performance quicker, but a value too high (like 12 or 16) tends to produce a lower AUC overall.
-In fact, the highest AUC is obtained using 8 frames as VCL, which represents a good trade-off between enlarging clip size and exploiting LSTM cells, while avoiding overfitting due to consecutive frames being too similar to each other.
+The highest AUC is obtained with 8 frames as VCL, which represents a good trade-off between enlarging clip size and exploiting LSTM cells, and reducing it to avoid overfitting, due to consecutive frames being too similar to each other.
 
 \subsection{Comparison with the state of the art}
 \label{comparison-with-sota}
@@ -224,8 +224,9 @@ The training of MOVAD followed the best configuration found using information ob
 Both MOVAD configurations surpass the SOTA models.
 Our best MOVAD surpasses SOTA by +$2.87$ AUC, reaching the highest value of $82.17\%$ AUC.
 Table \ref{tab:sota-vad-auc-per-class} shows results per class, grouped by ego and non-ego anomaly categories (see \cite{9712446} for explanation of classes).
-It is worth to note that, unlike previous SOTA models, our model also processes without any problem videos in which traffic participants are not present or visible. % \vnote{, given that it does not need to process bounding boxes}.
+It is worth to note that, unlike previous SOTA models which incorporate e.g. object detectors, our model also processes without any problem videos in which traffic participants are not present or visible. % \vnote{, given that it does not need to process bounding boxes}.
 For this reason, the table shows also the ego-involved VO (vehicle-obstacle collision) and OO (oncoming out-of-control) classes.
+%\vspace{-0.5em}
 %VB: Potrebbe servire come confronto per il numero parametri e flops
 %sembra non riesca a calcolare i flops della rnn però
 %| module                    | #parameters or shape   | #flops     |

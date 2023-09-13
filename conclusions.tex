@@ -1,8 +1,8 @@
 \section{Conclusions}
 \label{sec:conclusions}
 
-In this paper, we propose a new architecture called MOVAD for the frame-level VAD task, capable to work in an online fashion, handling the most restrictive VAD scenario. 
+In this paper, we propose MOVAD, a new architecture for the frame-level VAD task, capable to work in an online fashion, handling the most restrictive VAD scenario with an end-to-end training, requiring only RGB frames.
 % The first objective is achieved by building the architecture itself, which requires fixed execution times regardless of the input scene.
 % The second goal is achieved by using only past and present frames.
-Our MOVAD is composed by a STMM, which extracts information related to the ongoing action, implemented by a VST, and a LTMM that considers remote past information thanks to LSTM injected inside the classifier.
-We evaluated its performance on DoTA dataset, a collection of dash-mounted camera videos of accidents, reaching $82.17\%$ AUC, surpassing the current state of the art by +$2.87$ AUC.
+It is composed by STMM, which extracts information related to the ongoing action, implemented by a VST, and LTMM that considers remote past, thanks to LSTM injected inside the classifier.
+We evaluated its performance on DoTA dataset, a collection of dash-mounted camera videos of accidents, reaching $82.17\%$ AUC, surpassing SOTA by +$2.87$ AUC.
