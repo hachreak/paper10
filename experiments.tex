@@ -11,7 +11,7 @@ We perform our training and test on Task~1, the frame-level VAD, of DoTA dataset
 
 \begin{figure}[t!]
 \centerline{\includegraphics[clip,width=\figsize]{images/exp_1.jpg}}
-	\caption{Performance comparison, changing the number of frames ($\mathit{NF}$) in input to the STMM (from 1 to 5).}
+	\caption{Performance comparison, changing the number of frames ($\mathit{NF}$) in input to the STMM (from 1 to 6).}
 	\label{fig:num-frames-vst}
 \end{figure}
 
@@ -170,9 +170,9 @@ As expected, taking into account only the current frame is the worst situation, 
 This is reasonable: by not having any knowledge of the near past, the STMM leads the LTMM to overfitting since consecutive frames are very similar.
 % This is reasonable, as the short-term memory module processes and embeds only the current frame, without any knowledge of the near past, leading the long-term memory module to overfit data since consecutive frames are very similar.
 On the contrary, increasing the number of frames generally increase the performance. 
-This is true until processing 5 frames, where the effect becomes counterproductive.
+This is true until processing 5 or more frames, where the effect becomes counterproductive.
 As mentioned in Section \ref{Long-Term Memory Module descr}, according to our hypotheses, overloading the transformer becomes harmful, as it does not have a mechanism to weight the remote and recent past differently.
-Overall, the highest AUC is obtained with 4 frames.
+Overall, highest AUC is obtained with 4 frames.
 % (no) v23: rand frame order (v17) vs normal
 % v29_2, v29, v22: training from scratch vs pretrained (imagenet vs smth2smthv2)
 
