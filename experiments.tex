@@ -56,34 +56,36 @@ We train using a weighted Cross-Entropy loss to address the issue of imbalanced 
  % Preliminary results before obtaining best MOVAD configuration.}
 	\label{tab:short-vs-long-term-auc}
 \end{table}
+
 \begin{table}[ht!]
 	\normalsize
-	\setlength{\tabcolsep}{4.2pt}
-    
+	%\setlength{\tabcolsep}{4.2pt}
 	\centerline{
  \begin{adjustbox}{width=0.85\linewidth}
- \begin{tabular}{!r|^l|^l|^c|}
-			\# & Method & Input & $AUC$ \\
+ \begin{tabular}{!r|^l|^c|^l|^c|}
+			\# & Method & Type & Input & $AUC$ \\
 			\hline\hline
-	   	            1 & ConvAE \cite{hasan2016learning} (*)       & Gray                   & 64.3 \\
-			        2 & ConvAE \cite{hasan2016learning} (*)       & Flow                   & 66.3 \\
-                    3 & ConvLSTMAE \cite{chong2017abnormal} (*)   & Gray                   & 53.8 \\
-                    4 & ConvLSTMAE \cite{chong2017abnormal} (*)   & Flow                   & 62.5 \\
-                    5 & AnoPred \cite{liu2018future} (*)          & RGB                    & 67.5 \\
-                    6 & AnoPred \cite{liu2018future} (*)          & Masked RGB             & 64.8 \\
-                    7 & FOL-Ensemble \cite{9712446}  (*)          & RGB + Box + Flow + Ego & 73.0 \\
-                    8 & STFE \cite{zhou_spatio-temporal_2022}     & RGB + Flow             & 79.3 \\
+	   	            1 & ConvAE \cite{hasan2016learning} (*)       & \multirow{7}{*}{Unsupervised} & Gray                   & 64.3 \\
+			        2 & ConvAE \cite{hasan2016learning} (*)       &                               & Flow                   & 66.3 \\
+                    3 & ConvLSTMAE \cite{chong2017abnormal} (*)   &                               & Gray                   & 53.8 \\
+                    4 & ConvLSTMAE \cite{chong2017abnormal} (*)   &                               & Flow                   & 62.5 \\
+                    5 & AnoPred \cite{liu2018future} (*)          &                               & RGB                    & 67.5 \\
+                    6 & AnoPred \cite{liu2018future} (*)          &                               & Masked RGB             & 64.8 \\
+                    7 & FOL-Ensemble \cite{9712446}  (*)          &                               & RGB + Box + Flow + Ego & 73.0 \\
+            \hline
+                    8 & TRN \cite{xu2019temporal} (**)            & \multirow{2}{*}{Supervised}   & RGB                    & 78.0 \\
+                    8 & STFE \cite{zhou_spatio-temporal_2022} (**)&    & RGB + Flow               & 79.3 \\
             \hline
                     % v22_2
 %\rowstyle{\bfseries}9 & Our (MOVAD) & RGB ($320\times240$) &  80.13 \\
                     % v30_3
-\rowstyle{\bfseries}9 & Our (MOVAD)                           & RGB ($320\times240$)   & 80.09 \\
+\rowstyle{\bfseries}9 & Our (MOVAD)                               & \multirow{2}{*}{Supervised}   & RGB ($320\times240$)   & 80.09 \\
                     % v30_2
-\rowstyle{\bfseries}10 & Our (MOVAD)                          & RGB ($640\times480$)   & 82.17 \\
+\rowstyle{\bfseries}10 & Our (MOVAD)                              &                               & RGB ($640\times480$)   & 82.17 \\
 \end{tabular}
 \end{adjustbox}}
     \hspace{0.5em}
-	\caption{Benchmarks of VAD methods on the DoTA dataset. Both MOVAD models are trained with the best configuration of: VCL of 8, 3 LSTM cells and $\mathit{NF}=4$. (Note: Results with (*) are taken from DoTA \cite{liu2018future} paper.}
+	\caption{Benchmarks of VAD methods on the DoTA dataset. Both MOVAD models are trained with the best configuration of: VCL of 8, 3 LSTM cells and $\mathit{NF}=4$. (Note: results with (*) and (**) are taken from DoTA \cite{liu2018future} and \cite{zhou_spatio-temporal_2022} paper, respectively)}
 	\label{tab:sota-vad-auc}
 \end{table}
 % TODO visualizza anche la colonna OO e VO? (VO and OO columns are not shown because they do not contain anomalous traffic participants)
