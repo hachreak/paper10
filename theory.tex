@@ -11,7 +11,7 @@
 
 \begin{figure}[!t]
             \centerline{\includegraphics[clip, trim=236 510 113 133, width=\linewidth]{images/arch-rx.pdf}}
-        \caption{The online frame-level VAD architecture. $f[t]$ is the frame at time $t$, $x$ the output of the Reducer, $\mathit{NF}$ the number of frames in input to the VST, $s[t]$ the anomaly classification score of the frame $f[t]$.\label{fig:arch}}
+        \caption{The online frame-level VAD architecture. $f[t]$ is the frame at time $t$, $x$ the output of the Reducer, $\mathit{NF}$ the number of frames in input to the VST, $s[t]$ the anomaly classification score of frame $f[t]$.\label{fig:arch}}
 \end{figure}
 
 In our system, recently observed frames and past frames are taken into account as a source of information related to the ongoing action and the context, respectively.
@@ -45,6 +45,6 @@ The LSTM receives in input a features block of $[B, 1024]$, where $B$ is the bat
 Since the state is relatively small, the module is very efficient and leads to a fixed and limited additional computational cost.
 For each frame $f[t]$, the classification head outputs the anomaly classification score $s[t] \in [0,1]$, where $0$ means no anomaly and $1$ means the frame is anomalous.
 A weighted cross-entropy loss was chosen to train the model, giving higher weight to the anomaly class reflecting the distribution of the data.
-We used the formula $w_i = e / e_i$, where $w_i$ is the weight associated to the class, $e$ the total amount of examples in the dataset and $e_i$ the amount of examples for the class $i$.
+For each weight $w_i$, we used the formula $w_i = e / e_i$, where $e$ the total amount of examples in the dataset and $e_i$ the amount of examples for the class $i$.
 
 % copyright image frame: <a href="https://www.freepik.com/free-vector/realistic-vector-icon-film-tape-strip-with-white-square-isolated-white-cinema-concept_31096470.htm#query=video%20frame&position=31&from_view=keyword">Image by user15245033</a> on Freepik

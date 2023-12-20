@@ -2,7 +2,7 @@
 \label{sec:experiments}
 
 \noindent\textbf{Dataset}.
-We perform our training and test on Task~1, the frame-level VAD, of DoTA dataset \cite{9712446}, using only the anomaly class and its temporal boundaries, strictly in the online scenario.
+Experiments are conducted on Task~1 of DoTA dataset \cite{9712446} (frame-level VAD), using only the anomaly class and its temporal boundaries, strictly in the online scenario.
 %It contains 4677 videos taken from YouTube, recorded in different countries and with different illumination and weather conditions, with a resolution of $1280 \times 720$.
 %We use the original dataset split, which approximately divide the training and validation in $70\%$ and $30\%$.
 % , that is the most realistic and most interesting condition from our point of view.
@@ -10,16 +10,16 @@ We perform our training and test on Task~1, the frame-level VAD, of DoTA dataset
 \newcommand{\figsize}{0.9\columnwidth}
 
 \begin{figure}[t!]
-\centerline{\includegraphics[clip,width=\figsize]{images/exp_1.jpg}}
+\centerline{\includegraphics[clip,width=0.8\linewidth]{images/exp_1.jpg}}
 	\caption{Performance comparison, changing the number of frames ($\mathit{NF}$) in input to the STMM (from 1 to 6).}
 	\label{fig:num-frames-vst}
 \end{figure}
 
 
 \begin{figure}[t!]
-\centerline{\includegraphics[clip,width=\figsize]{images/exp_2.jpg}}
+\centerline{\includegraphics[clip,width=0.8\linewidth]{images/exp_2.jpg}}
     % TODO aggiorna caption!
-	\caption{Performance comparison, changing the number of LSTM cells (from 0 to 4). ``LSTM (2 cells)'' corresponds to ``$\mathit{NF}=3$''  in Fig.~\ref{fig:num-frames-vst}.}
+	\caption{Performance comparison, changing the number of LSTM cells. ``LSTM (2 cells)'' corresponds to ``$\mathit{NF}=3$''  in Fig.~\ref{fig:num-frames-vst}.}
 	\label{fig:num-memory-cells}
 \end{figure}
 
@@ -28,13 +28,13 @@ We use the well-known Area Under the Curve (AUC) metric at frame-level, to evalu
 
 \noindent\textbf{Training details.}
 %The results of the models, with which we compare, are taken from the respective papers.
-We perform the training on a single machine with an A100 GPU\@, with Stochastic Gradient Descent (SGD) optimization algorithm, learning rate of 0.0001, momentum of 0.9.
+We perform the training on an A100 GPU\@, with Stochastic Gradient Descent (SGD) optimization algorithm, learning rate of 0.0001, momentum of 0.9.
 We use SGD instead of Adam because in our experiments the latter led the training to be more unstable, resulting in model diverging after few epochs.
 Unless otherwise specified, batch size is 8, input video size is $320 \times 240$, Video Clip Length (VCL), which is the number of frames inside the batch for each video, is 8, LSTM cell number is 2, $\mathit{NF}$ is 3, linear weights are initialized using a uniform distribution, LSTM cells with a (semi-)orthogonal matrix, bias parameters are set to zero and the VST is initialized with a model pretrained on Something-Something v2~\cite{goyal2017something}.
 We train using a weighted Cross-Entropy loss to address the issue of imbalanced data within the DoTA dataset, assigning $w_n=0.3$ and $w_a=0.7$ to the normal and anomaly class, respectively following equation reported at the end of Section \ref{sec:theory}.
 
 \begin{figure}[ht!]
-\centerline{\includegraphics[clip,width=\figsize]{images/exp_3.jpg}}
+\centerline{\includegraphics[clip,width=0.8\linewidth]{images/exp_3.jpg}}
     \caption{Performance comparison, changing the VCL. The ``8 frames'' configuration corresponds to ``$\mathit{NF}=3$'' in Fig.~\ref{fig:num-frames-vst}.\label{fig:random-batch}}
 \end{figure}
 \begin{table}[ht!]
@@ -61,7 +61,7 @@ We train using a weighted Cross-Entropy loss to address the issue of imbalanced 
 	\normalsize
 	%\setlength{\tabcolsep}{4.2pt}
 	\centerline{
- \begin{adjustbox}{width=0.85\linewidth}
+ \begin{adjustbox}{width=0.95\linewidth}
  \begin{tabular}{!r|^l|^c|^l|^c|}
 			\# & Method & Type & Input & $AUC$ \\
 			\hline\hline
@@ -150,12 +150,12 @@ We train using a weighted Cross-Entropy loss to address the issue of imbalanced 
 % class weight loss
 % 2xsoftmax vs 1x
 % learning rate differences (sto finendo l’esperimento con multipli lr)
-In this section different configurations will be individually explored and, finally, an optimal setup of MOVAD will be presented in Section \ref{comparison-with-sota}.
+In this section different configurations will be explored and an optimal setup of MOVAD will be presented in Section \ref{comparison-with-sota}.
 
 \noindent\textbf{Memory modules effectiveness.}
 % In this experiment, we study the effects of the memories (short and long). See Table \ref{tab:short-vs-long-term-auc} caption for more details about the configuration.
-As shown in Table~\ref{tab:short-vs-long-term-auc}, we first tested the effect of memories.
-STMM and LTMM both contribute to enhance the general performance, obtaining the best AUC when both are active, highlighting their importance. 
+As shown in Table~\ref{tab:short-vs-long-term-auc}, we first tested the effect of STMM and LTMM memories.
+They contribute to enhance the general performance, obtaining the best AUC when both are active, highlighting their importance. 
 %Taking into account the past is always profitable compared to classify the single frame.
 %In addition combining these modules allowed to reach the highest AUC, highlighting the need for both.
 
@@ -163,17 +163,17 @@ STMM and LTMM both contribute to enhance the general performance, obtaining the 
 \noindent\textbf{Short-Term Memory Module.}
 \label{Short-Term Memory Module exp}
 % v22: numero di frames in input
-We decided to design our STMM based on a Video Swin-B architecture, characterized by an embedding dimension of $C = 128$ after the linear projection of the patches. % and layer depths $d_i = \{2, 2, 18, 2\}$, for each $i$-th VST block. %Our experimentation revealed that a larger model (VST-L), was prone to overfitting due to the relatively limited amount of data available for training.
+We designed our STMM based on a Video Swin-B architecture, with an embedding dimension of $C = 128$ after the linear projection of the patches. % and layer depths $d_i = \{2, 2, 18, 2\}$, for each $i$-th VST block. %Our experimentation revealed that a larger model (VST-L), was prone to overfitting due to the relatively limited amount of data available for training.
 %Our experimentation revealed that lightweight variants (VST-S/T) did not preserve sufficient scene information, as their representations were excessively compressed.
 % In this experiment, we study the effects of the past frames in the short-term memory module, varying the number of frames $\mathit{NF}$ processed by the VST at each step.
 % The results are displayed in Fig.~\ref{fig:num-frames-vst}.
 In Fig.~\ref{fig:num-frames-vst}, results when varying the number of frames $\mathit{NF}$ processed by the STMM at each step are displayed.
 As expected, taking into account only the current frame is the worst situation, loosing any temporal information and making the training unstable.
-This is reasonable: by not having any knowledge of the near past, the STMM leads the LTMM to overfitting since consecutive frames are very similar.
+Indeed, by not having any knowledge of the near past, the STMM leads the LTMM to overfitting since consecutive frames are very similar.
 % This is reasonable, as the short-term memory module processes and embeds only the current frame, without any knowledge of the near past, leading the long-term memory module to overfit data since consecutive frames are very similar.
 On the contrary, increasing the number of frames generally increase the performance. 
 This is true until processing 5 or more frames, where the effect becomes counterproductive.
-As mentioned in Section \ref{Long-Term Memory Module descr}, according to our hypotheses, overloading the transformer becomes harmful, as it does not have a mechanism to weight the remote and recent past differently.
+As mentioned in Section \ref{Long-Term Memory Module descr}, overloading the transformer becomes harmful, as it can not weight the remote and recent past differently.
 Overall, highest AUC is obtained with 4 frames.
 % (no) v23: rand frame order (v17) vs normal
 % v29_2, v29, v22: training from scratch vs pretrained (imagenet vs smth2smthv2)
