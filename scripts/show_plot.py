@@ -26,7 +26,7 @@ df.plot(kind='line', x='epochs', ax=ax)
 ax.set_ylabel('AUC')
 ax.yaxis.set_ticks(
     np.arange(floor(min(df.iloc[:, 1:].min())),
-              round(max(df.iloc[:, 1:].max()))+0.5, 1.))
+              round(max(df.iloc[:, 1:].max()))+0.5, 2.))
 ax.grid(True)
 
 colors = ['g', 'm', 'tab:orange', 'tab:cyan', 'b', 'y']
